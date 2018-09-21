@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace WhoIsThat
 {
-    public partial class MainPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class RegistrationPage : ContentPage
     {
-        public MainPage()
+        public RegistrationPage()
         {
             InitializeComponent();
         }
 
-        //Navigates to home page if button 'Sign In' is clicked
+        //Navigate to registration page if button 'Sign Up' is clicked
         private async void navigateToHome(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new HomePage());
-        }
-
-        //Navigate to registration page if button 'Sign Up' is clicked
-        private async void navigateToRegistration(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new RegistrationPage());
         }
     }
 }

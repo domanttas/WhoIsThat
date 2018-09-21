@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:WhoIsThat"
-             x:Class="WhoIsThat.MainPage"
+             x:Class="WhoIsThat.RegistrationPage"
              Padding="70, 20, 70, 20">
 
     <StackLayout VerticalOptions="End">
@@ -21,9 +20,9 @@
                HeightRequest="200"/>
 
         <Label Text="Username" 
-           HorizontalOptions="Center"
-           VerticalOptions="Start"
-           FontSize="20"/>
+              HorizontalOptions="Center"
+              VerticalOptions="Start"
+              FontSize="20"/>
 
         <Entry Placeholder="Please enter your username" 
                HorizontalOptions="Center"
@@ -39,24 +38,21 @@
                VerticalOptions="Start"
                IsPassword="True"/>
 
-        <Button
-            Text="Sign In"
-            HorizontalOptions="Fill"
-            VerticalOptions="Start"
-            Image="baseline_arrow_forward_black_18dp.png"
-            Clicked="navigateToHome"/>
-
-        <Label Text="New user? Sign Up!" 
+        <Label Text="Password" 
            HorizontalOptions="Center"
-           VerticalOptions="Start" 
+           VerticalOptions="Start"
            FontSize="20"/>
+
+        <Entry Placeholder="Please enter your password" 
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="Start"
+               IsPassword="True"/>
 
         <Button
             Text="Sign Up"
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
-            Clicked="navigateToRegistration"/>
+            Clicked="navigateToHome"/>
     </StackLayout>
-
 </ContentPage>
