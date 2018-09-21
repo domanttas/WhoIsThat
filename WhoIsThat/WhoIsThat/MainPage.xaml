@@ -43,7 +43,8 @@
             Text="Sign In"
             HorizontalOptions="Fill"
             VerticalOptions="Start"
-            Image="baseline_arrow_forward_black_18dp.png"/>
+            Image="baseline_arrow_forward_black_18dp.png"
+            Clicked="navigateToNextPage"/>
 
         <Label Text="New user? Sign Up!" 
            HorizontalOptions="Center"
