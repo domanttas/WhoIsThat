@@ -2,13 +2,60 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:WhoIsThat"
-             x:Class="WhoIsThat.MainPage">
+             x:Class="WhoIsThat.MainPage"
+             Padding="70, 20, 70, 20">
 
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
+    <StackLayout VerticalOptions="End">
+
+        <Label Text="Who is that?" 
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="EndAndExpand"
+           HeightRequest="200"
+           FontSize="40"
+           TextColor="Black"/>
+
+        <Image Source="baseline_directions_run_black_18dp.png"
+               IsVisible="True"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="CenterAndExpand"
+               HeightRequest="200"/>
+
+        <Label Text="Username" 
            HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+           VerticalOptions="Start"
+           FontSize="20"/>
+
+        <Entry Placeholder="Please enter your username" 
+               HorizontalOptions="Center"
+               VerticalOptions="Start"/>
+
+        <Label Text="Password" 
+           HorizontalOptions="Center"
+           VerticalOptions="Start"
+           FontSize="20"/>
+
+        <Entry Placeholder="Please enter your password" 
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               IsPassword="True"/>
+
+        <Button
+            Text="Sign In"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start"
+            Image="baseline_arrow_forward_black_18dp.png"
+            Clicked="navigateToNextPage"/>
+
+        <Label Text="New user? Sign Up!" 
+           HorizontalOptions="Center"
+           VerticalOptions="Start" 
+           FontSize="20"/>
+
+        <Button
+            Text="Sign Up"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start"
+            Image="baseline_create_black_18dp.png"/>
     </StackLayout>
 
 </ContentPage>

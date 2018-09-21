@@ -13,5 +13,11 @@ namespace WhoIsThat
         {
             InitializeComponent();
         }
+
+        //Navigates to home page if button 'Sign In' is clicked
+        private async void navigateToNextPage(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new HomePage());
+        }
     }
 }
