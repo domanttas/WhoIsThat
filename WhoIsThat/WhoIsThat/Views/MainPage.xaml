@@ -44,7 +44,7 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_arrow_forward_black_18dp.png"
-            Clicked="navigateToHome"/>
+            Clicked="NavigateToHome"/>
 
         <Label Text="New user? Sign Up!" 
            HorizontalOptions="Center"
@@ -56,7 +56,7 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
-            Clicked="navigateToRegistration"/>
+            Clicked="NavigateToRegistration"/>
     </StackLayout>
 
 </ContentPage>

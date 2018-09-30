@@ -31,7 +31,7 @@ namespace WhoIsThat
             {
                 //Initializing media hardware
                 await CrossMedia.Current.Initialize();
-
+                
                 //Taking picture and storing it in default directory which variable file refers to
                 var file = await CrossMedia.Current.TakePhotoAsync(
                     new Plugin.Media.Abstractions.StoreCameraMediaOptions
@@ -45,7 +45,7 @@ namespace WhoIsThat
                 {
                     throw new ArgumentException("Photo was not successfully taken", "MediaFile");
                 }
-
+                
                 //Displaying taken photo
                 takenPicture.Source = ImageSource.FromStream(() =>
                 {
@@ -58,6 +58,7 @@ namespace WhoIsThat
 
             catch (Exception ex)
             {
+                //Not sure if view is a good choice here
                 //Not sure if we should log or display caught exception, gotta figure it out
                 await DisplayAlert("Something went wrong", "Please try again", "OK");
             }

@@ -53,6 +53,6 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
-            Clicked="navigateToHome"/>
+            Clicked="NavigateToHome"/>
     </StackLayout>
 </ContentPage>

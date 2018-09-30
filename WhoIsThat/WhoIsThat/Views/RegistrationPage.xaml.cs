@@ -18,7 +18,7 @@ namespace WhoIsThat
         }
 
         //Navigate to registration page if button 'Sign Up' is clicked
-        private async void navigateToHome(object sender, EventArgs e)
+        private async void NavigateToHome(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new HomePage());
         }
