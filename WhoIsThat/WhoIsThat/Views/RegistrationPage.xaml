@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.RegistrationPage"
-             Padding="70, 20, 70, 20">
+             Padding="60, 5, 60, 30">
 
     <StackLayout VerticalOptions="End">
 
@@ -53,6 +53,6 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
-            Clicked="navigateToHome"/>
+            Clicked="NavigateToHome"/>
     </StackLayout>
 </ContentPage>

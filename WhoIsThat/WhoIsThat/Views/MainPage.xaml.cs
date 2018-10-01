@@ -15,13 +15,13 @@ namespace WhoIsThat
         }
 
         //Navigates to home page if button 'Sign In' is clicked
-        private async void navigateToHome(object sender, EventArgs e)
+        private async void NavigateToHome(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new HomePage());
         }
 
         //Navigate to registration page if button 'Sign Up' is clicked
-        private async void navigateToRegistration(object sender, EventArgs e)
+        private async void NavigateToRegistration(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new RegistrationPage());
         }

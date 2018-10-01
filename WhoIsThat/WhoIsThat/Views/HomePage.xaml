@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhoIsThat.HomePage"
+             Padding="60, 5, 60, 30">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Take Photo!"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    FontSize="30"
+                    Clicked="TakePicture"></Button>
+
+            <Image x:Name="takenPicture"></Image>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

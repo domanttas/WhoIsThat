@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:WhoIsThat"
              x:Class="WhoIsThat.MainPage"
-             Padding="70, 20, 70, 20">
+             Padding="60, 5, 60, 30">
 
     <StackLayout VerticalOptions="End">
 
@@ -44,7 +44,7 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_arrow_forward_black_18dp.png"
-            Clicked="navigateToHome"/>
+            Clicked="NavigateToHome"/>
 
         <Label Text="New user? Sign Up!" 
            HorizontalOptions="Center"
@@ -56,7 +56,7 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
-            Clicked="navigateToRegistration"/>
+            Clicked="NavigateToRegistration"/>
     </StackLayout>
 
 </ContentPage>
