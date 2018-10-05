@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using WhoIsThat.Connections;
+using WhoIsThat.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -53,7 +54,6 @@ namespace WhoIsThat
                     file.Dispose();
                     return stream;
                 });
-                
             }
 
             catch (Exception ex)
