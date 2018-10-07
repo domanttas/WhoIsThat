@@ -23,20 +23,27 @@ namespace WhoIsThat.Connections
         /// <returns>List of ImageObject instances</returns>
         public async Task<List<ImageObject>> GetImageObjects()
         {
-            string restUrl = "https://whoisthatserverstorage2.azurewebsites.net/api/images/all";
-            var uri = new Uri(string.Format(restUrl, string.Empty));
-
-            var response = await Client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ImageObject>>(content);
+                string restUrl = "https://whoisthatserverstorage2.azurewebsites.net/api/images/all";
+                var uri = new Uri(string.Format(restUrl, string.Empty));
+
+                var response = await Client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<ImageObject>>(content);
+                }
+
+                else
+                {
+                    throw new Exception("Something went wrong");
+                }
             }
 
-            else
+            catch (Exception exception)
             {
-                //Do something if response code is bad
-                return null;
+                throw exception;
             }
         }
     }
