@@ -32,7 +32,7 @@ namespace WhoIsThat
             {
                 //Initializing media hardware
                 await CrossMedia.Current.Initialize();
-                
+
                 //Taking picture and storing it in default directory which variable file refers to
                 var file = await CrossMedia.Current.TakePhotoAsync(
                     new Plugin.Media.Abstractions.StoreCameraMediaOptions
@@ -40,13 +40,13 @@ namespace WhoIsThat
                         SaveToAlbum = true,
                         //Directory = "Sample",
                         //Name = "test.jpg"
-                });
+                    });
 
                 if (file == null)
                 {
                     throw new ArgumentException("Photo was not successfully taken", "MediaFile");
                 }
-                
+
                 //Displaying taken photo
                 takenPicture.Source = ImageSource.FromStream(() =>
                 {
