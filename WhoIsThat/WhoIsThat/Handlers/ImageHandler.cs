@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace WhoIsThat.Handlers
 {
-    public class ImageHandler
+    public class ImageHandler : IImageHandler
     {
         private IRestService restService;
 
