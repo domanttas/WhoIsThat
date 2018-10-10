@@ -20,7 +20,7 @@ namespace WhoIsThat.Handlers
 
             //Taking picture and storing it in default directory which variable file refers to
             var file = await CrossMedia.Current.TakePhotoAsync(
-                new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                new StoreCameraMediaOptions
                 {
                     SaveToAlbum = true,
                     //Directory = "Sample",
