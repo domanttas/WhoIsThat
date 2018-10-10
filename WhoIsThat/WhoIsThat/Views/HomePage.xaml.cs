@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WhoIsThat.Connections;
+using WhoIsThat.Handlers;
 using WhoIsThat.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
