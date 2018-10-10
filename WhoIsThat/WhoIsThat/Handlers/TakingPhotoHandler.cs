@@ -33,11 +33,8 @@ namespace WhoIsThat.Handlers
                 {
                     throw new ArgumentException("Photo was not successfully taken", "MediaFile");
                 }
-
-                else
-                {
-                    return file;
-                }
+                
+                return file;
             }
 
             catch (Exception exception)
