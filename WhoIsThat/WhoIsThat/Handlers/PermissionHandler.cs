@@ -15,15 +15,7 @@ namespace WhoIsThat.Handlers
         /// <returns>bool</returns>
         public static async Task<bool> CheckForCameraPermission()
         {
-            if (await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera) == PermissionStatus.Granted)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera) == PermissionStatus.Granted;
         }
 
         /// <summary>
@@ -32,15 +24,7 @@ namespace WhoIsThat.Handlers
         /// <returns>bool</returns>
         public static async Task<bool> CheckForStoragePermission()
         {
-            if (await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage) == PermissionStatus.Granted)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage) == PermissionStatus.Granted;
         }
     }
 }
