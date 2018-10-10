@@ -25,9 +25,15 @@ namespace WhoIsThat
 
         private async void TakePicture(object sender, EventArgs e)
         {
-            //Requesting permissions to user camera and storage, too lazy to implement checks if user already have those, later 'todo'
-            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+            //Checking for camera permissions
+            bool cameraPermission = await PermissionHandler.CheckForCameraPermission();
+            if (!cameraPermission)
+                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+
+            //Checking for storage permissions
+            bool storagePermission = await PermissionHandler.CheckForCameraPermission();
+            if (!storagePermission)
+                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             try
             {
