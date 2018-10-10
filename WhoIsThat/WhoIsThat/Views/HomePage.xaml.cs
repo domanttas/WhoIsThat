@@ -1,4 +1,5 @@
 ﻿using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
@@ -35,40 +36,14 @@ namespace WhoIsThat
             if (!storagePermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
-            try
+            //Taking photo and storing it in MediaFile variable 'takenPhoto', for testing purposes displaying it
+            MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
+            takenPicture.Source = ImageSource.FromStream(() =>
             {
-                //Initializing media hardware
-                await CrossMedia.Current.Initialize();
-
-                //Taking picture and storing it in default directory which variable file refers to
-                var file = await CrossMedia.Current.TakePhotoAsync(
-                    new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                    {
-                        SaveToAlbum = true,
-                        //Directory = "Sample",
-                        //Name = "test.jpg"
-                    });
-
-                if (file == null)
-                {
-                    throw new ArgumentException("Photo was not successfully taken", "MediaFile");
-                }
-
-                //Displaying taken photo
-                takenPicture.Source = ImageSource.FromStream(() =>
-                {
-                    var stream = file.GetStream();
-                    file.Dispose();
-                    return stream;
-                });
-            }
-
-            catch (Exception exception)
-            {
-                //Not sure if view is a good choice here
-                //Not sure if we should log or display caught exception, gotta figure it out
-                await DisplayAlert("Something went wrong", "Please try again", "OK");
-            }
+                var stream = takenPhoto.GetStream();
+                takenPhoto.Dispose();
+                return stream;
+            });
         }
     }
 }
