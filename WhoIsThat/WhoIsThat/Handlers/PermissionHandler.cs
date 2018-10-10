@@ -9,6 +9,10 @@ namespace WhoIsThat.Handlers
 {
     public class PermissionHandler
     {
+        /// <summary>
+        /// Checks if user has already granted permission for camera
+        /// </summary>
+        /// <returns>bool</returns>
         public static async Task<bool> CheckForCameraPermission()
         {
             if (await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera) == PermissionStatus.Granted)
@@ -22,6 +26,10 @@ namespace WhoIsThat.Handlers
             }
         }
 
+        /// <summary>
+        /// Checks if user has already granted permission for storage
+        /// </summary>
+        /// <returns>bool</returns>
         public static async Task<bool> CheckForStoragePermission()
         {
             if (await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage) == PermissionStatus.Granted)

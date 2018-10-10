@@ -36,8 +36,10 @@ namespace WhoIsThat
             if (!storagePermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
-            //Taking photo and storing it in MediaFile variable 'takenPhoto', for testing purposes displaying it
+            //Taking photo and storing it in MediaFile variable 'takenPhoto'
             MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
+
+            //For testing purposes displaying it
             takenPicture.Source = ImageSource.FromStream(() =>
             {
                 var stream = takenPhoto.GetStream();

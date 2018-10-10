@@ -9,6 +9,10 @@ namespace WhoIsThat.Handlers
 {
     public class TakingPhotoHandler
     {
+        /// <summary>
+        /// Takes photo using CrossMedia plugin and returns MediaFile of it
+        /// </summary>
+        /// <returns>MediaFile</returns>
         public static async Task<MediaFile> TakePhoto()
         {
             try
