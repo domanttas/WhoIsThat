@@ -17,9 +17,24 @@ namespace WhoIsThat.Handlers
             restService = new RestService();
         }
 
+        /// <summary>
+        /// Calls method to get all image objects in RestService
+        /// </summary>
+        /// <returns>Image object list</returns>
         public async Task<List<ImageObject>> GetImageObjects()
         {
             return await restService.GetImageObjects();
         }
+        /*
+        public Image GetImageFromUri(string uri)
+        {
+            var fetchedImage = new Image
+            {
+                Source = ImageSource.FromUri(new Uri(uri))
+            };
+
+            return fetchedImage;
+        }
+        */
     }
 }
