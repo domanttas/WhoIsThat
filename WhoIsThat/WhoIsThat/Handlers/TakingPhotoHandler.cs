@@ -15,34 +15,24 @@ namespace WhoIsThat.Handlers
         /// <returns>MediaFile</returns>
         public static async Task<MediaFile> TakePhoto()
         {
-            try
-            {
-                //Initializing media hardware
-                await CrossMedia.Current.Initialize();
+            //Initializing media hardware
+            await CrossMedia.Current.Initialize();
 
-                //Taking picture and storing it in default directory which variable file refers to
-                var file = await CrossMedia.Current.TakePhotoAsync(
-                    new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                    {
-                        SaveToAlbum = true,
-                        //Directory = "Sample",
-                        //Name = "test.jpg"
-                    });
-
-                if (file == null)
+            //Taking picture and storing it in default directory which variable file refers to
+            var file = await CrossMedia.Current.TakePhotoAsync(
+                new Plugin.Media.Abstractions.StoreCameraMediaOptions
                 {
-                    throw new ArgumentException("Photo was not successfully taken", "MediaFile");
-                }
-                
-                return file;
-            }
+                    SaveToAlbum = true,
+                    //Directory = "Sample",
+                    //Name = "test.jpg"
+                });
 
-            catch (Exception exception)
+            if (file == null)
             {
-                //Not sure if view is a good choice here
-                //Not sure if we should log or display caught exception, gotta figure it out
-                throw exception;
+                throw new ArgumentException("Photo was not successfully taken", "MediaFile");
             }
+                
+            return file;
         }
     }
 }
