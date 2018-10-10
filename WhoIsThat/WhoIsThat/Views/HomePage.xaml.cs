@@ -1,4 +1,5 @@
 ﻿using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WhoIsThat.Connections;
+using WhoIsThat.Handlers;
 using WhoIsThat.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,44 +26,26 @@ namespace WhoIsThat
 
         private async void TakePicture(object sender, EventArgs e)
         {
-            //Requesting permissions to user camera and storage, too lazy to implement checks if user already have those, later 'todo'
-            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+            //Checking for camera permissions
+            bool cameraPermission = await PermissionHandler.CheckForCameraPermission();
+            if (!cameraPermission)
+                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
 
-            try
+            //Checking for storage permissions
+            bool storagePermission = await PermissionHandler.CheckForCameraPermission();
+            if (!storagePermission)
+                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+
+            //Taking photo and storing it in MediaFile variable 'takenPhoto'
+            MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
+
+            //For testing purposes displaying it
+            takenPicture.Source = ImageSource.FromStream(() =>
             {
-                //Initializing media hardware
-                await CrossMedia.Current.Initialize();
-
-                //Taking picture and storing it in default directory which variable file refers to
-                var file = await CrossMedia.Current.TakePhotoAsync(
-                    new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                    {
-                        SaveToAlbum = true,
-                        //Directory = "Sample",
-                        //Name = "test.jpg"
-                    });
-
-                if (file == null)
-                {
-                    throw new ArgumentException("Photo was not successfully taken", "MediaFile");
-                }
-
-                //Displaying taken photo
-                takenPicture.Source = ImageSource.FromStream(() =>
-                {
-                    var stream = file.GetStream();
-                    file.Dispose();
-                    return stream;
-                });
-            }
-
-            catch (Exception ex)
-            {
-                //Not sure if view is a good choice here
-                //Not sure if we should log or display caught exception, gotta figure it out
-                await DisplayAlert("Something went wrong", "Please try again", "OK");
-            }
+                var stream = takenPhoto.GetStream();
+                takenPhoto.Dispose();
+                return stream;
+            });
         }
     }
 }

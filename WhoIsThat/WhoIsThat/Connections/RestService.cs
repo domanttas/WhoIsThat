@@ -8,9 +8,9 @@ using WhoIsThat.Models;
 
 namespace WhoIsThat.Connections
 {
-    public class RestService
+    public class RestService : IRestService
     {
-        HttpClient Client { get; set; }
+        private HttpClient Client { get; set; }
 
         public RestService()
         {
