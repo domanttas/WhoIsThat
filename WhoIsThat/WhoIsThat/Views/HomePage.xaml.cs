@@ -55,16 +55,9 @@ namespace WhoIsThat
                     file.Dispose();
                     return stream;
                 });
-                /*
-                ImageHandler imageHandler = new ImageHandler();
-                List<ImageObject> imageObjects = new List<ImageObject>();
-                imageObjects = await imageHandler.GetImageObjects();
-                fetchedText.Text = imageObjects.ElementAt(0).ImageContentUri;
-                fetchedPicture = imageHandler.GetImageFromUri(imageObjects.ElementAt(0).ImageContentUri);
-                */
             }
 
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 //Not sure if view is a good choice here
                 //Not sure if we should log or display caught exception, gotta figure it out

@@ -12,8 +12,6 @@
                     Clicked="TakePicture"></Button>
 
             <Image x:Name="takenPicture"></Image>
-            <Label x:Name="fetchedText"></Label>
-            <Image x:Name="fetchedPicture"></Image>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

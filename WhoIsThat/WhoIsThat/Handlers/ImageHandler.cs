@@ -25,7 +25,12 @@ namespace WhoIsThat.Handlers
         {
             return await restService.GetImageObjects();
         }
-        /*
+        
+        /// <summary>
+        /// Creates Image from provided URI (which is present in ImageObject)
+        /// </summary>
+        /// <param name="uri">URI of image in Azure cloud</param>
+        /// <returns>Variable of type Image which contains Source of image in Azure cloud</returns>
         public Image GetImageFromUri(string uri)
         {
             var fetchedImage = new Image
@@ -35,6 +40,6 @@ namespace WhoIsThat.Handlers
 
             return fetchedImage;
         }
-        */
+        
     }
 }
