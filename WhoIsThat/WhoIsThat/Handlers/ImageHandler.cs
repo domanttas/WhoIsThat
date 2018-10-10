@@ -10,7 +10,7 @@ namespace WhoIsThat.Handlers
 {
     public class ImageHandler
     {
-        private RestService restService;
+        private IRestService restService;
 
         public ImageHandler()
         {
