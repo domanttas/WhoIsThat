@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.Media.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -31,6 +32,7 @@ namespace WhoIsThat.Handlers
         /// <summary>
         /// Creates Image from provided URI (which is present in ImageObject)
         /// Source will be URI, not memory stream
+        /// Could be used for displaying only
         /// </summary>
         /// <param name="uri">URI of image in Azure cloud</param>
         /// <returns>Variable of type Image which contains Source of image in Azure cloud</returns>
@@ -59,6 +61,6 @@ namespace WhoIsThat.Handlers
             }
 
             return new MemoryStream(imageData);
-        } 
+        }
     }
 }
