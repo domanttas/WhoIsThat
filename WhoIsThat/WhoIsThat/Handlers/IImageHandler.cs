@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using WhoIsThat.Models;
 using Xamarin.Forms;
@@ -19,5 +20,12 @@ namespace WhoIsThat.Handlers
         /// <param name="uri">URI of image in Azure cloud</param>
         /// <returns>Variable of type Image which contains Source of image in Azure cloud</returns>
         Image GetImageFromUri(string uri);
+
+        /// <summary>
+        /// Creates Memory Stream from photo in Azure Cloud referenced by URI
+        /// </summary>
+        /// <param name="uri">URI of image in Azure cloud</param>
+        /// <returns>Memory stream of photo</returns>
+        Stream GetStreamFromUri(string uri);
     }
 }

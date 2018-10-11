@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WhoIsThat.Connections;
@@ -28,6 +30,7 @@ namespace WhoIsThat.Handlers
         
         /// <summary>
         /// Creates Image from provided URI (which is present in ImageObject)
+        /// Source will be URI, not memory stream
         /// </summary>
         /// <param name="uri">URI of image in Azure cloud</param>
         /// <returns>Variable of type Image which contains Source of image in Azure cloud</returns>
@@ -40,6 +43,22 @@ namespace WhoIsThat.Handlers
 
             return fetchedImage;
         }
-        
+
+        /// <summary>
+        /// Creates Memory Stream from photo in Azure Cloud referenced by URI
+        /// </summary>
+        /// <param name="uri">URI of image in Azure cloud</param>
+        /// <returns>Memory stream of photo</returns>
+        public Stream GetStreamFromUri(string uri)
+        {
+            byte[] imageData = null;
+
+            using (var webClient = new WebClient())
+            {
+                imageData = webClient.DownloadData(uri);
+            }
+
+            return new MemoryStream(imageData);
+        } 
     }
 }
