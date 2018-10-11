@@ -29,5 +29,12 @@ namespace WhoIsThat.Handlers
         /// <param name="uri">URI of image in Azure cloud</param>
         /// <returns>Memory stream of photo</returns>
         Stream GetStreamFromUri(string uri);
+
+        /// <summary>
+        /// Creates Image object from provided stream
+        /// </summary>
+        /// <param name="stream">Memory stream of image</param>
+        /// <returns>Image object</returns>
+        Image GetImageFromStream(Stream stream);
     }
 }

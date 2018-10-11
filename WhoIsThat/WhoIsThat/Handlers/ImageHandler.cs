@@ -62,5 +62,23 @@ namespace WhoIsThat.Handlers
 
             return new MemoryStream(imageData);
         }
+
+        /// <summary>
+        /// Creates Image object from provided stream
+        /// </summary>
+        /// <param name="stream">Memory stream of image</param>
+        /// <returns>Image object</returns>
+        public Image GetImageFromStream(Stream stream)
+        {
+            var fetchedImage = new Image
+            {
+                Source = ImageSource.FromStream(() =>
+                {
+                    return stream;
+                })
+            };
+
+            return fetchedImage;
+        }
     }
 }
