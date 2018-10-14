@@ -25,7 +25,7 @@ namespace WhoIsThat.Connections
         {
             try
             {
-                string restUrl = "https://whoisthatserverstorage2.azurewebsites.net/api/images/all";
+                string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
                 var uri = new Uri(string.Format(restUrl, string.Empty));
 
                 var response = await Client.GetAsync(uri);
