@@ -46,5 +46,23 @@ namespace WhoIsThat.Connections
                 throw exception;
             }
         }
+
+        public async Task<string> Identify()
+        {
+            string restUrl = "https://teststorageserver.azurewebsites.net/api/recognition";
+            var uri = new Uri(string.Format(restUrl, string.Empty));
+
+            var response = await Client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<string>(content);
+            }
+
+            else
+            {
+                throw new Exception("Something went wrong with recognition");
+            }
+        }
     }
 }
