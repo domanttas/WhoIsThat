@@ -17,7 +17,7 @@ namespace WhoIsThat.Connections
         public static async Task<CloudBlockBlob> SaveBlockBlob(MediaFile file)
         {
             var containerName = "images";
-            var blobTitle = "temp";
+            var blobTitle = "temp.jpg";
 
             var memoryStream = new MemoryStream();
             file.GetStream().CopyTo(memoryStream);

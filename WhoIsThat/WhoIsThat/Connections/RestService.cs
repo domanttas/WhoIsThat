@@ -37,7 +37,7 @@ namespace WhoIsThat.Connections
 
                 else
                 {
-                    throw new Exception("Something went wrong");
+                    throw new Exception("Something went wrong: " + response.StatusCode);
                 }
             }
 
@@ -49,7 +49,7 @@ namespace WhoIsThat.Connections
 
         public async Task<string> Identify()
         {
-            string restUrl = "https://teststorageserver.azurewebsites.net/api/recognition";
+            string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
             var uri = new Uri(string.Format(restUrl, string.Empty));
 
             var response = await Client.GetAsync(uri);
@@ -61,7 +61,7 @@ namespace WhoIsThat.Connections
 
             else
             {
-                throw new Exception("Something went wrong with recognition");
+                throw new Exception("Something went wrong with recognition: " + response.StatusCode);
             }
         }
     }

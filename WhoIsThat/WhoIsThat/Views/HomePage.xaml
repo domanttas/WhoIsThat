@@ -12,6 +12,8 @@
                     Clicked="TakePicture"></Button>
 
             <Image x:Name="takenPicture"></Image>
+            <Label x:Name="testLabel"
+                   Text="testing"></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

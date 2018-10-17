@@ -39,6 +39,8 @@ namespace WhoIsThat
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
             MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
 
+            await CloudStorageService.SaveBlockBlob(takenPhoto);
+
             //For testing purposes displaying it
             takenPicture.Source = ImageSource.FromStream(() =>
             {
@@ -46,6 +48,10 @@ namespace WhoIsThat
                 takenPhoto.Dispose();
                 return stream;
             });
+
+            RestService restService = new RestService();
+            string recognizedName = await restService.Identify();
+            testLabel.Text = recognizedName;
         }
     }
 }
