@@ -22,17 +22,18 @@ namespace WhoIsThat.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string DisplayReturnedName { get; set; }
+        public string DisplayMessage { get; set; }
 
         public HomeViewModel()
         {
             TakePhotoCommand = new Command(TakePhoto);
-
-            DisplayReturnedName = "Please wait...";
-            OnPropertyChanged("DisplayReturnedName");
         }
 
         public async void TakePhoto()
         {
+            DisplayReturnedName = "Please wait...";
+            OnPropertyChanged("DisplayReturnedName");
+
             //Checking for camera permissions
             bool cameraPermission = await PermissionHandler.CheckForCameraPermission();
             if (!cameraPermission)
@@ -70,6 +71,16 @@ namespace WhoIsThat.ViewModels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        protected bool IsIdentified(string message)
+        {
+            if (message == "No faces were detected!" || message == "No one was indetified!")
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
