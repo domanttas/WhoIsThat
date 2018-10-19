@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.RegistrationPage"
-             Padding="60, 5, 60, 30">
+             Padding="60, 5, 60, 30"
+             NavigationPage.HasNavigationBar="False">
 
     <StackLayout VerticalOptions="End">
 
@@ -53,6 +54,6 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
-            Clicked="NavigateToHome"/>
+            Command="{Binding NavigateHomePageCommand}"/>
     </StackLayout>
 </ContentPage>

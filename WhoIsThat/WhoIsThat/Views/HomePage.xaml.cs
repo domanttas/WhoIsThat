@@ -22,6 +22,7 @@ namespace WhoIsThat
 		public HomePage ()
 		{
             NavigationPage.SetHasNavigationBar(this, false);
+
             InitializeComponent();
 		}
 
