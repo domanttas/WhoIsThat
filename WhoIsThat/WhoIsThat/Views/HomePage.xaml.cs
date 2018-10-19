@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WhoIsThat.Connections;
 using WhoIsThat.Handlers;
 using WhoIsThat.Models;
+using WhoIsThat.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,41 +20,12 @@ namespace WhoIsThat
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HomePage : ContentPage
 	{
-		public HomePage ()
+		public HomePage (HomeViewModel homeViewModel)
 		{
             NavigationPage.SetHasNavigationBar(this, false);
+            BindingContext = homeViewModel;
 
             InitializeComponent();
 		}
-
-        private async void TakePicture(object sender, EventArgs e)
-        {
-            //Checking for camera permissions
-            bool cameraPermission = await PermissionHandler.CheckForCameraPermission();
-            if (!cameraPermission)
-                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
-
-            //Checking for storage permissions
-            bool storagePermission = await PermissionHandler.CheckForCameraPermission();
-            if (!storagePermission)
-                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
-
-            //Taking photo and storing it in MediaFile variable 'takenPhoto'
-            MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
-
-            await CloudStorageService.SaveBlockBlob(takenPhoto);
-
-            //For testing purposes displaying it
-            takenPicture.Source = ImageSource.FromStream(() =>
-            {
-                var stream = takenPhoto.GetStream();
-                takenPhoto.Dispose();
-                return stream;
-            });
-
-            RestService restService = new RestService();
-            string recognizedName = await restService.Identify();
-            testLabel.Text = recognizedName;
-        }
     }
 }

@@ -19,6 +19,7 @@ namespace WhoIsThat
             registrationViewModel.Navigation = Navigation;
 
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }
