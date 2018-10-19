@@ -14,6 +14,7 @@ namespace WhoIsThat
     {
         public RegistrationPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
 

@@ -21,7 +21,8 @@ namespace WhoIsThat
 	{
 		public HomePage ()
 		{
-			InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent();
 		}
 
         private async void TakePicture(object sender, EventArgs e)
