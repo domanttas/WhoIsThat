@@ -47,8 +47,10 @@ namespace WhoIsThat.ViewModels
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
             MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
 
+            //Save taken photo to Azure cloud for recognition, later on it is deleted
             await CloudStorageService.SaveBlockBlob(takenPhoto);
             
+            //Binding taken image for display
             DisplayStream = ImageSource.FromStream(() =>
             {
                 var stream = takenPhoto.GetStream();
@@ -58,9 +60,11 @@ namespace WhoIsThat.ViewModels
             
             OnPropertyChanged("DisplayStream");
 
+            //Initiating recognition API
             RestService restService = new RestService();
             var recognizedName = await restService.Identify();
 
+            //Checking whether person was identified and deciding on messages to display
             if (IsIdentified(recognizedName))
             {
                 DisplayMessage = "It's a match!";
@@ -78,8 +82,6 @@ namespace WhoIsThat.ViewModels
                 DisplayReturnedName = recognizedName;
                 OnPropertyChanged("DisplayReturnedName");
             }
-            //DisplayReturnedName = recognizedName;
-            //OnPropertyChanged("DisplayReturnedName");
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
