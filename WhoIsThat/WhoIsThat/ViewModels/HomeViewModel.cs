@@ -8,6 +8,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Input;
 using WhoIsThat.Connections;
+using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Handlers;
 using Xamarin.Forms;
 
@@ -95,7 +96,7 @@ namespace WhoIsThat.ViewModels
 
         protected bool IsIdentified(string message)
         {
-            if (message == "No faces were detected!" || message == "No one was indetified!")
+            if (message == Constants.NoFacesIdentified || message == Constants.NoMatchFound)
             {
                 return false;
             }
