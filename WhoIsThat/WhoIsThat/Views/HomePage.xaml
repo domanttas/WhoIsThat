@@ -12,7 +12,12 @@
                     Command="{Binding TakePhotoCommand}"></Button>
 
             <Image Source="{Binding DisplayStream}"></Image>
-            <Label Text="{Binding DisplayReturnedName}"></Label>
+            <Label Text="{Binding DisplayMessage}"
+                   HorizontalOptions="Center"
+                   FontSize="30"></Label>
+            <Label Text="{Binding DisplayReturnedName}"
+                   HorizontalOptions="Center"
+                   FontSize="20"></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

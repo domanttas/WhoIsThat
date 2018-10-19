@@ -60,8 +60,26 @@ namespace WhoIsThat.ViewModels
 
             RestService restService = new RestService();
             var recognizedName = await restService.Identify();
-            DisplayReturnedName = recognizedName;
-            OnPropertyChanged("DisplayReturnedName");
+
+            if (IsIdentified(recognizedName))
+            {
+                DisplayMessage = "It's a match!";
+                OnPropertyChanged("DisplayMessage");
+
+                DisplayReturnedName = recognizedName;
+                OnPropertyChanged("DisplayReturnedName");
+            }
+
+            else
+            {
+                DisplayMessage = "Sadly, it's not your friend..";
+                OnPropertyChanged("DisplayMessage");
+
+                DisplayReturnedName = recognizedName;
+                OnPropertyChanged("DisplayReturnedName");
+            }
+            //DisplayReturnedName = recognizedName;
+            //OnPropertyChanged("DisplayReturnedName");
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
