@@ -11,7 +11,7 @@ namespace WhoIsThat
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));
         }
 
         protected override void OnStart()

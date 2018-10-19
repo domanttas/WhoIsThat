@@ -44,7 +44,7 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_arrow_forward_black_18dp.png"
-            Clicked="NavigateToHome"/>
+            Command="{Binding NavigateHomePageCommand}"/>
 
         <Label Text="New user? Sign Up!" 
            HorizontalOptions="Center"
@@ -56,7 +56,7 @@
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
-            Clicked="NavigateToRegistration"/>
+            Command="{Binding NavigateRegistrationPageCommand}"/>
     </StackLayout>
 
 </ContentPage>

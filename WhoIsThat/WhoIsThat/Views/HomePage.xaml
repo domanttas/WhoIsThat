@@ -9,11 +9,10 @@
                     TextColor="White"
                     BackgroundColor="Black"
                     FontSize="30"
-                    Clicked="TakePicture"></Button>
+                    Command="{Binding TakePhotoCommand}"></Button>
 
-            <Image x:Name="takenPicture"></Image>
-            <Label x:Name="testLabel"
-                   Text="testing"></Label>
+            <Image Source="{Binding DisplayStream}"></Image>
+            <Label Text="{Binding DisplayReturnedName}"></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
