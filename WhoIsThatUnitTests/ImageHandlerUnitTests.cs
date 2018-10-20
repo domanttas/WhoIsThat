@@ -10,6 +10,8 @@ using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using TypeMock;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.ViewModels;
+using WhoIsThat.ConstantsUtil;
+using Constants = WhoIsThat.ConstantsUtil.Constants;
 
 namespace WhoIsThatUnitTests
 {
@@ -51,6 +53,15 @@ namespace WhoIsThatUnitTests
         {
             var homeViewModel = new HomeViewModel();
             Assert.IsTrue(homeViewModel.IsIdentified(message));
+        }
+
+        [TestCase(Constants.NoMatchFound)]
+        [TestCase(Constants.NoFacesIdentified)]
+        [Test]
+        public void IsIdentified_ShouldReturnFalse(string message)
+        {
+            var homeViewModel = new HomeViewModel();
+            Assert.IsFalse(homeViewModel.IsIdentified(message));
         }
     }
 }
