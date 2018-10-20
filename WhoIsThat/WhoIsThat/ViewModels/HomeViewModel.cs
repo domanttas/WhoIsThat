@@ -94,7 +94,8 @@ namespace WhoIsThat.ViewModels
             }
         }
 
-        protected bool IsIdentified(string message)
+        //Public for unit tests
+        public bool IsIdentified(string message)
         {
             if (message == Constants.NoFacesIdentified || message == Constants.NoMatchFound)
             {

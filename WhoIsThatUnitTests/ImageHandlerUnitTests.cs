@@ -6,8 +6,12 @@ using Shouldly;
 using WhoIsThat.Handlers;
 using Xamarin.Forms;
 using HttpWebRequestWrapper;
+using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using TypeMock;
 using WhoIsThat.Handlers.Utils;
+using WhoIsThat.ViewModels;
+using WhoIsThat.ConstantsUtil;
+using Constants = WhoIsThat.ConstantsUtil.Constants;
 
 namespace WhoIsThatUnitTests
 {
@@ -42,20 +46,22 @@ namespace WhoIsThatUnitTests
                 .MustHaveHappenedOnceExactly();
         }
 
+        [TestCase("Domantas")]
+        [TestCase("AnyName")]
         [Test]
-        public void GetImageFromStream_ShouldReturnCorrectValue()
+        public void IsIdentified_ShouldReturnTrue(string message)
         {
-            //Arrange
-            var uri = "https://whoisthatserverimages.blob.core.windows.net/images/Domantas_test.jpg";
-            var fakeImageHandler = new ImageHandler();
-            var memoryStream = fakeImageHandler.GetStreamFromUri(uri);
-            
-            //Act
-            var result = fakeImageHandler.GetImageFromStream(memoryStream);
-            
-            //Asert
-            result.ShouldNotBeNull();
-            result.ShouldBeOfType(typeof(Image));
+            var homeViewModel = new HomeViewModel();
+            Assert.IsTrue(homeViewModel.IsIdentified(message));
+        }
+
+        [TestCase(Constants.NoMatchFound)]
+        [TestCase(Constants.NoFacesIdentified)]
+        [Test]
+        public void IsIdentified_ShouldReturnFalse(string message)
+        {
+            var homeViewModel = new HomeViewModel();
+            Assert.IsFalse(homeViewModel.IsIdentified(message));
         }
     }
 }
