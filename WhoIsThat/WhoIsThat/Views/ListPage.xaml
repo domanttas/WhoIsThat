@@ -7,7 +7,11 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label Text="{Binding PersonFirstName}" VerticalTextAlignment="Center" FontSize="Small" />
+                        <StackLayout Padding="5,0,5,0" HorizontalOptions="StartAndExpand" Orientation="Horizontal">
+                            <Image Source="{Binding ImageContentUri}" WidthRequest="50" HeightRequest="50"  />
+                            <Label Text="{Binding PersonFirstName}" VerticalTextAlignment="Center" FontSize="Small" />
+                            <Label Text="{Binding PersonLastName}" VerticalTextAlignment="Center" FontSize="Small" />
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
