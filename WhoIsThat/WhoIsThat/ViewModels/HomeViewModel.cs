@@ -29,10 +29,13 @@ namespace WhoIsThat.ViewModels
 
         public INavigation Navigation { get; set; }
 
+        private ImageHandler _imageHandler { get; set; }
+
         public HomeViewModel()
         {
             TakePhotoCommand = new Command(TakePhoto);
             NavigateToListPageCommand = new Command(NavigateToListPage);
+            _imageHandler = new ImageHandler();
         }
 
         public async void TakePhoto()
@@ -112,7 +115,7 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToListPage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new ListPage());
+            await Application.Current.MainPage.Navigation.PushAsync(new ListPage(new ListPageViewModel(await _imageHandler.GetImageObjects())));
         }
     }
 }
