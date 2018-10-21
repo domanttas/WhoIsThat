@@ -11,6 +11,12 @@
                     FontSize="30"
                     Command="{Binding TakePhotoCommand}"></Button>
 
+            <Button Text="View friends"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    FontSize="30"
+                    Command="{Binding NavigateToListPageCommand}"></Button>
+
             <Image Source="{Binding DisplayStream}"></Image>
             <Label Text="{Binding DisplayMessage}"
                    HorizontalOptions="Center"
