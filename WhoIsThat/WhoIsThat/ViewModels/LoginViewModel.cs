@@ -26,7 +26,7 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToRegistrationPage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new NavigationPage(new RegistrationPage(new RegistrationViewModel())));
+            await Application.Current.MainPage.Navigation.PushAsync(new RegistrationPage(new RegistrationViewModel()));
         }
     }
 }

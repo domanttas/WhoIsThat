@@ -10,6 +10,7 @@ using System.Windows.Input;
 using WhoIsThat.Connections;
 using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Handlers;
+using WhoIsThat.Views;
 using Xamarin.Forms;
 
 namespace WhoIsThat.ViewModels
@@ -17,6 +18,7 @@ namespace WhoIsThat.ViewModels
     public class HomeViewModel : INotifyPropertyChanged
     {
         public ICommand TakePhotoCommand { get; private set; }
+        public ICommand NavigateToListPageCommand { get; private set; }
 
         public ImageSource DisplayStream { get; set; }
 
@@ -25,9 +27,15 @@ namespace WhoIsThat.ViewModels
         public string DisplayReturnedName { get; set; }
         public string DisplayMessage { get; set; }
 
+        public INavigation Navigation { get; set; }
+
+        private ImageHandler _imageHandler { get; set; }
+
         public HomeViewModel()
         {
             TakePhotoCommand = new Command(TakePhoto);
+            NavigateToListPageCommand = new Command(NavigateToListPage);
+            _imageHandler = new ImageHandler();
         }
 
         public async void TakePhoto()
@@ -103,6 +111,11 @@ namespace WhoIsThat.ViewModels
             }
 
             return true;
+        }
+
+        public async void NavigateToListPage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new ListPage(new ListPageViewModel(await _imageHandler.GetImageObjects())));
         }
     }
 }
