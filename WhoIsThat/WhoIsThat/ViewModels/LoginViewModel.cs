@@ -21,7 +21,7 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToHomePage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
+            await Application.Current.MainPage.Navigation.PushAsync(new NavigationPage(new HomePage(new HomeViewModel())));
         }
 
         public async void NavigateToRegistrationPage()

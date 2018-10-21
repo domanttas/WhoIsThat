@@ -24,6 +24,7 @@ namespace WhoIsThat
 		{
             NavigationPage.SetHasNavigationBar(this, false);
             BindingContext = homeViewModel;
+            homeViewModel.Navigation = Navigation;
 
             InitializeComponent();
 		}

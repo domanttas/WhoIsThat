@@ -25,6 +25,8 @@ namespace WhoIsThat.ViewModels
         public string DisplayReturnedName { get; set; }
         public string DisplayMessage { get; set; }
 
+        public INavigation Navigation { get; set; }
+
         public HomeViewModel()
         {
             TakePhotoCommand = new Command(TakePhoto);
