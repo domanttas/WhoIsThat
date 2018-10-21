@@ -45,23 +45,5 @@ namespace WhoIsThatUnitTests
                         "https://whoisthatserverimages.blob.core.windows.net/images/Domantas_test.jpg"))
                 .MustHaveHappenedOnceExactly();
         }
-
-        [TestCase("Domantas")]
-        [TestCase("AnyName")]
-        [Test]
-        public void IsIdentified_ShouldReturnTrue(string message)
-        {
-            var homeViewModel = new HomeViewModel();
-            Assert.IsTrue(homeViewModel.IsIdentified(message));
-        }
-
-        [TestCase(Constants.NoMatchFound)]
-        [TestCase(Constants.NoFacesIdentified)]
-        [Test]
-        public void IsIdentified_ShouldReturnFalse(string message)
-        {
-            var homeViewModel = new HomeViewModel();
-            Assert.IsFalse(homeViewModel.IsIdentified(message));
-        }
     }
 }
