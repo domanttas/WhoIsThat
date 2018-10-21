@@ -22,9 +22,9 @@ namespace WhoIsThat
 	{
 		public HomePage (HomeViewModel homeViewModel)
 		{
+            homeViewModel.Navigation = Navigation;
             NavigationPage.SetHasNavigationBar(this, false);
             BindingContext = homeViewModel;
-            homeViewModel.Navigation = Navigation;
 
             InitializeComponent();
 		}

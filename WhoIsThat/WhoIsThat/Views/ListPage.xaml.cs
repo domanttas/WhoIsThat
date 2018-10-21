@@ -14,6 +14,7 @@ namespace WhoIsThat.Views
 	{
 		public ListPage (ListPageViewModel listPageViewModel)
 		{
+            NavigationPage.SetHasNavigationBar(this, false);
             BindingContext = listPageViewModel;
 
             InitializeComponent ();

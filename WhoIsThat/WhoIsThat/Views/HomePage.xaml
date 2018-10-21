@@ -8,13 +8,13 @@
             <Button Text="Take Photo!"
                     TextColor="White"
                     BackgroundColor="Black"
-                    FontSize="30"
+                    FontSize="20"
                     Command="{Binding TakePhotoCommand}"></Button>
 
             <Button Text="View friends"
                     TextColor="White"
                     BackgroundColor="Black"
-                    FontSize="30"
+                    FontSize="20"
                     Command="{Binding NavigateToListPageCommand}"></Button>
 
             <Image Source="{Binding DisplayStream}"></Image>
