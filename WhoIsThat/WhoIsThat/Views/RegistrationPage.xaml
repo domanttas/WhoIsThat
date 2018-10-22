@@ -2,57 +2,79 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.RegistrationPage"
+             BackgroundColor="Accent"
              >
 
-    <StackLayout VerticalOptions="End">
+    <ScrollView>
+    <StackLayout VerticalOptions="End" Padding="10">
 
-        <Label Text="Who is that?" 
+        <Label Text="Who is That?" 
+               FontFamily="{StaticResource BoldFont}"
            HorizontalOptions="CenterAndExpand"
            VerticalOptions="EndAndExpand"
-           HeightRequest="200"
+           Margin="0,30"
            FontSize="40"
            TextColor="Black"/>
 
-        <Image Source="baseline_directions_run_black_18dp.png"
+        <Image Source="person.png"
                IsVisible="True"
                HorizontalOptions="CenterAndExpand"
                VerticalOptions="CenterAndExpand"
+               
                HeightRequest="200"/>
 
         <Label Text="Username" 
-              HorizontalOptions="Center"
-              VerticalOptions="Start"
-              FontSize="20"/>
+               FontFamily="{StaticResource BoldFont}"
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               FontSize="20"/>
 
         <Entry Placeholder="Please enter your username" 
+               FontFamily="{StaticResource RegularFont}"
                HorizontalOptions="Center"
                VerticalOptions="Start"/>
 
         <Label Text="Password" 
+               FontFamily="{StaticResource BoldFont}"
            HorizontalOptions="Center"
            VerticalOptions="Start"
            FontSize="20"/>
 
         <Entry Placeholder="Please enter your password" 
+               FontFamily="{StaticResource RegularFont}"
                HorizontalOptions="Center"
                VerticalOptions="Start"
                IsPassword="True"/>
 
-        <Label Text="Password" 
+        <Label Text="Password"
+               FontFamily="{StaticResource BoldFont}"
            HorizontalOptions="Center"
            VerticalOptions="Start"
            FontSize="20"/>
 
-        <Entry Placeholder="Please enter your password" 
+        <Entry Placeholder="Please repeat your password" 
+               FontFamily="{StaticResource RegularFont}"
                HorizontalOptions="CenterAndExpand"
                VerticalOptions="Start"
-               IsPassword="True"/>
+               IsPassword="True"
+               />
 
         <Button
             Text="Sign Up"
+            FontFamily="{StaticResource MediumFont}"
+            BorderRadius="10"
+            FontSize="Medium"
+            Padding="8"
             HorizontalOptions="Fill"
-            VerticalOptions="Start"
             Image="baseline_create_black_18dp.png"
+            Margin="0,8"
+            
+            VerticalOptions="Center"
+           
             Command="{Binding NavigateHomePageCommand}"/>
     </StackLayout>
+    </ScrollView>
+    
+    
+    
 </ContentPage>

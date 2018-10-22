@@ -6,13 +6,36 @@
         <ResourceDictionary>
 
             <Style TargetType="ContentPage">
-                <Setter Property="Padding" Value="0, 20, 0, 0"/>
-                <Setter Property="BackgroundColor" Value="#DD5DB0"/>
+                
             </Style>
+            
             <Style TargetType="StackLayout">
                 <Setter Property="Margin" Value="20"/>
                 <Setter Property="BackgroundColor" Value="white"/>
             </Style>
+            
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#000e60"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BorderRadius" Value="10"/>
+            </Style>
+                
+                
+            <OnPlatform x:TypeArguments="x:String" x:Key="RegularFont">
+                <On Platform="Android" Value="Niramit-Regular.ttf#Niramit" />
+                <On Platform="UWP" Value="/Assets/Niramit-Regular.ttf#Niramit" />
+            </OnPlatform>
+
+            <OnPlatform x:TypeArguments="x:String" x:Key="BoldFont">
+                <On Platform="Android" Value="Niramit-Bold.ttf#Niramit" />
+                <On Platform="UWP" Value="/Assets/Niramit-Bold.ttf#Niramit" />
+            </OnPlatform>
+
+            <OnPlatform x:TypeArguments="x:String" x:Key="MediumFont">
+                <On Platform="Android" Value="Niramit-Medium.ttf#Niramit" />
+                <On Platform="UWP" Value="/Assets/Niramit-Medium.ttf#Niramit" />
+            </OnPlatform>
+
         </ResourceDictionary>
 
     </Application.Resources>

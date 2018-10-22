@@ -85,7 +85,7 @@ namespace WhoIsThat.ViewModels
 
             else
             {
-                DisplayMessage = "Sadly, it's not your friend..";
+                DisplayMessage = "Sadly, it's not your friend...";
                 OnPropertyChanged("DisplayMessage");
 
                 DisplayReturnedName = recognizedName;

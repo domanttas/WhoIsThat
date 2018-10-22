@@ -2,31 +2,59 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.HomePage"
+             BackgroundColor="Accent"
              >
     <ContentPage.Content>
         <ScrollView>
-        <StackLayout>
-            <Button Text="Take Photo!"
-                    TextColor="White"
-                    BackgroundColor="Black"
+        <Grid Padding="20" ColumnSpacing="10" RowSpacing="20" BackgroundColor="White" Margin="20">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+            
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            
+            <Button Text="Take Photo"
+                    Grid.Column="0"
+                    BorderRadius="10"
                     FontSize="20"
+                    FontFamily="{StaticResource MediumFont}"
                     Command="{Binding TakePhotoCommand}"></Button>
 
             <Button Text="View friends"
-                    TextColor="White"
-                    BackgroundColor="Black"
+                    Grid.Column="1"
+                    BorderRadius="10"
                     FontSize="20"
+                    FontFamily="{StaticResource MediumFont}"
                     Command="{Binding NavigateToListPageCommand}"></Button>
 
-            <Image Source="{Binding DisplayStream}"></Image>
+            <Image Source="{Binding DisplayStream}"
+                   Grid.Row="1" 
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
+                   ></Image>
             <Label Text="{Binding DisplayMessage}"
-                   HorizontalOptions="Center"
+                   Grid.Row="2" 
+                   FontFamily="{StaticResource BoldFont}"
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
+                   
                    FontSize="30"></Label>
                 
-                <Label Text="{Binding DisplayReturnedName}"
-                   HorizontalOptions="Center"
+            <Label Text="{Binding DisplayReturnedName}"
+                   Grid.Row="3"
+                   FontFamily="{StaticResource MediumFont}"
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
                    FontSize="20"></Label>
-        </StackLayout>
+        </Grid>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
