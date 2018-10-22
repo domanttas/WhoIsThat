@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:WhoIsThat"
              x:Class="WhoIsThat.MainPage"
-             Padding="60, 5, 60, 30">
-
+             >
+    <ScrollView>
     <StackLayout VerticalOptions="End">
 
         <Label Text="Who is that?" 
@@ -58,5 +58,6 @@
             Image="baseline_create_black_18dp.png"
             Command="{Binding NavigateRegistrationPageCommand}"/>
     </StackLayout>
+    </ScrollView>
 
 </ContentPage>

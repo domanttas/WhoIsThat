@@ -112,6 +112,7 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
+    <Folder Include="Resources\font\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WhoIsThat\WhoIsThat.csproj">

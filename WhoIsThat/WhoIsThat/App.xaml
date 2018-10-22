@@ -3,6 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.App">
     <Application.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="ContentPage">
+                <Setter Property="Padding" Value="0, 20, 0, 0"/>
+                <Setter Property="BackgroundColor" Value="#DD5DB0"/>
+            </Style>
+            <Style TargetType="StackLayout">
+                <Setter Property="Margin" Value="20"/>
+                <Setter Property="BackgroundColor" Value="white"/>
+            </Style>
+        </ResourceDictionary>
 
     </Application.Resources>
 </Application>
