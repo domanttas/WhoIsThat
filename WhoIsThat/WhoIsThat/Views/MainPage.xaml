@@ -20,43 +20,13 @@
                VerticalOptions="CenterAndExpand"
                HeightRequest="200"/>
 
-        <Label Text="Username" 
-           HorizontalOptions="Center"
-           VerticalOptions="Start"
-           FontSize="20"/>
-
-        <Entry Placeholder="Please enter your username" 
-               HorizontalOptions="Center"
-               VerticalOptions="Start"/>
-
-        <Label Text="Password" 
-           HorizontalOptions="Center"
-           VerticalOptions="Start"
-           FontSize="20"/>
-
-        <Entry Placeholder="Please enter your password" 
-               HorizontalOptions="Center"
-               VerticalOptions="Start"
-               IsPassword="True"/>
-
         <Button
-            Text="Sign In"
+            Text="Sign In with LinkedIn!"
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_arrow_forward_black_18dp.png"
             Command="{Binding NavigateHomePageCommand}"/>
-
-        <Label Text="New user? Sign Up!" 
-           HorizontalOptions="Center"
-           VerticalOptions="Start" 
-           FontSize="20"/>
-
-        <Button
-            Text="Sign Up"
-            HorizontalOptions="Fill"
-            VerticalOptions="Start"
-            Image="baseline_create_black_18dp.png"
-            Command="{Binding NavigateRegistrationPageCommand}"/>
+        
     </StackLayout>
 
 </ContentPage>
