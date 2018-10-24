@@ -21,7 +21,7 @@
                HeightRequest="200"/>
 
         <Button
-            Text="Sign In with LinkedIn!"
+            Text="Sign Up!"
             HorizontalOptions="Fill"
             VerticalOptions="Start"
             Image="baseline_arrow_forward_black_18dp.png"
