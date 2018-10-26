@@ -48,7 +48,18 @@ namespace WhoIsThat.Connections
             }
         }
 
+<<<<<<< HEAD
 
+=======
+        public async void PutImageObjetToDb()
+        {
+            try
+            {
+                string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
+                var uri = new Uri(string.Format(restUrl, string.Empty));
+            }
+        }
+>>>>>>> 544ccba... Created registration page, binded user input to loginViewModel(through ImageObject), made the app able to determine wether the user is registered or not (for development purposes it is not currently functioning)
         public async Task<string> Identify()
         {
             string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
