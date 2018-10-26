@@ -10,6 +10,11 @@ namespace WhoIsThat
         public App()
         {
             InitializeComponent();
+            //This is for testing purposes only
+            if (Application.Current.Properties.ContainsKey("UserRegistered"))
+            {
+                Application.Current.Properties.Remove("UserRegistered");
+            }
 
             MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));
         }
@@ -17,6 +22,14 @@ namespace WhoIsThat
         protected override void OnStart()
         {
             // Handle when your app starts
+            if (Application.Current.Properties.ContainsKey("UserRegistered"))
+            {
+                if (Application.Current.Properties["UserRegistered"].Equals(true))
+                {
+                    MainPage = new NavigationPage(new HomePage(new ViewModels.HomeViewModel()));
+                }
+            }
+            else MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));
         }
 
         protected override void OnSleep()

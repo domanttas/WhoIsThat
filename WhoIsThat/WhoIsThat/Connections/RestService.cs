@@ -47,6 +47,14 @@ namespace WhoIsThat.Connections
             }
         }
 
+        public async void PutImageObjetToDb()
+        {
+            try
+            {
+                string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
+                var uri = new Uri(string.Format(restUrl, string.Empty));
+            }
+        }
         public async Task<string> Identify()
         {
             string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
@@ -64,5 +72,7 @@ namespace WhoIsThat.Connections
                 throw new Exception("Something went wrong with recognition: " + response.StatusCode);
             }
         }
+
+
     }
 }
