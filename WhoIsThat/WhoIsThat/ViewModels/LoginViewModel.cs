@@ -30,9 +30,8 @@ namespace WhoIsThat.ViewModels
         public INavigation Navigation { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public string test { get; set; }
                 
-        private MediaFile takenPhoto { get; set; }
+        private MediaFile TakenPhoto { get; set; }
         private ImageObject personObject;
 
         public ImageObject PersonObject
@@ -60,7 +59,7 @@ namespace WhoIsThat.ViewModels
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
-            takenPhoto = await TakingPhotoHandler.TakePhoto();
+            TakenPhoto = await TakingPhotoHandler.TakePhoto();
 
             //Save taken photo to Azure cloud for recognition, later on it is deleted
 
@@ -69,10 +68,18 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToHomePage()
         {
+            //Checks if all requirements are faced
             if(PersonObject.PersonFirstName == null || PersonObject.PersonLastName == null || PersonObject.PersonDescription == null || takenPhoto == null)
             {
                 return;
             }
+
+            //If so, gives person an id and stores his information in the db
+            PersonObject.Id = 1;
+            PersonObject.ImageName = String.Format(PersonObject.PersonFirstName, PersonObject.PersonLastName);
+
+
+
             //Saves the 'state' of user as registered
             if (Application.Current.Properties.ContainsKey("UserRegistered"))
             {
@@ -81,6 +88,7 @@ namespace WhoIsThat.ViewModels
             Application.Current.Properties.Add("UserRegistered", true);
             await Application.Current.SavePropertiesAsync();
 
+            //Navigates to homepage
             await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
         }
 

@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using WhoIsThat.Models;
@@ -34,7 +36,6 @@ namespace WhoIsThat.Connections
                     var content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<List<ImageObject>>(content);
                 }
-
                 else
                 {
                     throw new Exception("Something went wrong: " + response.StatusCode);
@@ -47,14 +48,7 @@ namespace WhoIsThat.Connections
             }
         }
 
-        public async void PutImageObjetToDb()
-        {
-            try
-            {
-                string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
-                var uri = new Uri(string.Format(restUrl, string.Empty));
-            }
-        }
+
         public async Task<string> Identify()
         {
             string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
