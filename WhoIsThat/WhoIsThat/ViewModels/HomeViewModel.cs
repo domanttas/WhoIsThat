@@ -19,6 +19,7 @@ namespace WhoIsThat.ViewModels
     {
         public ICommand TakePhotoCommand { get; private set; }
         public ICommand NavigateToListPageCommand { get; private set; }
+        public ICommand NavigateToLeadersPageCommand { get; private set; }
 
         public ImageSource DisplayStream { get; set; }
 
@@ -35,6 +36,7 @@ namespace WhoIsThat.ViewModels
         {
             TakePhotoCommand = new Command(TakePhoto);
             NavigateToListPageCommand = new Command(NavigateToListPage);
+            NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
             _imageHandler = new ImageHandler();
         }
 
@@ -116,6 +118,11 @@ namespace WhoIsThat.ViewModels
         public async void NavigateToListPage()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new ListPage(new ListPageViewModel(await _imageHandler.GetImageObjects())));
+        }
+
+        public async void NavigateToLeadersPage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await _imageHandler.GetImageObjects())));
         }
     }
 }
