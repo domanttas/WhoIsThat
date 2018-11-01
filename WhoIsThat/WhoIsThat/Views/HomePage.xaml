@@ -16,7 +16,13 @@
                     BackgroundColor="Black"
                     FontSize="20"
                     Command="{Binding NavigateToListPageCommand}"></Button>
-            
+
+            <Button Text="Leaders"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    FontSize="20"
+                    Command="{Binding NavigateToLeadersPageCommand}"></Button>
+
             <Image Source="{Binding DisplayStream}"></Image>
             <Label Text="{Binding DisplayMessage}"
                    HorizontalOptions="Center"
