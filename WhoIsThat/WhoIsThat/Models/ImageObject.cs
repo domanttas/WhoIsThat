@@ -15,5 +15,9 @@ namespace WhoIsThat.Models
         public string PersonFirstName { get; set; }
 
         public string PersonLastName { get; set; }
+
+        public string DescriptiveSentence { get; set; }
+
+        public int Score { get; set; }
     }
 }
