@@ -45,5 +45,7 @@ namespace WhoIsThatUnitTests
                         "https://whoisthatserverimages.blob.core.windows.net/images/Domantas_test.jpg"))
                 .MustHaveHappenedOnceExactly();
         }
+        
+        
     }
 }

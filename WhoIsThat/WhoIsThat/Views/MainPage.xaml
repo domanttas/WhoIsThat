@@ -44,7 +44,7 @@
                     TextColor="Black"/>
                 <Editor Placeholder="Description"
                     FontSize="12"
-                    Text="{Binding PersonObject.PersonDescription}"/>
+                    Text="{Binding PersonObject.DescriptiveSentence}"/>
                 <Label  Text="Take a photo:"
                     FontSize="16"
                     TextColor="Black"/>
@@ -57,7 +57,7 @@
                 HorizontalOptions="Fill"
                 VerticalOptions="Start"
                 Image="baseline_arrow_forward_black_18dp.png"
-                Command="{Binding NavigateHomePageCommand}"/>
+                Command="{Binding SavePerson}"/>
 
             </StackLayout>
         </ScrollView>

@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Input;
 using WhoIsThat.Connections;
 using WhoIsThat.Handlers;
+using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
 using Xamarin.Forms;
 
@@ -18,26 +19,22 @@ namespace WhoIsThat.ViewModels
     {
         public ICommand NavigateHomePageCommand { get; private set; }
         public ICommand TakePhotoCommand { get; set; }
-
+        private RestService _restService;
         public LoginViewModel()
         {
-            NavigateHomePageCommand = new Command(NavigateToHomePage);
+            NavigateHomePageCommand = new Command(SavePerson);
             TakePhotoCommand = new Command(TakePhoto);
             PersonObject = new ImageObject();
+            _restService = new RestService();
         }
         
 
         public INavigation Navigation { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-<<<<<<< HEAD
-                
-        private MediaFile TakenPhoto { get; set; }
-=======
-        public string test { get; set; }
+
                 
         private MediaFile takenPhoto { get; set; }
->>>>>>> 544ccba... Created registration page, binded user input to loginViewModel(through ImageObject), made the app able to determine wether the user is registered or not (for development purposes it is not currently functioning)
         private ImageObject personObject;
 
         public ImageObject PersonObject
@@ -48,7 +45,8 @@ namespace WhoIsThat.ViewModels
             }
             set
             {
-                personObject = value; OnPropertyChanged();
+                personObject = value;
+                OnPropertyChanged();
             }
         }
 
@@ -65,37 +63,33 @@ namespace WhoIsThat.ViewModels
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
-<<<<<<< HEAD
-            TakenPhoto = await TakingPhotoHandler.TakePhoto();
-=======
+
             takenPhoto = await TakingPhotoHandler.TakePhoto();
->>>>>>> 544ccba... Created registration page, binded user input to loginViewModel(through ImageObject), made the app able to determine wether the user is registered or not (for development purposes it is not currently functioning)
 
             //Save taken photo to Azure cloud for recognition, later on it is deleted
 
             //await CloudStorageService.SaveBlockBlob(takenPhoto);
         }
 
-        public async void NavigateToHomePage()
-        {
-<<<<<<< HEAD
-            //Checks if all requirements are faced
-=======
->>>>>>> 544ccba... Created registration page, binded user input to loginViewModel(through ImageObject), made the app able to determine wether the user is registered or not (for development purposes it is not currently functioning)
-            if(PersonObject.PersonFirstName == null || PersonObject.PersonLastName == null || PersonObject.PersonDescription == null || takenPhoto == null)
+        public async void SavePerson()
+        { 
+            //Checks if all required fields are filled
+
+            /*if(PersonObject.PersonFirstName == null || PersonObject.PersonLastName == null || PersonObject.DescriptiveSentence == null || takenPhoto == null)
             {
                 return;
-            }
-<<<<<<< HEAD
+            }*/
 
-            //If so, gives person an id and stores his information in the db
+            //If so, stores his information in the db
             PersonObject.Id = 1;
-            PersonObject.ImageName = String.Format(PersonObject.PersonFirstName, PersonObject.PersonLastName);
+            PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
+            /*await CloudStorageService.SaveBlockBlob(takenPhoto,PersonObject.ImageName);
 
+            //Information stored and the stored user is returned with a newly generated ID
+            ImageObject person = await _restService.CreateImageObject(PersonObject);
 
-
-=======
->>>>>>> 544ccba... Created registration page, binded user input to loginViewModel(through ImageObject), made the app able to determine wether the user is registered or not (for development purposes it is not currently functioning)
+            
+            */
             //Saves the 'state' of user as registered
             if (Application.Current.Properties.ContainsKey("UserRegistered"))
             {
@@ -103,14 +97,12 @@ namespace WhoIsThat.ViewModels
             }
             Application.Current.Properties.Add("UserRegistered", true);
             await Application.Current.SavePropertiesAsync();
-
-<<<<<<< HEAD
-            //Navigates to homepage
-=======
->>>>>>> 544ccba... Created registration page, binded user input to loginViewModel(through ImageObject), made the app able to determine wether the user is registered or not (for development purposes it is not currently functioning)
-            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
         }
 
+        public async void NavigateToHomePage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
+        }
         public void OnPropertyChanged([CallerMemberName] string propertiesName = "")
         {
             var handler = PropertyChanged;
