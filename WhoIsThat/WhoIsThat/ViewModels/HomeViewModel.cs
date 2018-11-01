@@ -122,7 +122,7 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToLeadersPage()
         {
-
+            await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await _imageHandler.GetImageObjects())));
         }
     }
 }
