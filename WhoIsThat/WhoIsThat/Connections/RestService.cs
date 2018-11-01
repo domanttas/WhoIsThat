@@ -15,7 +15,6 @@ namespace WhoIsThat.Connections
 {
     public class RestService : IRestService
     {
-        private HttpClient Client { get; set; }
         public IHttpClientHandler _httpHandler { get; set; }
         public RestService()
         {
@@ -33,7 +32,7 @@ namespace WhoIsThat.Connections
                 string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
                 var uri = new Uri(string.Format(restUrl, string.Empty));
 
-                var response = await Client.GetAsync(uri);
+                var response = await _httpHandler.Get(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
@@ -79,7 +78,7 @@ namespace WhoIsThat.Connections
             string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
             var uri = new Uri(string.Format(restUrl, string.Empty));
 
-            var response = await Client.GetAsync(uri);
+            var response = await _httpHandler.Get(uri);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
