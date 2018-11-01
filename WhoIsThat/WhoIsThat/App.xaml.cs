@@ -11,10 +11,10 @@ namespace WhoIsThat
         {
             InitializeComponent();
             //This is for testing purposes only
-            if (Application.Current.Properties.ContainsKey("UserRegistered"))
+            /*if (Application.Current.Properties.ContainsKey("UserRegistered"))
             {
                 Application.Current.Properties.Remove("UserRegistered");
-            }
+            }*/
 
             MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));
         }

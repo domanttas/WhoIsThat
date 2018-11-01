@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using WhoIsThat.Connections;
 using WhoIsThat.Handlers;
@@ -17,23 +18,21 @@ namespace WhoIsThat.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
-        public ICommand NavigateHomePageCommand { get; private set; }
+        public ICommand SavePersonCommand { get; private set; }
         public ICommand TakePhotoCommand { get; set; }
         private RestService _restService;
         public LoginViewModel()
         {
-            NavigateHomePageCommand = new Command(SavePerson);
+            SavePersonCommand = new Command(SavePerson);
             TakePhotoCommand = new Command(TakePhoto);
             PersonObject = new ImageObject();
             _restService = new RestService();
         }
-        
-
+        public bool ErrorLabel { get; set; }
         public INavigation Navigation { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-                
         private MediaFile takenPhoto { get; set; }
         private ImageObject personObject;
 
@@ -46,7 +45,7 @@ namespace WhoIsThat.ViewModels
             set
             {
                 personObject = value;
-                OnPropertyChanged();
+                //OnPropertyChanged();
             }
         }
 
@@ -66,30 +65,49 @@ namespace WhoIsThat.ViewModels
 
             takenPhoto = await TakingPhotoHandler.TakePhoto();
 
-            //Save taken photo to Azure cloud for recognition, later on it is deleted
-
-            //await CloudStorageService.SaveBlockBlob(takenPhoto);
         }
 
         public async void SavePerson()
-        { 
+        {
             //Checks if all required fields are filled
-
-            /*if(PersonObject.PersonFirstName == null || PersonObject.PersonLastName == null || PersonObject.DescriptiveSentence == null || takenPhoto == null)
+            if (!FieldsAreFilled())
             {
                 return;
-            }*/
+            }
 
             //If so, stores his information in the db
-            PersonObject.Id = 1;
-            PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
-            /*await CloudStorageService.SaveBlockBlob(takenPhoto,PersonObject.ImageName);
+            /*PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
+            await CloudStorageService.SaveBlockBlob(takenPhoto,PersonObject.ImageName);
+            PersonObject = await _restService.CreateImageObject(PersonObject);*/
 
-            //Information stored and the stored user is returned with a newly generated ID
-            ImageObject person = await _restService.CreateImageObject(PersonObject);
+            SaveProperties(); 
+            NavigateToHomePage();
+        }
 
-            
-            */
+        private bool FieldsAreFilled()
+        {
+            if (PersonObject.PersonFirstName == null || PersonObject.PersonLastName == null || PersonObject.DescriptiveSentence == null || takenPhoto == null)
+            {
+                ErrorLabel = true;
+                OnPropertyChanged("ErrorLabel");
+                return false;
+            }
+            return true;
+        }
+
+        public async void NavigateToHomePage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
+        }
+
+        private async void SaveProperties()
+        { 
+            if (Application.Current.Properties.ContainsKey("UserId"))
+            {
+                Application.Current.Properties.Remove("UserId");
+            }
+            Application.Current.Properties.Add("UserId", PersonObject.Id);
+
             //Saves the 'state' of user as registered
             if (Application.Current.Properties.ContainsKey("UserRegistered"))
             {
@@ -99,10 +117,6 @@ namespace WhoIsThat.ViewModels
             await Application.Current.SavePropertiesAsync();
         }
 
-        public async void NavigateToHomePage()
-        {
-            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
-        }
         public void OnPropertyChanged([CallerMemberName] string propertiesName = "")
         {
             var handler = PropertyChanged;
