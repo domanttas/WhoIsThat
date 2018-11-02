@@ -74,6 +74,7 @@ namespace WhoIsThat.ViewModels
                 return;
             }
 
+            //NOTE: ERROR HANDLING MISSING
             PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
             PersonObject.Score = 0;
 
@@ -81,6 +82,8 @@ namespace WhoIsThat.ViewModels
             PersonObject.ImageContentUri = CloudStorageService.GetImageUri(personObject.ImageName);
 
             PersonObject = await _restService.CreateImageObject(PersonObject);
+
+            var status = await _restService.InsertUserIntoRecognition(PersonObject);
 
             SaveProperties();
             NavigateToHomePage();
