@@ -26,5 +26,6 @@ namespace WhoIsThat.Models
             if (this.Score > another.Score) return -1;
             return this.Score < another.Score ? 1 : 0;
         }
+
     }
 }

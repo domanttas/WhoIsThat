@@ -4,12 +4,13 @@ using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
+
 using System.Text;
 using System.Windows.Input;
 using WhoIsThat.Connections;
 using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Handlers;
+using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Views;
 using Xamarin.Forms;
 
@@ -59,7 +60,7 @@ namespace WhoIsThat.ViewModels
             MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
 
             //Save taken photo to Azure cloud for recognition, later on it is deleted
-            await CloudStorageService.SaveBlockBlob(takenPhoto);
+            await CloudStorageService.SaveBlockBlob(takenPhoto,"temp.jpg");
             
             //Binding taken image for display
             DisplayStream = ImageSource.FromStream(() =>
