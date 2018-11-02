@@ -109,5 +109,24 @@ namespace WhoIsThat.Connections
                 throw new Exception("Something went wrong with DB: " + response.StatusCode);
             }
         }
+
+        public async Task<bool> InsertUserIntoRecognition(ImageObject user)
+        {
+            string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify/insert";
+            var uri = new Uri(string.Format(restUrl, string.Empty));
+
+            var response = await _httpHandler.Post(uri, user);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<bool>(content);
+            }
+
+            else
+            {
+                //NOTE: TO BE CHANGED WITH CUSTOM ERROR HANDLING LATER ON!!!!
+                throw new Exception("Something went wrong with Rec: " + response.StatusCode);
+            }
+        }
     }
 }
