@@ -80,6 +80,9 @@ namespace WhoIsThat.ViewModels
             await CloudStorageService.SaveBlockBlob(takenPhoto,PersonObject.ImageName);
             PersonObject = await _restService.CreateImageObject(PersonObject);*/
 
+            PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
+            await CloudStorageService.SaveBlockBlob(takenPhoto, PersonObject.ImageName);
+
             SaveProperties(); 
             NavigateToHomePage();
         }
