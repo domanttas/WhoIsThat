@@ -30,7 +30,7 @@ namespace WhoIsThat.Connections
             return blockBlob;
         }
 
-        public static async Task<string> GetImageUri(string title)
+        public static string GetImageUri(string title)
         {
             var containerName = "images";
 

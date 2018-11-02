@@ -69,21 +69,20 @@ namespace WhoIsThat.ViewModels
 
         public async void SavePerson()
         {
-            //Checks if all required fields are filled
             if (!FieldsAreFilled())
             {
                 return;
             }
 
-            //If so, stores his information in the db
-            /*PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
-            await CloudStorageService.SaveBlockBlob(takenPhoto,PersonObject.ImageName);
-            PersonObject = await _restService.CreateImageObject(PersonObject);*/
-
             PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
-            await CloudStorageService.SaveBlockBlob(takenPhoto, PersonObject.ImageName);
+            PersonObject.Score = 0;
 
-            SaveProperties(); 
+            await CloudStorageService.SaveBlockBlob(takenPhoto, PersonObject.ImageName);
+            PersonObject.ImageContentUri = CloudStorageService.GetImageUri(personObject.ImageName);
+
+            PersonObject = await _restService.CreateImageObject(PersonObject);
+
+            SaveProperties();
             NavigateToHomePage();
         }
 
@@ -100,7 +99,7 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToHomePage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
+            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel(PersonObject)));
         }
 
         private async void SaveProperties()

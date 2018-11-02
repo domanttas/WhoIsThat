@@ -11,6 +11,7 @@ using WhoIsThat.Connections;
 using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
+using WhoIsThat.Models;
 using WhoIsThat.Views;
 using Xamarin.Forms;
 
@@ -33,12 +34,16 @@ namespace WhoIsThat.ViewModels
 
         private ImageHandler _imageHandler { get; set; }
 
-        public HomeViewModel()
+        public ImageObject User { get; set; }
+
+        public HomeViewModel(ImageObject user)
         {
             TakePhotoCommand = new Command(TakePhoto);
             NavigateToListPageCommand = new Command(NavigateToListPage);
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
             _imageHandler = new ImageHandler();
+
+            User = user;
         }
 
         public async void TakePhoto()
