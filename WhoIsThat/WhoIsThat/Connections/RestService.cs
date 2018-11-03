@@ -31,12 +31,14 @@ namespace WhoIsThat.Connections
 
                 var response = await HttpClient.GetAsync(uri);
                 if (!response.IsSuccessStatusCode) throw new Exception();
+                
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<ImageObject>>(content);
             }
 
             catch (Exception exception)
             {
+                //After using this API call in every code part should be checked if it's null and FatalStorageError message should be displayed
                 return null;
             }
         }
@@ -68,6 +70,7 @@ namespace WhoIsThat.Connections
 
             catch (JsonException jsonException)
             {
+                //Mapped error message needs to be displayed after checking
                 return null;
             }
         }
@@ -111,13 +114,17 @@ namespace WhoIsThat.Connections
 
         public async Task<bool> InsertUserIntoRecognition(ImageObject user)
         {
-            var uri = "https://testrecognition.azurewebsites.net/api/recognitionservices/insert";
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(
+            const string uri = "https://testrecognition.azurewebsites.net/api/recognitionservices/insert";
+            var response = await HttpClient.PostAsJsonAsync(
                 uri, user);
 
+            if (!response.IsSuccessStatusCode) return false;
+            
             var responseContent = await response.Content.ReadAsStringAsync();
             var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
+                
             return responseObject;
+
         }
     }
 }

@@ -31,20 +31,20 @@ namespace WhoIsThat.ViewModels
         public bool ErrorLabel { get; set; }
 
         private MediaFile takenPhoto { get; set; }
-        private ImageObject personObject;
+        private ImageObject _personObject;
         
         //Later on will map to display on frontend
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; } = "Please fill in all the fields!";
 
         public ImageObject PersonObject
         {
             get
             {
-                return personObject;
+                return _personObject;
             }
             set
             {
-                personObject = value;
+                _personObject = value;
                 //OnPropertyChanged();
             }
         }
@@ -84,15 +84,21 @@ namespace WhoIsThat.ViewModels
             PersonObject.Score = 0;
 
             await CloudStorageService.SaveBlockBlob(takenPhoto, PersonObject.ImageName);
-            PersonObject.ImageContentUri = CloudStorageService.GetImageUri(personObject.ImageName);
+            PersonObject.ImageContentUri = CloudStorageService.GetImageUri(_personObject.ImageName);
 
             PersonObject = await _restService.CreateImageObject(PersonObject);
             if (PersonObject == null)
             {
                 ErrorMessage = Constants.InvalidImageUriAndNameError;
+                OnPropertyChanged("ErrorMessage");
             }
 
             var status = await _restService.InsertUserIntoRecognition(PersonObject);
+            if (!status)
+            {
+                ErrorMessage = Constants.PersonNotCreatedError;
+                OnPropertyChanged("ErrorMessage");
+            }
 
             SaveProperties();
             NavigateToHomePage();
