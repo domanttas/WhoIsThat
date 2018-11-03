@@ -21,38 +21,30 @@ namespace WhoIsThat.Connections
             HttpClient = new HttpClient();;
         }
 
-        /// <summary>
-        /// Calls ImageObjectElementController in backend and returns list of image objects
-        /// </summary>
-        /// <returns>List of ImageObject instances</returns>
+        /// <inheritdoc/>
         public async Task<List<ImageObject>> GetImageObjects()
         {
             try
             {
-                string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
+                const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
                 var uri = new Uri(string.Format(restUrl, string.Empty));
 
                 var response = await HttpClient.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ImageObject>>(content);
-                }
-                else
-                {
-                    throw new Exception("Something went wrong: " + response.StatusCode);
-                }
+                if (!response.IsSuccessStatusCode) throw new Exception();
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ImageObject>>(content);
             }
 
             catch (Exception exception)
             {
-                throw exception;
+                return null;
             }
         }
 
+        /// <inheritdoc/>
         public async Task<ImageObject> CreateImageObject(ImageObject personObject)
         {
-            string restUrl = "https://teststorageserver.azurewebsites.net/api/images/add";
+            const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/add";
             var uri = new Uri(string.Format(restUrl, string.Empty));
 
             var jsonContent = JsonConvert.SerializeObject(personObject, new JsonSerializerSettings
@@ -68,9 +60,16 @@ namespace WhoIsThat.Connections
             var response = (await HttpClient.SendAsync(request)).EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var responseObject = JsonConvert.DeserializeObject<ImageObject>(responseContent);
+            try
+            {
+                var responseObject = JsonConvert.DeserializeObject<ImageObject>(responseContent);
+                return responseObject;
+            }
 
-            return responseObject;
+            catch (JsonException jsonException)
+            {
+                return null;
+            }
         }
 
         public async Task<string> Identify()

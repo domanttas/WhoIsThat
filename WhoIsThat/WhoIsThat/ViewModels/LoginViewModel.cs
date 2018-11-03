@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WhoIsThat.Connections;
+using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
@@ -31,6 +32,9 @@ namespace WhoIsThat.ViewModels
 
         private MediaFile takenPhoto { get; set; }
         private ImageObject personObject;
+        
+        //Later on will map to display on frontend
+        public string ErrorMessage { get; set; }
 
         public ImageObject PersonObject
         {
@@ -66,9 +70,7 @@ namespace WhoIsThat.ViewModels
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
-
             takenPhoto = await TakingPhotoHandler.TakePhoto();
-
         }
 
         public async void SavePerson()
@@ -85,6 +87,10 @@ namespace WhoIsThat.ViewModels
             PersonObject.ImageContentUri = CloudStorageService.GetImageUri(personObject.ImageName);
 
             PersonObject = await _restService.CreateImageObject(PersonObject);
+            if (PersonObject == null)
+            {
+                ErrorMessage = Constants.InvalidImageUriAndNameError;
+            }
 
             var status = await _restService.InsertUserIntoRecognition(PersonObject);
 

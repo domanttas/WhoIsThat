@@ -20,14 +20,14 @@ namespace WhoIsThat.ConstantsUtil
 
         public const string UserDoesNotExistError = "User with ID was not found";
 
-        public const string InvalidImageUriError = "Invalid URI of image";
-
-        public const string InvalidFileNameError = "Image filename should be alphanumeric, may include dashes and underscores";
+        public const string InvalidImageUriAndNameError = "Something went wrong with uploading photo, please try again";
 
         public const string TargetAlreadyAssignedError = "You already have target assigned";
 
         public const string TargetNotAssignedError = "Target was not assigned";
 
         public const string ThereAreNoPlayersError = "There are no other players";
+
+        public const string FatalStorageError = "Something really bad happened, please try again";
     }
 }
