@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using WhoIsThat.ConstantsUtil;
+using WhoIsThat.Models;
 using WhoIsThat.ViewModels;
 
 namespace WhoIsThatUnitTests
@@ -11,7 +12,7 @@ namespace WhoIsThatUnitTests
         [Test]
         public void IsIdentified_ShouldReturnTrue(string message)
         {
-            var homeViewModel = new HomeViewModel();
+            var homeViewModel = new HomeViewModel(new ImageObject());
             Assert.IsTrue(homeViewModel.IsIdentified(message));
         }
 
@@ -20,7 +21,7 @@ namespace WhoIsThatUnitTests
         [Test]
         public void IsIdentified_ShouldReturnFalse(string message)
         {
-            var homeViewModel = new HomeViewModel();
+            var homeViewModel = new HomeViewModel(new ImageObject());
             Assert.IsFalse(homeViewModel.IsIdentified(message));
         }
     }
