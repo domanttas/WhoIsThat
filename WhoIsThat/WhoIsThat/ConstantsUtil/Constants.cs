@@ -29,5 +29,6 @@ namespace WhoIsThat.ConstantsUtil
         public const string ThereAreNoPlayersError = "There are no other players";
 
         public const string FatalStorageError = "Something really bad happened, please try again";
+        public const string FatalRecognitionError = "Something really bad happened, please try again";
     }
 }

@@ -7,6 +7,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
 using HttpClientHandler = WhoIsThat.Handlers.Utils.HttpClientHandler;
@@ -75,43 +76,37 @@ namespace WhoIsThat.Connections
             }
         }
 
+        /// <inheritdoc/>
         public async Task<string> Identify()
         {
-            string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
+            const string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
             var uri = new Uri(string.Format(restUrl, string.Empty));
 
             var response = await HttpClient.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<string>(content);
-            }
+            if (!response.IsSuccessStatusCode) return Constants.FatalRecognitionError;
+            
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<string>(content);
 
-            else
-            {
-                throw new Exception("Something went wrong with recognition: " + response.StatusCode);
-            }
         }
 
+        /// <inheritdoc/>
         public async Task<ImageObject> GetUserById(int id)
         {
-            string restUrl = "https://teststorageserver.azurewebsites.net/api/images/user/" + id;
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/images/user/" + id;
             var uri = new Uri(string.Format(restUrl, string.Empty));
 
+            //Mapped error message needs to be displayed after checking
+            
             var response = await HttpClient.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<ImageObject>(content);
-            }
+            if (!response.IsSuccessStatusCode) return null;
+            
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ImageObject>(content);
 
-            else
-            {
-                //NOTE: TO BE CHANGED WITH CUSTOM ERROR HANDLING LATER ON!!!!
-                throw new Exception("Something went wrong with DB: " + response.StatusCode);
-            }
         }
 
+        /// <inheritdoc/>
         public async Task<bool> InsertUserIntoRecognition(ImageObject user)
         {
             const string uri = "https://testrecognition.azurewebsites.net/api/recognitionservices/insert";
@@ -121,10 +116,18 @@ namespace WhoIsThat.Connections
             if (!response.IsSuccessStatusCode) return false;
             
             var responseContent = await response.Content.ReadAsStringAsync();
-            var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
-                
-            return responseObject;
 
+            try
+            {
+                var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
+                return responseObject;
+            }
+
+            catch (JsonException jsonException)
+            {
+                //Mapped error message needs to be displayed after checking
+                return false;
+            }
         }
     }
 }

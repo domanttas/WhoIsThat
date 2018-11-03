@@ -91,6 +91,8 @@ namespace WhoIsThat.ViewModels
             {
                 ErrorMessage = Constants.InvalidImageUriAndNameError;
                 OnPropertyChanged("ErrorMessage");
+
+                return;
             }
 
             var status = await _restService.InsertUserIntoRecognition(PersonObject);
@@ -98,6 +100,8 @@ namespace WhoIsThat.ViewModels
             {
                 ErrorMessage = Constants.PersonNotCreatedError;
                 OnPropertyChanged("ErrorMessage");
+
+                return;
             }
 
             SaveProperties();
