@@ -113,7 +113,7 @@ namespace WhoIsThat.ViewModels
         //Public for unit tests
         public bool IsIdentified(string message)
         {
-            if (message == Constants.NoFacesIdentified || message == Constants.NoMatchFound)
+            if (message == Constants.NoFacesIdentifiedError || message == Constants.NoMatchFoundError)
             {
                 return false;
             }

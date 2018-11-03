@@ -16,8 +16,8 @@ namespace WhoIsThatUnitTests
             Assert.IsTrue(homeViewModel.IsIdentified(message));
         }
 
-        [TestCase(Constants.NoMatchFound)]
-        [TestCase(Constants.NoFacesIdentified)]
+        [TestCase(Constants.NoMatchFoundError)]
+        [TestCase(Constants.NoFacesIdentifiedError)]
         [Test]
         public void IsIdentified_ShouldReturnFalse(string message)
         {
