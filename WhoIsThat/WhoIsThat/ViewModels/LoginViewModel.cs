@@ -20,18 +20,14 @@ namespace WhoIsThat.ViewModels
     {
         public ICommand SavePersonCommand { get; private set; }
         public ICommand TakePhotoCommand { get; set; }
-        private RestService _restService;
-        public LoginViewModel()
-        {
-            SavePersonCommand = new Command(SavePerson);
-            TakePhotoCommand = new Command(TakePhoto);
-            PersonObject = new ImageObject();
-            _restService = new RestService();
-        }
-        public bool ErrorLabel { get; set; }
+        
         public INavigation Navigation { get; set; }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        private RestService _restService;
+        
+        public bool ErrorLabel { get; set; }
 
         private MediaFile takenPhoto { get; set; }
         private ImageObject personObject;
@@ -48,16 +44,24 @@ namespace WhoIsThat.ViewModels
                 //OnPropertyChanged();
             }
         }
+        
+        public LoginViewModel()
+        {
+            SavePersonCommand = new Command(SavePerson);
+            TakePhotoCommand = new Command(TakePhoto);
+            PersonObject = new ImageObject();
+            _restService = new RestService();
+        }
 
         public async void TakePhoto()
         {
             //Checking for camera permissions
-            bool cameraPermission = await PermissionHandler.CheckForCameraPermission();
+            var cameraPermission = await PermissionHandler.CheckForCameraPermission();
             if (!cameraPermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
 
             //Checking for storage permissions
-            bool storagePermission = await PermissionHandler.CheckForCameraPermission();
+            var storagePermission = await PermissionHandler.CheckForCameraPermission();
             if (!storagePermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
@@ -74,7 +78,6 @@ namespace WhoIsThat.ViewModels
                 return;
             }
 
-            //NOTE: ERROR HANDLING MISSING
             PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
             PersonObject.Score = 0;
 
@@ -91,13 +94,11 @@ namespace WhoIsThat.ViewModels
 
         private bool FieldsAreFilled()
         {
-            if (PersonObject.PersonFirstName == null || PersonObject.PersonLastName == null || PersonObject.DescriptiveSentence == null || takenPhoto == null)
-            {
-                ErrorLabel = true;
-                OnPropertyChanged("ErrorLabel");
-                return false;
-            }
-            return true;
+            if (PersonObject.PersonFirstName != null && PersonObject.PersonLastName != null &&
+                PersonObject.DescriptiveSentence != null && takenPhoto != null) return true;
+            ErrorLabel = true;
+            OnPropertyChanged("ErrorLabel");
+            return false;
         }
 
         public async void NavigateToHomePage()
@@ -125,9 +126,7 @@ namespace WhoIsThat.ViewModels
         public void OnPropertyChanged([CallerMemberName] string propertiesName = "")
         {
             var handler = PropertyChanged;
-            if (handler == null)
-                return;
-            handler(this, new PropertyChangedEventArgs(propertiesName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertiesName));
         }
 
     }
