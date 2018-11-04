@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using WhoIsThat.ConstantsUtil;
+using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
 using HttpClientHandler = WhoIsThat.Handlers.Utils.HttpClientHandler;
@@ -71,8 +72,7 @@ namespace WhoIsThat.Connections
 
             catch (JsonException jsonException)
             {
-                //Mapped error message needs to be displayed after checking
-                return null;
+                throw new ManagerException(JsonConvert.DeserializeObject<string>(responseContent));
             }
         }
 
@@ -95,8 +95,6 @@ namespace WhoIsThat.Connections
         {
             var restUrl = "https://teststorageserver.azurewebsites.net/api/images/user/" + id;
             var uri = new Uri(string.Format(restUrl, string.Empty));
-
-            //Mapped error message needs to be displayed after checking
             
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode) return null;

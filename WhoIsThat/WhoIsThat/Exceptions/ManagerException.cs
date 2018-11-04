@@ -1,6 +1,8 @@
+using System;
+
 namespace WhoIsThat.Exceptions
 {
-    public class ManagerException
+    public class ManagerException : Exception
     {
         public string ErrorCode;
 

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WhoIsThat.Connections;
 using WhoIsThat.ConstantsUtil;
+using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
@@ -86,13 +87,15 @@ namespace WhoIsThat.ViewModels
             await CloudStorageService.SaveBlockBlob(takenPhoto, PersonObject.ImageName);
             PersonObject.ImageContentUri = CloudStorageService.GetImageUri(_personObject.ImageName);
 
-            PersonObject = await _restService.CreateImageObject(PersonObject);
-            if (PersonObject == null)
+            try
             {
-                ErrorMessage = Constants.InvalidImageUriAndNameError;
-                OnPropertyChanged("ErrorMessage");
+                PersonObject = await _restService.CreateImageObject(PersonObject);
+            }
 
-                return;
+            catch (ManagerException managerException)
+            {
+                ErrorMessage = managerException.ErrorCode;
+                OnPropertyChanged("ErrorMessage");
             }
 
             var status = await _restService.InsertUserIntoRecognition(PersonObject);
