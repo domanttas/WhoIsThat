@@ -32,16 +32,15 @@ namespace WhoIsThat.Connections
                 var uri = new Uri(string.Format(restUrl, string.Empty));
 
                 var response = await HttpClient.GetAsync(uri);
-                if (!response.IsSuccessStatusCode) throw new Exception();
-                
+                if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalStorageError);
+
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<ImageObject>>(content);
             }
 
-            catch (Exception exception)
+            catch (JsonException jsonException)
             {
-                //After using this API call in every code part should be checked if it's null and FatalStorageError message should be displayed
-                return null;
+                throw new ManagerException(Constants.StorageConvertError);
             }
         }
 
@@ -83,11 +82,10 @@ namespace WhoIsThat.Connections
             var uri = new Uri(string.Format(restUrl, string.Empty));
 
             var response = await HttpClient.GetAsync(uri);
-            if (!response.IsSuccessStatusCode) return Constants.FatalRecognitionError;
+            if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalRecognitionError);
             
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<string>(content);
-
         }
 
         /// <inheritdoc/>
@@ -97,11 +95,19 @@ namespace WhoIsThat.Connections
             var uri = new Uri(string.Format(restUrl, string.Empty));
             
             var response = await HttpClient.GetAsync(uri);
-            if (!response.IsSuccessStatusCode) return null;
-            
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<ImageObject>(content);
+            if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalStorageError);
 
+            var content = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                return JsonConvert.DeserializeObject<ImageObject>(content);
+            }
+
+            catch (JsonException jsonException)
+            {
+                throw new ManagerException(JsonConvert.DeserializeObject<string>(content));
+            }
         }
 
         /// <inheritdoc/>
@@ -111,7 +117,7 @@ namespace WhoIsThat.Connections
             var response = await HttpClient.PostAsJsonAsync(
                 uri, user);
 
-            if (!response.IsSuccessStatusCode) return false;
+            if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalRecognitionError);
             
             var responseContent = await response.Content.ReadAsStringAsync();
 
