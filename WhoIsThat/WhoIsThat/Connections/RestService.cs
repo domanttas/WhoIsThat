@@ -27,7 +27,7 @@ namespace WhoIsThat.Connections
         public async Task<List<ImageObject>> GetImageObjects()
         {
             const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
-            var uri = new Uri(string.Format(restUrl, string.Empty));
+            var uri = new Uri(restUrl);
 
             var response = await HttpClient.GetAsync(uri);
             
@@ -44,7 +44,7 @@ namespace WhoIsThat.Connections
         public async Task<ImageObject> CreateImageObject(ImageObject personObject)
         {
             const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/add";
-            var uri = new Uri(string.Format(restUrl, string.Empty));
+            var uri = new Uri(restUrl);
 
             var jsonContent = JsonConvert.SerializeObject(personObject, new JsonSerializerSettings
             {
@@ -73,7 +73,7 @@ namespace WhoIsThat.Connections
         public async Task<string> Identify()
         {
             const string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
-            var uri = new Uri(string.Format(restUrl, string.Empty));
+            var uri = new Uri(restUrl);
 
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
@@ -89,7 +89,7 @@ namespace WhoIsThat.Connections
         public async Task<ImageObject> GetUserById(int id)
         {
             var restUrl = "https://teststorageserver.azurewebsites.net/api/images/user/" + id;
-            var uri = new Uri(string.Format(restUrl, string.Empty));
+            var uri = new Uri(restUrl);
             
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
