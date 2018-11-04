@@ -29,5 +29,15 @@ namespace WhoIsThat.Connections
 
             return blockBlob;
         }
+
+        public static string GetImageUri(string title)
+        {
+            var containerName = "images";
+
+            var blobContainer = _cloudBlobClient.GetContainerReference(containerName);
+
+            var blockBlob = blobContainer.GetBlockBlobReference(title);
+            return blockBlob.Uri.ToString();
+        }
     }
 }

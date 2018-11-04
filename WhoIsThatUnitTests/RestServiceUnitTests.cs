@@ -5,9 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Web.Http;
 using WhoIsThat.Connections;
-using Windows.Media.Protection.PlayReady;
 using HttpClient = System.Net.Http.HttpClient;
 using WhoIsThat.Models;
 using WhoIsThat.Handlers.Utils;
@@ -20,6 +18,7 @@ namespace WhoIsThatUnitTests
 {
     class RestServiceUnitTests
     {
+        /*
         [Test]
         public void CreateImageObject_ShouldReturnTheSameValues()
         {
@@ -59,6 +58,6 @@ namespace WhoIsThatUnitTests
             Assert.AreEqual(response.Result.Score, imageObject.Score);
             Assert.AreEqual(response.Result.DescriptiveSentence, imageObject.DescriptiveSentence);
         }
-
+        */
     }
 }

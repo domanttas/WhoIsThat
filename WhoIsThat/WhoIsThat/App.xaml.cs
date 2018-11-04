@@ -1,4 +1,5 @@
 ﻿using System;
+using WhoIsThat.Connections;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,14 +20,15 @@ namespace WhoIsThat
             MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+            var restService = new RestService();
             // Handle when your app starts
             if (Application.Current.Properties.ContainsKey("UserRegistered"))
             {
                 if (Application.Current.Properties["UserRegistered"].Equals(true))
                 {
-                    MainPage = new NavigationPage(new HomePage(new ViewModels.HomeViewModel()));
+                    MainPage = new NavigationPage(new HomePage(new ViewModels.HomeViewModel(await restService.GetUserById(Convert.ToInt32(Application.Current.Properties["UserId"].ToString())))));
                 }
             }
             else MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));

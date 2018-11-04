@@ -7,6 +7,8 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using WhoIsThat.ConstantsUtil;
+using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
 using HttpClientHandler = WhoIsThat.Handlers.Utils.HttpClientHandler;
@@ -15,82 +17,106 @@ namespace WhoIsThat.Connections
 {
     public class RestService : IRestService
     {
-        public IHttpClientHandler _httpHandler { get; set; }
+        public HttpClient HttpClient { get; set; }
         public RestService()
         {
-            _httpHandler = new HttpClientHandler();
+            HttpClient = new HttpClient();;
         }
 
-        /// <summary>
-        /// Calls ImageObjectElementController in backend and returns list of image objects
-        /// </summary>
-        /// <returns>List of ImageObject instances</returns>
+        /// <inheritdoc/>
         public async Task<List<ImageObject>> GetImageObjects()
         {
-            try
-            {
-                string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
-                var uri = new Uri(string.Format(restUrl, string.Empty));
+            const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
+            var uri = new Uri(restUrl);
 
-                var response = await _httpHandler.Get(uri);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ImageObject>>(content);
-                }
-                else
-                {
-                    throw new Exception("Something went wrong: " + response.StatusCode);
-                }
+            var response = await HttpClient.GetAsync(uri);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
             }
 
-            catch (Exception exception)
-            {
-                throw exception;
-            }
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<ImageObject>>(content);  
         }
 
+        /// <inheritdoc/>
         public async Task<ImageObject> CreateImageObject(ImageObject personObject)
         {
-            try
-            {
-                string restUrl = "https://teststorageserver.azurewebsites.net/api/images/add";
-                var uri = new Uri(string.Format(restUrl, string.Empty));
+            const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/add";
+            var uri = new Uri(restUrl);
 
-                var response = await _httpHandler.Post(uri, personObject);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ImageObject>(content);
-                }
-                else
-                {
-                    throw new Exception("Something went wrong: " + response.StatusCode);
-                }
-            }
-            catch (Exception exception)
+            var jsonContent = JsonConvert.SerializeObject(personObject, new JsonSerializerSettings
             {
-                throw exception;
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            var request = new HttpRequestMessage(HttpMethod.Post, uri)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+
+            var response = await HttpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
             }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            var responseObject = JsonConvert.DeserializeObject<ImageObject>(responseContent);
+            return responseObject;
         }
+
+        /// <inheritdoc/>
         public async Task<string> Identify()
         {
-            string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
-            var uri = new Uri(string.Format(restUrl, string.Empty));
+            const string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
+            var uri = new Uri(restUrl);
 
-            var response = await _httpHandler.Get(uri);
-            if (response.IsSuccessStatusCode)
+            var response = await HttpClient.GetAsync(uri);
+            if (!response.IsSuccessStatusCode)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<string>(content);
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
             }
-
-            else
-            {
-                throw new Exception("Something went wrong with recognition: " + response.StatusCode);
-            }
+            
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<string>(content);
         }
 
+        /// <inheritdoc/>
+        public async Task<ImageObject> GetUserById(int id)
+        {
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/images/user/" + id;
+            var uri = new Uri(restUrl);
+            
+            var response = await HttpClient.GetAsync(uri);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
 
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ImageObject>(content);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> InsertUserIntoRecognition(ImageObject user)
+        {
+            const string uri = "https://testrecognition.azurewebsites.net/api/recognitionservices/insert";
+            var response = await HttpClient.PostAsJsonAsync(
+                uri, user);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
+            
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
+            return responseObject;
+        }
     }
 }

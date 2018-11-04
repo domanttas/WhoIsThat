@@ -55,6 +55,9 @@
                 <Label Text="All fields must be filled"
                        IsVisible="{Binding ErrorLabel}"
                        TextColor="Red"></Label>
+                
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"></Label>
                 <Button
                 Text="Sign Up!"
                 HorizontalOptions="Fill"

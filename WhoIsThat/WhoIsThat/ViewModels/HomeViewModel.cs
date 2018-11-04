@@ -11,6 +11,7 @@ using WhoIsThat.Connections;
 using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
+using WhoIsThat.Models;
 using WhoIsThat.Views;
 using Xamarin.Forms;
 
@@ -31,14 +32,18 @@ namespace WhoIsThat.ViewModels
 
         public INavigation Navigation { get; set; }
 
-        private ImageHandler _imageHandler { get; set; }
+        public ImageHandler ImageHandler { get; set; }
 
-        public HomeViewModel()
+        public ImageObject User { get; set; }
+
+        public HomeViewModel(ImageObject user)
         {
             TakePhotoCommand = new Command(TakePhoto);
             NavigateToListPageCommand = new Command(NavigateToListPage);
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
-            _imageHandler = new ImageHandler();
+            ImageHandler = new ImageHandler();
+
+            User = user;
         }
 
         public async void TakePhoto()
@@ -47,17 +52,17 @@ namespace WhoIsThat.ViewModels
             OnPropertyChanged("DisplayReturnedName");
 
             //Checking for camera permissions
-            bool cameraPermission = await PermissionHandler.CheckForCameraPermission();
+            var cameraPermission = await PermissionHandler.CheckForCameraPermission();
             if (!cameraPermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
 
             //Checking for storage permissions
-            bool storagePermission = await PermissionHandler.CheckForCameraPermission();
+            var storagePermission = await PermissionHandler.CheckForCameraPermission();
             if (!storagePermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
-            MediaFile takenPhoto = await TakingPhotoHandler.TakePhoto();
+            var takenPhoto = await TakingPhotoHandler.TakePhoto();
 
             //Save taken photo to Azure cloud for recognition, later on it is deleted
             await CloudStorageService.SaveBlockBlob(takenPhoto,"temp.jpg");
@@ -73,7 +78,7 @@ namespace WhoIsThat.ViewModels
             OnPropertyChanged("DisplayStream");
 
             //Initiating recognition API
-            RestService restService = new RestService();
+            var restService = new RestService();
             var recognizedName = await restService.Identify();
 
             //Checking whether person was identified and deciding on messages to display
@@ -108,22 +113,17 @@ namespace WhoIsThat.ViewModels
         //Public for unit tests
         public bool IsIdentified(string message)
         {
-            if (message == Constants.NoFacesIdentified || message == Constants.NoMatchFound)
-            {
-                return false;
-            }
-
-            return true;
+            return message != Constants.NoFacesIdentifiedError && message != Constants.NoMatchFoundError;
         }
 
         public async void NavigateToListPage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new ListPage(new ListPageViewModel(await _imageHandler.GetImageObjects())));
+            await Application.Current.MainPage.Navigation.PushAsync(new ListPage(new ListPageViewModel(await ImageHandler.GetImageObjects())));
         }
 
         public async void NavigateToLeadersPage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await _imageHandler.GetImageObjects())));
+            await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await ImageHandler.GetImageObjects())));
         }
     }
 }

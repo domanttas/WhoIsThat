@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WhoIsThat.Connections;
+using WhoIsThat.ConstantsUtil;
+using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
@@ -20,7 +22,34 @@ namespace WhoIsThat.ViewModels
     {
         public ICommand SavePersonCommand { get; private set; }
         public ICommand TakePhotoCommand { get; set; }
+        
+        public INavigation Navigation { get; set; }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        
         private RestService _restService;
+        
+        public bool ErrorLabel { get; set; }
+
+        private MediaFile takenPhoto { get; set; }
+        private ImageObject _personObject;
+        
+        //Later on will map to display on frontend
+        public string ErrorMessage { get; set; } = "Please fill in all the fields!";
+
+        public ImageObject PersonObject
+        {
+            get
+            {
+                return _personObject;
+            }
+            set
+            {
+                _personObject = value;
+                //OnPropertyChanged();
+            }
+        }
+        
         public LoginViewModel()
         {
             SavePersonCommand = new Command(SavePerson);
@@ -28,76 +57,78 @@ namespace WhoIsThat.ViewModels
             PersonObject = new ImageObject();
             _restService = new RestService();
         }
-        public bool ErrorLabel { get; set; }
-        public INavigation Navigation { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private MediaFile takenPhoto { get; set; }
-        private ImageObject personObject;
-
-        public ImageObject PersonObject
-        {
-            get
-            {
-                return personObject;
-            }
-            set
-            {
-                personObject = value;
-                //OnPropertyChanged();
-            }
-        }
 
         public async void TakePhoto()
         {
             //Checking for camera permissions
-            bool cameraPermission = await PermissionHandler.CheckForCameraPermission();
+            var cameraPermission = await PermissionHandler.CheckForCameraPermission();
             if (!cameraPermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
 
             //Checking for storage permissions
-            bool storagePermission = await PermissionHandler.CheckForCameraPermission();
+            var storagePermission = await PermissionHandler.CheckForCameraPermission();
             if (!storagePermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
-
             takenPhoto = await TakingPhotoHandler.TakePhoto();
-
         }
 
         public async void SavePerson()
         {
-            //Checks if all required fields are filled
             if (!FieldsAreFilled())
             {
                 return;
             }
 
-            //If so, stores his information in the db
-            /*PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
-            await CloudStorageService.SaveBlockBlob(takenPhoto,PersonObject.ImageName);
-            PersonObject = await _restService.CreateImageObject(PersonObject);*/
+            PersonObject.ImageName = PersonObject.PersonFirstName + PersonObject.PersonLastName + ".jpg";
+            PersonObject.Score = 0;
 
-            SaveProperties(); 
+            await CloudStorageService.SaveBlockBlob(takenPhoto, PersonObject.ImageName);
+            PersonObject.ImageContentUri = CloudStorageService.GetImageUri(_personObject.ImageName);
+
+            try
+            {
+                PersonObject = await _restService.CreateImageObject(PersonObject);
+            }
+
+            catch (ManagerException creationException)
+            {
+                ErrorMessage = creationException.ErrorCode;
+                OnPropertyChanged("ErrorMessage");
+
+                return;
+            }
+
+            try
+            {
+                var status = await _restService.InsertUserIntoRecognition(PersonObject);
+            }
+
+            catch (ManagerException recognitionException)
+            {
+                ErrorMessage = recognitionException.ErrorCode;
+                OnPropertyChanged("ErrorMessage");
+
+                return;
+            }
+
+            SaveProperties();
             NavigateToHomePage();
         }
 
         private bool FieldsAreFilled()
         {
-            if (PersonObject.PersonFirstName == null || PersonObject.PersonLastName == null || PersonObject.DescriptiveSentence == null || takenPhoto == null)
-            {
-                ErrorLabel = true;
-                OnPropertyChanged("ErrorLabel");
-                return false;
-            }
-            return true;
+            if (PersonObject.PersonFirstName != null && PersonObject.PersonLastName != null &&
+                PersonObject.DescriptiveSentence != null && takenPhoto != null) return true;
+            ErrorLabel = true;
+            OnPropertyChanged("ErrorLabel");
+            return false;
         }
 
         public async void NavigateToHomePage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel()));
+            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel(PersonObject)));
         }
 
         private async void SaveProperties()
@@ -120,9 +151,7 @@ namespace WhoIsThat.ViewModels
         public void OnPropertyChanged([CallerMemberName] string propertiesName = "")
         {
             var handler = PropertyChanged;
-            if (handler == null)
-                return;
-            handler(this, new PropertyChangedEventArgs(propertiesName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertiesName));
         }
 
     }
