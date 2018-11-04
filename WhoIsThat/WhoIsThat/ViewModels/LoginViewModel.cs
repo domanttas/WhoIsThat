@@ -92,16 +92,22 @@ namespace WhoIsThat.ViewModels
                 PersonObject = await _restService.CreateImageObject(PersonObject);
             }
 
-            catch (ManagerException managerException)
+            catch (ManagerException creationException)
             {
-                ErrorMessage = managerException.ErrorCode;
+                ErrorMessage = creationException.ErrorCode;
                 OnPropertyChanged("ErrorMessage");
+
+                return;
             }
 
-            var status = await _restService.InsertUserIntoRecognition(PersonObject);
-            if (!status)
+            try
             {
-                ErrorMessage = Constants.PersonNotCreatedError;
+                var status = await _restService.InsertUserIntoRecognition(PersonObject);
+            }
+
+            catch (ManagerException recognitionException)
+            {
+                ErrorMessage = recognitionException.ErrorCode;
                 OnPropertyChanged("ErrorMessage");
 
                 return;

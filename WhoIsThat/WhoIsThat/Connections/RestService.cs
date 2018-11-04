@@ -123,8 +123,8 @@ namespace WhoIsThat.Connections
 
             catch (JsonException jsonException)
             {
-                //Mapped error message needs to be displayed after checking
-                return false;
+                var responseObject = JsonConvert.DeserializeObject<string>(responseContent);
+                throw new ManagerException(responseObject);
             }
         }
     }
