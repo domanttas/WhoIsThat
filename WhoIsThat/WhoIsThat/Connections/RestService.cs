@@ -26,22 +26,18 @@ namespace WhoIsThat.Connections
         /// <inheritdoc/>
         public async Task<List<ImageObject>> GetImageObjects()
         {
-            try
+            const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
+            var uri = new Uri(string.Format(restUrl, string.Empty));
+
+            var response = await HttpClient.GetAsync(uri);
+            
+            if (!response.IsSuccessStatusCode)
             {
-                const string restUrl = "https://teststorageserver.azurewebsites.net/api/images/all";
-                var uri = new Uri(string.Format(restUrl, string.Empty));
-
-                var response = await HttpClient.GetAsync(uri);
-                if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalStorageError);
-
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ImageObject>>(content);
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
             }
 
-            catch (JsonException jsonException)
-            {
-                throw new ManagerException(Constants.StorageConvertError);
-            }
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<ImageObject>>(content);  
         }
 
         /// <inheritdoc/>
@@ -60,19 +56,17 @@ namespace WhoIsThat.Connections
                 Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
             };
 
-            var response = (await HttpClient.SendAsync(request)).EnsureSuccessStatusCode();
+            var response = await HttpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            try
-            {
-                var responseObject = JsonConvert.DeserializeObject<ImageObject>(responseContent);
-                return responseObject;
-            }
 
-            catch (JsonException jsonException)
-            {
-                throw new ManagerException(JsonConvert.DeserializeObject<string>(responseContent));
-            }
+            var responseObject = JsonConvert.DeserializeObject<ImageObject>(responseContent);
+            return responseObject;
         }
 
         /// <inheritdoc/>
@@ -82,7 +76,10 @@ namespace WhoIsThat.Connections
             var uri = new Uri(string.Format(restUrl, string.Empty));
 
             var response = await HttpClient.GetAsync(uri);
-            if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalRecognitionError);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
             
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<string>(content);
@@ -95,19 +92,13 @@ namespace WhoIsThat.Connections
             var uri = new Uri(string.Format(restUrl, string.Empty));
             
             var response = await HttpClient.GetAsync(uri);
-            if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalStorageError);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
 
             var content = await response.Content.ReadAsStringAsync();
-
-            try
-            {
-                return JsonConvert.DeserializeObject<ImageObject>(content);
-            }
-
-            catch (JsonException jsonException)
-            {
-                throw new ManagerException(JsonConvert.DeserializeObject<string>(content));
-            }
+            return JsonConvert.DeserializeObject<ImageObject>(content);
         }
 
         /// <inheritdoc/>
@@ -117,21 +108,15 @@ namespace WhoIsThat.Connections
             var response = await HttpClient.PostAsJsonAsync(
                 uri, user);
 
-            if (!response.IsSuccessStatusCode) throw new ManagerException(Constants.FatalRecognitionError);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
             
             var responseContent = await response.Content.ReadAsStringAsync();
-
-            try
-            {
-                var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
-                return responseObject;
-            }
-
-            catch (JsonException jsonException)
-            {
-                var responseObject = JsonConvert.DeserializeObject<string>(responseContent);
-                throw new ManagerException(responseObject);
-            }
+            
+            var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
+            return responseObject;
         }
     }
 }
