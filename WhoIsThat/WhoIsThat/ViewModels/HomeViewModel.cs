@@ -23,8 +23,7 @@ namespace WhoIsThat.ViewModels
         public ICommand TakePhotoCommand { get; private set; }
         public ICommand NavigateToListPageCommand { get; private set; }
         public ICommand NavigateToLeadersPageCommand { get; private set; }
-
-        public ImageSource DisplayStream { get; set; }
+        public ICommand GetTargetCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -42,6 +41,8 @@ namespace WhoIsThat.ViewModels
             TakePhotoCommand = new Command(TakePhoto);
             NavigateToListPageCommand = new Command(NavigateToListPage);
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
+            GetTargetCommand = new Command(GetTarget);
+
             ImageHandler = new ImageHandler();
 
             User = user;
@@ -72,19 +73,7 @@ namespace WhoIsThat.ViewModels
 
             //Save taken photo to Azure cloud for recognition, later on it is deleted
             await CloudStorageService.SaveBlockBlob(takenPhoto,"temp.jpg");
-            
-            /*
-            //Binding taken image for display
-            DisplayStream = ImageSource.FromStream(() =>
-            {
-                var stream = takenPhoto.GetStream();
-                takenPhoto.Dispose();
-                return stream;
-            });
-          
-            OnPropertyChanged("DisplayStream");
-            */
-
+ 
             //Initiating recognition API
             var restService = new RestService();
 
@@ -114,6 +103,11 @@ namespace WhoIsThat.ViewModels
             }
         }
 
+        public async void GetTarget()
+        {
+
+        }
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var changed = PropertyChanged;
@@ -121,12 +115,6 @@ namespace WhoIsThat.ViewModels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        //Public for unit tests
-        public bool IsIdentified(string message)
-        {
-            return message != Constants.NoFacesIdentifiedError && message != Constants.NoMatchFoundError;
         }
 
         public async void NavigateToListPage()

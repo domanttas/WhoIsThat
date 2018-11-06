@@ -19,13 +19,17 @@
                     FontSize="15"
                     Command="{Binding NavigateToLeadersPageCommand}"></Button>
 
+            <Button Text="Get Target"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    FontSize="15"
+                    Command="{Binding GetTargetCommand}"></Button>
+
             <Button Text="Shoot!"
                     TextColor="White"
                     BackgroundColor="Black"
                     FontSize="15"
                     Command="{Binding TakePhotoCommand}"></Button>
-
-            <Image Source="{Binding DisplayStream}"></Image>
 
             <Label Text="{Binding DisplayMessage}"
                    HorizontalOptions="Center"
