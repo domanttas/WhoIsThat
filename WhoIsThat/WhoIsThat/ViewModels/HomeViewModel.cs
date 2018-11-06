@@ -79,7 +79,7 @@ namespace WhoIsThat.ViewModels
                 await CloudStorageService.SaveBlockBlob(takenPhoto, "temp.jpg");
             }
             
-            catch (ArgumentException argumentException)
+            catch (ArgumentException)
             {
                 DisplayStatus = "Photo was not taken!";
                 OnPropertyChanged("DisplayStatus");
@@ -126,9 +126,11 @@ namespace WhoIsThat.ViewModels
                 var fetchedTarget = await restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
                 OnPropertyChanged("TargetDescriptionSentence");
+
+                return;
             }
 
-            catch (ManagerException getTargetException)
+            catch (ManagerException getTargetException) when (getTargetException.ErrorCode == Constants.TargetAlreadyAssignedError)
             {
                 DisplayStatus = getTargetException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
