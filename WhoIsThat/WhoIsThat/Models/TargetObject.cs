@@ -6,12 +6,12 @@ namespace WhoIsThat.Models
 {
     public class TargetObject
     {
-        int Id { get; set; }
+        public int Id { get; set; }
         
-        int HunterPersonId { get; set; }
+        public int HunterPersonId { get; set; }
 
-        int PreyPersonId { get; set; }
+        public int PreyPersonId { get; set; }
 
-        bool IsHunted { get; set; }
+        public bool IsHunted { get; set; }
     }
 }

@@ -124,14 +124,24 @@ namespace WhoIsThat.ViewModels
 
         public async void GetTarget()
         {
-            //Initiating recognition API
-            var restService = new RestService();
+            var checkTargetStatus = await CheckForTarget();
+            if (checkTargetStatus)
+            {
+                DisplayStatus = Constants.TargetAlreadyAssignedError;
+                OnPropertyChanged("DisplayStatus");
+
+                var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
+                TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
+                OnPropertyChanged("TargetDescriptionSentence");
+
+                return;
+            }
 
             try
             {
-                var targetId = await restService.GetRandomTarget(User.Id);
+                var targetId = await _restService.GetRandomTarget(User.Id);
 
-                var fetchedTarget = await restService.GetUserById(targetId);
+                var fetchedTarget = await _restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
                 OnPropertyChanged("TargetDescriptionSentence");
 
@@ -163,14 +173,19 @@ namespace WhoIsThat.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await ImageHandler.GetImageObjects())));
         }
-        /*
+        
         private async Task<bool> CheckForTarget()
         {
             try
             {
+                Target = await _restService.GetCurrentTarget(User.Id);
+                return true;
+            }
 
+            catch (ManagerException)
+            {
+                return false;
             }
         }
-        */
     }
 }
