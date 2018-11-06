@@ -4,32 +4,38 @@
              x:Class="WhoIsThat.HomePage"
              Padding="60, 5, 60, 30">
     <ContentPage.Content>
-        <StackLayout>
-            <Button Text="Take Photo!"
-                    TextColor="White"
-                    BackgroundColor="Black"
-                    FontSize="20"
-                    Command="{Binding TakePhotoCommand}"></Button>
+        <ScrollView>
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="FillAndExpand">
 
-            <Button Text="View friends"
+                <Button Text="Participants"
                     TextColor="White"
                     BackgroundColor="Black"
-                    FontSize="20"
+                    FontSize="15"
                     Command="{Binding NavigateToListPageCommand}"></Button>
 
-            <Button Text="Leaders"
+                <Button Text="Best of the best"
                     TextColor="White"
                     BackgroundColor="Black"
-                    FontSize="20"
+                    FontSize="15"
                     Command="{Binding NavigateToLeadersPageCommand}"></Button>
 
-            <Image Source="{Binding DisplayStream}"></Image>
-            <Label Text="{Binding DisplayMessage}"
+                <Button Text="Shoot!"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    FontSize="15"
+                    Command="{Binding TakePhotoCommand}"></Button>
+
+                <Image Source="{Binding DisplayStream}"></Image>
+                
+                <Label Text="{Binding DisplayMessage}"
                    HorizontalOptions="Center"
                    FontSize="30"></Label>
-            <Label Text="{Binding DisplayReturnedName}"
+                
+                <Label Text="{Binding DisplayReturnedName}"
                    HorizontalOptions="Center"
                    FontSize="20"></Label>
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
