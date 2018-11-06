@@ -4,38 +4,36 @@
              x:Class="WhoIsThat.HomePage"
              Padding="60, 5, 60, 30">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Orientation="Vertical"
-                         VerticalOptions="FillAndExpand">
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="FillAndExpand">
 
-                <Button Text="Participants"
+            <Button Text="Participants"
                     TextColor="White"
                     BackgroundColor="Black"
                     FontSize="15"
                     Command="{Binding NavigateToListPageCommand}"></Button>
 
-                <Button Text="Best of the best"
+            <Button Text="Best of the best"
                     TextColor="White"
                     BackgroundColor="Black"
                     FontSize="15"
                     Command="{Binding NavigateToLeadersPageCommand}"></Button>
 
-                <Button Text="Shoot!"
+            <Button Text="Shoot!"
                     TextColor="White"
                     BackgroundColor="Black"
                     FontSize="15"
                     Command="{Binding TakePhotoCommand}"></Button>
 
-                <Image Source="{Binding DisplayStream}"></Image>
-                
-                <Label Text="{Binding DisplayMessage}"
+            <Image Source="{Binding DisplayStream}"></Image>
+
+            <Label Text="{Binding DisplayMessage}"
                    HorizontalOptions="Center"
                    FontSize="30"></Label>
-                
-                <Label Text="{Binding DisplayReturnedName}"
+
+            <Label Text="{Binding DisplayStatus}"
                    HorizontalOptions="Center"
                    FontSize="20"></Label>
-            </StackLayout>
-        </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

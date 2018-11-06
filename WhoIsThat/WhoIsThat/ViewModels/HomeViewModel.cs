@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Input;
 using WhoIsThat.Connections;
 using WhoIsThat.ConstantsUtil;
+using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
 using WhoIsThat.Models;
@@ -27,7 +28,7 @@ namespace WhoIsThat.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string DisplayReturnedName { get; set; }
+        public string DisplayStatus { get; set; }
         public string DisplayMessage { get; set; }
 
         public INavigation Navigation { get; set; }
@@ -48,8 +49,8 @@ namespace WhoIsThat.ViewModels
 
         public async void TakePhoto()
         {
-            DisplayReturnedName = "Please wait...";
-            OnPropertyChanged("DisplayReturnedName");
+            DisplayStatus = "Please wait...";
+            OnPropertyChanged("DisplayStatus");
 
             //Checking for camera permissions
             var cameraPermission = await PermissionHandler.CheckForCameraPermission();
@@ -64,9 +65,15 @@ namespace WhoIsThat.ViewModels
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
             var takenPhoto = await TakingPhotoHandler.TakePhoto();
 
+            if (takenPhoto == null)
+            {
+                return;
+            }
+
             //Save taken photo to Azure cloud for recognition, later on it is deleted
             await CloudStorageService.SaveBlockBlob(takenPhoto,"temp.jpg");
             
+            /*
             //Binding taken image for display
             DisplayStream = ImageSource.FromStream(() =>
             {
@@ -74,30 +81,36 @@ namespace WhoIsThat.ViewModels
                 takenPhoto.Dispose();
                 return stream;
             });
-            
+          
             OnPropertyChanged("DisplayStream");
+            */
 
             //Initiating recognition API
             var restService = new RestService();
-            var recognizedName = await restService.Identify();
 
-            //Checking whether person was identified and deciding on messages to display
-            if (IsIdentified(recognizedName))
+            try
             {
-                DisplayMessage = "It's a match!";
+                var recognitionMessage = await restService.Identify();
+
+                DisplayMessage = "It's a direct hit!";
                 OnPropertyChanged("DisplayMessage");
 
-                DisplayReturnedName = recognizedName;
-                OnPropertyChanged("DisplayReturnedName");
+                DisplayStatus = "Please wait...";
+                OnPropertyChanged("DisplayStatus");
+
+                var hitResult = await restService.GetUserById(Convert.ToInt32(recognitionMessage));
+
+                DisplayStatus = hitResult.PersonFirstName;
+                OnPropertyChanged("DisplayStatus");
             }
 
-            else
+            catch (ManagerException managerException)
             {
-                DisplayMessage = "Sadly, it's not your friend..";
+                DisplayMessage = "It's not your target...";
                 OnPropertyChanged("DisplayMessage");
 
-                DisplayReturnedName = recognizedName;
-                OnPropertyChanged("DisplayReturnedName");
+                DisplayStatus = managerException.ErrorCode;
+                OnPropertyChanged("DisplayStatus");
             }
         }
 
