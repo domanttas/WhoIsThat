@@ -7,6 +7,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using WhoIsThat.Connections.ErrorModels;
 using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers.Utils;
@@ -33,7 +34,8 @@ namespace WhoIsThat.Connections
             
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
 
             var content = await response.Content.ReadAsStringAsync();
@@ -60,7 +62,8 @@ namespace WhoIsThat.Connections
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -78,7 +81,8 @@ namespace WhoIsThat.Connections
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
             
             var content = await response.Content.ReadAsStringAsync();
@@ -94,7 +98,8 @@ namespace WhoIsThat.Connections
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
 
             var content = await response.Content.ReadAsStringAsync();
@@ -110,7 +115,8 @@ namespace WhoIsThat.Connections
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
             
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -129,7 +135,7 @@ namespace WhoIsThat.Connections
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                throw new ManagerException(JsonConvert.DeserializeObject<string>(errorContent));
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
