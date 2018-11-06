@@ -118,5 +118,21 @@ namespace WhoIsThat.Connections
             var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
             return responseObject;
         }
+
+        /// <inheritdoc/>
+        public async Task<int> GetRandomTarget(int id)
+        {
+            var restUrl = "https://testrecognition.azurewebsites.net/api/game/" + id;
+            var uri = new Uri(restUrl);
+
+            var response = await HttpClient.GetAsync(uri);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<int>(responseContent);
+        }
     }
 }

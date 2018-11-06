@@ -38,5 +38,12 @@ namespace WhoIsThat.Connections
         /// <param name="user">User to insert</param>
         /// <returns>True if user was inserted</returns>
         Task<bool> InsertUserIntoRecognition(ImageObject user);
+
+        /// <summary>
+        /// Assigns random target
+        /// </summary>
+        /// <param name="id">ID of current user</param>
+        /// <returns>Assigned target's ID</returns>
+        Task<int> GetRandomTarget(int id);
     }
 }
