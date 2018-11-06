@@ -45,5 +45,12 @@ namespace WhoIsThat.Connections
         /// <param name="id">ID of current user</param>
         /// <returns>Assigned target's ID</returns>
         Task<int> GetRandomTarget(int id);
+
+        /// <summary>
+        /// Gets target if it is present
+        /// </summary>
+        /// <param name="id">ID of hunter</param>
+        /// <returns>TargetObject</returns>
+        Task<TargetObject> GetCurrentTarget(int id);
     }
 }

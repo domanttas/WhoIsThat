@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using WhoIsThat.Connections;
 using WhoIsThat.ConstantsUtil;
@@ -40,8 +41,15 @@ namespace WhoIsThat.ViewModels
 
         public ImageObject User { get; set; }
 
+        public TargetObject Target { get; set; }
+        public bool IsTargetAlreadyAssigned { get; set; }
+
+        private RestService _restService { get; set; }
+
         public HomeViewModel(ImageObject user)
         {
+            _restService = new RestService();
+
             TakePhotoCommand = new Command(TakePhoto);
             NavigateToListPageCommand = new Command(NavigateToListPage);
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
@@ -155,5 +163,14 @@ namespace WhoIsThat.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await ImageHandler.GetImageObjects())));
         }
+        /*
+        private async Task<bool> CheckForTarget()
+        {
+            try
+            {
+
+            }
+        }
+        */
     }
 }
