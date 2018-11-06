@@ -71,15 +71,19 @@ namespace WhoIsThat.ViewModels
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
-            var takenPhoto = await TakingPhotoHandler.TakePhoto();
-
-            if (takenPhoto == null)
+            try
             {
-                return;
-            }
+                var takenPhoto = await TakingPhotoHandler.TakePhoto();
 
-            //Save taken photo to Azure cloud for recognition, later on it is deleted
-            await CloudStorageService.SaveBlockBlob(takenPhoto,"temp.jpg");
+                //Save taken photo to Azure cloud for recognition, later on it is deleted
+                await CloudStorageService.SaveBlockBlob(takenPhoto, "temp.jpg");
+            }
+            
+            catch (ArgumentException argumentException)
+            {
+                DisplayStatus = "Photo was not taken!";
+                OnPropertyChanged("DisplayStatus");
+            }
  
             //Initiating recognition API
             var restService = new RestService();
