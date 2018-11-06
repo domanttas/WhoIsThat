@@ -122,13 +122,14 @@ namespace WhoIsThat.Connections
         /// <inheritdoc/>
         public async Task<int> GetRandomTarget(int id)
         {
-            var restUrl = "https://testrecognition.azurewebsites.net/api/game/" + id;
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/game/" + id;
             var uri = new Uri(restUrl);
 
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException(JsonConvert.DeserializeObject<string>(errorContent));
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();

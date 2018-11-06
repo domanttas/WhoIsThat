@@ -30,6 +30,10 @@ namespace WhoIsThat.ViewModels
         public string DisplayStatus { get; set; }
         public string DisplayMessage { get; set; }
 
+        public string TargetDescriptionSentence { get; set; }
+
+        public string Name { get; set; }
+
         public INavigation Navigation { get; set; }
 
         public ImageHandler ImageHandler { get; set; }
@@ -46,6 +50,9 @@ namespace WhoIsThat.ViewModels
             ImageHandler = new ImageHandler();
 
             User = user;
+
+            Name = "Welcome, " + user.PersonFirstName;
+            OnPropertyChanged("Name");
         }
 
         public async void TakePhoto()
@@ -105,7 +112,23 @@ namespace WhoIsThat.ViewModels
 
         public async void GetTarget()
         {
+            //Initiating recognition API
+            var restService = new RestService();
 
+            try
+            {
+                var targetId = await restService.GetRandomTarget(User.Id);
+
+                var fetchedTarget = await restService.GetUserById(targetId);
+                TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
+                OnPropertyChanged("TargetDescriptionSentence");
+            }
+
+            catch (ManagerException getTargetException)
+            {
+                DisplayStatus = getTargetException.ErrorCode;
+                OnPropertyChanged("DisplayStatus");
+            }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
