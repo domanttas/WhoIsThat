@@ -60,5 +60,12 @@ namespace WhoIsThat.Connections
         /// <param name="preyId">ID of prey returned from recognition</param>
         /// <returns>Boolean</returns>
         Task<bool> IsPreyHunted(int hunterId, int preyId);
+
+        /// <summary>
+        /// Updates user score
+        /// </summary>
+        /// <param name="id">ID of user</param>
+        /// <returns>Updated object</returns>
+        Task<ImageObject> UpdateUserScore(int id);
     }
 }
