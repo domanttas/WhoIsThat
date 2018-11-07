@@ -107,12 +107,21 @@ namespace WhoIsThat.ViewModels
                 OnPropertyChanged("DisplayStatus");
             }
 
-            catch (ManagerException managerException)
+            catch (ManagerException noFacesFoundException) when (noFacesFoundException.ErrorCode == Constants.NoFacesIdentifiedError)
             {
                 DisplayMessage = "It's not your target...";
                 OnPropertyChanged("DisplayMessage");
 
-                DisplayStatus = managerException.ErrorCode;
+                DisplayStatus = noFacesFoundException.ErrorCode;
+                OnPropertyChanged("DisplayStatus");
+            }
+
+            catch (ManagerException noOneIdentifiedException) when (noOneIdentifiedException.ErrorCode == Constants.NoMatchFoundError)
+            {
+                DisplayMessage = "Person is not a player...";
+                OnPropertyChanged("DisplayMessage");
+
+                DisplayStatus = noOneIdentifiedException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
             }
         }
