@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using WhoIsThat.ConstantsUtil;
+using WhoIsThat.Exceptions;
 
 namespace WhoIsThat.Handlers
 {
@@ -29,7 +31,7 @@ namespace WhoIsThat.Handlers
 
             if (file == null)
             {
-                throw new ArgumentException("Photo was not successfully taken", "MediaFile");
+                throw new ManagerException(Constants.PhotoNotTakenError);
             }
                 
             return file;

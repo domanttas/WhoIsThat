@@ -87,9 +87,9 @@ namespace WhoIsThat.ViewModels
                 await CloudStorageService.SaveBlockBlob(takenPhoto, "temp.jpg");
             }
             
-            catch (ArgumentException)
+            catch (ManagerException photoNotTakenException)
             {
-                DisplayStatus = "Photo was not taken!";
+                DisplayStatus = photoNotTakenException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
             }
  
