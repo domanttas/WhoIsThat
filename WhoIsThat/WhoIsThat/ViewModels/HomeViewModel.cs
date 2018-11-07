@@ -63,27 +63,25 @@ namespace WhoIsThat.ViewModels
             OnPropertyChanged("Name");
         }
 
+        /// <summary>
+        /// Checks for permissions, takes photo and checks whether target was hit
+        /// </summary>
         public async void TakePhoto()
         {
             DisplayStatus = "Please wait...";
             OnPropertyChanged("DisplayStatus");
 
-            //Checking for camera permissions
             var cameraPermission = await PermissionHandler.CheckForCameraPermission();
             if (!cameraPermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
 
-            //Checking for storage permissions
             var storagePermission = await PermissionHandler.CheckForCameraPermission();
             if (!storagePermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
-
-            //Taking photo and storing it in MediaFile variable 'takenPhoto'
             try
             {
                 var takenPhoto = await TakingPhotoHandler.TakePhoto();
 
-                //Save taken photo to Azure cloud for recognition, later on it is deleted
                 await CloudStorageService.SaveBlockBlob(takenPhoto, "temp.jpg");
             }
             
@@ -92,13 +90,10 @@ namespace WhoIsThat.ViewModels
                 DisplayStatus = photoNotTakenException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
             }
- 
-            //Initiating recognition API
-            var restService = new RestService();
 
             try
             {
-                var recognitionMessage = await restService.Identify();
+                var recognitionMessage = await _restService.Identify();
 
                 DisplayMessage = "It's a direct hit!";
                 OnPropertyChanged("DisplayMessage");
@@ -106,7 +101,7 @@ namespace WhoIsThat.ViewModels
                 DisplayStatus = "Please wait...";
                 OnPropertyChanged("DisplayStatus");
 
-                var hitResult = await restService.GetUserById(Convert.ToInt32(recognitionMessage));
+                var hitResult = await _restService.GetUserById(Convert.ToInt32(recognitionMessage));
 
                 DisplayStatus = hitResult.PersonFirstName;
                 OnPropertyChanged("DisplayStatus");
@@ -122,6 +117,9 @@ namespace WhoIsThat.ViewModels
             }
         }
 
+        /// <summary>
+        /// Assigns random target after checking if it is already assigned
+        /// </summary>
         public async void GetTarget()
         {
             var checkTargetStatus = await CheckForTarget();
@@ -161,6 +159,10 @@ namespace WhoIsThat.ViewModels
             }
         }
 
+        /// <summary>
+        /// Event handler for changing binded data
+        /// </summary>
+        /// <param name="propertyName">Name of property</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var changed = PropertyChanged;
@@ -170,16 +172,26 @@ namespace WhoIsThat.ViewModels
             }
         }
 
+        /// <summary>
+        /// Navigates to list page which is responsible for displayed players
+        /// </summary>
         public async void NavigateToListPage()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new ListPage(new ListPageViewModel(await ImageHandler.GetImageObjects())));
         }
 
+        /// <summary>
+        /// Navigates to the page which is responsible for displaying players sorted by score
+        /// </summary>
         public async void NavigateToLeadersPage()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await ImageHandler.GetImageObjects())));
         }
         
+        /// <summary>
+        /// Checks whether target was already assigned, mainly used for launch of app
+        /// </summary>
+        /// <returns>boolean value</returns>
         private async Task<bool> CheckForTarget()
         {
             try
