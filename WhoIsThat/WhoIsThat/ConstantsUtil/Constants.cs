@@ -33,5 +33,7 @@ namespace WhoIsThat.ConstantsUtil
         public const string FatalRecognitionError = "Something really bad happened, please try again";
 
         public const string StorageConvertError = "Please restart the application";
+
+        public const string PhotoNotTakenError = "Photo was not taken";
     }
 }

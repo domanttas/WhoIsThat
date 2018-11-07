@@ -7,6 +7,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using WhoIsThat.Connections.ErrorModels;
 using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers.Utils;
@@ -33,7 +34,8 @@ namespace WhoIsThat.Connections
             
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
 
             var content = await response.Content.ReadAsStringAsync();
@@ -60,7 +62,8 @@ namespace WhoIsThat.Connections
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -80,7 +83,7 @@ namespace WhoIsThat.Connections
             {
                 throw new ManagerException(await response.Content.ReadAsStringAsync());
             }
-            
+ 
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<string>(content);
         }
@@ -94,7 +97,8 @@ namespace WhoIsThat.Connections
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
-                throw new ManagerException(await response.Content.ReadAsStringAsync());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
             }
 
             var content = await response.Content.ReadAsStringAsync();
@@ -117,6 +121,92 @@ namespace WhoIsThat.Connections
             
             var responseObject = JsonConvert.DeserializeObject<bool>(responseContent);
             return responseObject;
+        }
+
+        /// <inheritdoc/>
+        public async Task<int> GetRandomTarget(int id)
+        {
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/game/" + id;
+            var uri = new Uri(restUrl);
+
+            var response = await HttpClient.GetAsync(uri);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<int>(responseContent);
+        }
+
+        /// <inheritdoc/>
+        public async Task<TargetObject> GetCurrentTarget(int id)
+        {
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/game/element/" + id;
+            var uri = new Uri(restUrl);
+
+            var response = await HttpClient.GetAsync(uri);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TargetObject>(responseContent);
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> IsPreyHunted(int hunterId, int preyId)
+        {
+            var requestObject = new TargetObject()
+            {
+                HunterPersonId = hunterId,
+                PreyPersonId = preyId,
+                IsHunted = false
+            };
+
+            const string restUrl = "https://teststorageserver.azurewebsites.net/api/game/remove";
+            var uri = new Uri(restUrl);
+
+            var jsonContent = JsonConvert.SerializeObject(requestObject, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            var request = new HttpRequestMessage(HttpMethod.Post, uri)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+
+            var response = await HttpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<bool>(responseContent);
+        }
+
+        /// <inheritdoc/>
+        public async Task<ImageObject> UpdateUserScore(int id)
+        {
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/images/score/" + id;
+            var uri = new Uri(restUrl);
+
+            var response = await HttpClient.GetAsync(uri);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ImageObject>(responseContent);
         }
     }
 }

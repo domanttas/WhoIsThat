@@ -38,5 +38,34 @@ namespace WhoIsThat.Connections
         /// <param name="user">User to insert</param>
         /// <returns>True if user was inserted</returns>
         Task<bool> InsertUserIntoRecognition(ImageObject user);
+
+        /// <summary>
+        /// Assigns random target
+        /// </summary>
+        /// <param name="id">ID of current user</param>
+        /// <returns>Assigned target's ID</returns>
+        Task<int> GetRandomTarget(int id);
+
+        /// <summary>
+        /// Gets target if it is present
+        /// </summary>
+        /// <param name="id">ID of hunter</param>
+        /// <returns>TargetObject</returns>
+        Task<TargetObject> GetCurrentTarget(int id);
+
+        /// <summary>
+        /// Checks whether hunter hit their target
+        /// </summary>
+        /// <param name="hunterId">ID of hunter (current user)</param>
+        /// <param name="preyId">ID of prey returned from recognition</param>
+        /// <returns>Boolean</returns>
+        Task<bool> IsPreyHunted(int hunterId, int preyId);
+
+        /// <summary>
+        /// Updates user score
+        /// </summary>
+        /// <param name="id">ID of user</param>
+        /// <returns>Updated object</returns>
+        Task<ImageObject> UpdateUserScore(int id);
     }
 }
