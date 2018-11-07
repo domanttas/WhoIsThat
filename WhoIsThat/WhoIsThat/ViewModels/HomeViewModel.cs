@@ -59,7 +59,7 @@ namespace WhoIsThat.ViewModels
 
             User = user;
 
-            Name = "Welcome, " + user.PersonFirstName;
+            Name = "Welcome, " + User.PersonFirstName + ". Score: " + User.Score.ToString();
             OnPropertyChanged("Name");
         }
 
@@ -89,6 +89,8 @@ namespace WhoIsThat.ViewModels
             {
                 DisplayStatus = photoNotTakenException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
+
+                return;
             }
 
             try
@@ -111,6 +113,11 @@ namespace WhoIsThat.ViewModels
 
                     DisplayStatus = hitResult.PersonFirstName;
                     OnPropertyChanged("DisplayStatus");
+
+                    User = await _restService.UpdateUserScore(User.Id);
+
+                    Name = "Welcome, " + User.PersonFirstName + ". Score: " + User.Score.ToString();
+                    OnPropertyChanged("Name");
                 }
             }
 

@@ -81,10 +81,9 @@ namespace WhoIsThat.Connections
             var response = await HttpClient.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
             }
-            
+ 
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<string>(content);
         }
@@ -115,8 +114,7 @@ namespace WhoIsThat.Connections
 
             if (!response.IsSuccessStatusCode)
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
             }
             
             var responseContent = await response.Content.ReadAsStringAsync();
