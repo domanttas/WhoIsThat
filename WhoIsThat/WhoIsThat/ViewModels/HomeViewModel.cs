@@ -153,6 +153,12 @@ namespace WhoIsThat.ViewModels
                 DisplayStatus = getTargetException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
             }
+
+            catch (ManagerException noPlayersException) when (noPlayersException.ErrorCode == Constants.ThereAreNoPlayersError)
+            {
+                DisplayStatus = noPlayersException.ErrorCode;
+                OnPropertyChanged("DisplayStatus");
+            }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
