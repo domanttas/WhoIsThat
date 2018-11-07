@@ -158,5 +158,40 @@ namespace WhoIsThat.Connections
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<TargetObject>(responseContent);
         }
+
+        /// <inheritdoc/>
+        public async Task<bool> IsPreyHunted(int hunterId, int preyId)
+        {
+            var requestObject = new TargetObject()
+            {
+                HunterPersonId = hunterId,
+                PreyPersonId = preyId,
+                IsHunted = false
+            };
+
+            const string restUrl = "https://teststorageserver.azurewebsites.net/api/game/remove";
+            var uri = new Uri(restUrl);
+
+            var jsonContent = JsonConvert.SerializeObject(requestObject, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            var request = new HttpRequestMessage(HttpMethod.Post, uri)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+
+            var response = await HttpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<bool>(responseContent);
+        }
     }
 }

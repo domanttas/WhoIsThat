@@ -52,5 +52,13 @@ namespace WhoIsThat.Connections
         /// <param name="id">ID of hunter</param>
         /// <returns>TargetObject</returns>
         Task<TargetObject> GetCurrentTarget(int id);
+
+        /// <summary>
+        /// Checks whether hunter hit their target
+        /// </summary>
+        /// <param name="hunterId">ID of hunter (current user)</param>
+        /// <param name="preyId">ID of prey returned from recognition</param>
+        /// <returns>Boolean</returns>
+        Task<bool> IsPreyHunted(int hunterId, int preyId);
     }
 }
