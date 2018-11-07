@@ -94,17 +94,24 @@ namespace WhoIsThat.ViewModels
             try
             {
                 var recognitionMessage = await _restService.Identify();
+                var isTargetDead = await _restService.IsPreyHunted(User.Id, Convert.ToInt32(recognitionMessage));
 
-                DisplayMessage = "It's a direct hit!";
-                OnPropertyChanged("DisplayMessage");
+                if (isTargetDead)
+                {
+                    DisplayMessage = "It's a direct hit!";
+                    OnPropertyChanged("DisplayMessage");
 
-                DisplayStatus = "Please wait...";
-                OnPropertyChanged("DisplayStatus");
+                    DisplayStatus = "Please wait...";
+                    OnPropertyChanged("DisplayStatus");
 
-                var hitResult = await _restService.GetUserById(Convert.ToInt32(recognitionMessage));
+                    var hitResult = await _restService.GetUserById(Convert.ToInt32(recognitionMessage));
 
-                DisplayStatus = hitResult.PersonFirstName;
-                OnPropertyChanged("DisplayStatus");
+                    DisplayMessage = "Get to know each other!";
+                    OnPropertyChanged("DisplayMessage");
+
+                    DisplayStatus = hitResult.PersonFirstName;
+                    OnPropertyChanged("DisplayStatus");
+                }
             }
 
             catch (ManagerException noFacesFoundException) when (noFacesFoundException.ErrorCode == Constants.NoFacesIdentifiedError)
@@ -122,6 +129,24 @@ namespace WhoIsThat.ViewModels
                 OnPropertyChanged("DisplayMessage");
 
                 DisplayStatus = noOneIdentifiedException.ErrorCode;
+                OnPropertyChanged("DisplayStatus");
+            }
+
+            catch (ManagerException targetNotFoundException) when (targetNotFoundException.ErrorCode == Constants.TargetNotFoundError)
+            {
+                DisplayMessage = "It's not your target...";
+                OnPropertyChanged("DisplayMessage");
+
+                DisplayStatus = targetNotFoundException.ErrorCode;
+                OnPropertyChanged("DisplayStatus");
+            }
+
+            catch (ManagerException userNotFoundException) when (userNotFoundException.ErrorCode == Constants.UserDoesNotExistError)
+            {
+                DisplayMessage = "Something went wrong...";
+                OnPropertyChanged("DisplayMessage");
+
+                DisplayStatus = "Please try again!";
                 OnPropertyChanged("DisplayStatus");
             }
         }
