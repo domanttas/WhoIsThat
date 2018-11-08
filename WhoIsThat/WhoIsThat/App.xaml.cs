@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acr.UserDialogs;
+using System;
 using WhoIsThat.Connections;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -28,7 +29,11 @@ namespace WhoIsThat
             {
                 if (Application.Current.Properties["UserRegistered"].Equals(true))
                 {
-                    MainPage = new NavigationPage(new HomePage(new ViewModels.HomeViewModel(await restService.GetUserById(Convert.ToInt32(Application.Current.Properties["UserId"].ToString())))));
+                    UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
+
+                    var user = await restService.GetUserById(Convert.ToInt32(Application.Current.Properties["UserId"].ToString()));
+
+                    MainPage = new NavigationPage(new HomePage(new ViewModels.HomeViewModel(user)));
                 }
             }
             else MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));

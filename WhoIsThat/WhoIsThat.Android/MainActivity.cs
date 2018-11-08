@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Plugin.Permissions;
 using Plugin.CurrentActivity;
+using Acr.UserDialogs;
 
 namespace WhoIsThat.Droid
 {
@@ -16,6 +17,8 @@ namespace WhoIsThat.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            UserDialogs.Init(this);
+
             CrossCurrentActivity.Current.Activity = this;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;

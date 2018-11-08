@@ -1,4 +1,5 @@
-﻿using Plugin.Media.Abstractions;
+﻿using Acr.UserDialogs;
+using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
@@ -50,6 +51,8 @@ namespace WhoIsThat.ViewModels
 
         public HomeViewModel(ImageObject user)
         {
+            UserDialogs.Instance.HideLoading();
+
             _restService = new RestService();
 
             TakePhotoCommand = new Command(TakePhoto);
