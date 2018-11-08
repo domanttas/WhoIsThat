@@ -36,25 +36,25 @@
                     FontSize="15"
                     Command="{Binding TakePhotoCommand}"></Button>
 
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="FillAndExpand"
-                         HeightRequest="100">
+            <Image Source="{Binding TargetImageUri}"
+                   HeightRequest="70">
+            </Image>
 
-                <Image Source="{Binding TargetImageUri}">
-                </Image>
+            <Label Text="Description:"
+                   FontSize="20"
+                   TextColor="Black">
+            </Label>
 
-                <Label Text="{Binding TargetDescriptionSentence}"
-                   HorizontalOptions="Center"
-                   TextColor="Black"
-                   FontSize="15">
-                </Label>
-
-            </StackLayout>
-
+            <Label Text="{Binding TargetDescriptionSentence}"
+                HorizontalOptions="Center"
+                TextColor="Black"
+                FontSize="15">
+            </Label>
+                
             <Label Text="{Binding DisplayMessage}"
-                   HorizontalOptions="Center"
-                   TextColor="Red"
-                   FontSize="30"></Label>
+                HorizontalOptions="Center"
+                TextColor="Red"
+                FontSize="30"></Label>
 
             <Label Text="{Binding DisplayStatus}"
                    HorizontalOptions="Center"
