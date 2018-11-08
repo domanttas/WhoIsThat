@@ -53,6 +53,7 @@
                     Command="{Binding TakePhotoCommand}"
                     BackgroundColor="Black"
                     TextColor="White"/>
+                
                 <Label Text="All fields must be filled"
                        IsVisible="{Binding ErrorLabel}"
                        TextColor="Red"></Label>
@@ -61,9 +62,8 @@
                        TextColor="Red"></Label>
                 <Button
                 Text="Sign Up!"
-                HorizontalOptions="Fill"
-                VerticalOptions="Start"
-                Image="baseline_arrow_forward_black_18dp.png"
+                BackgroundColor="Black"
+                TextColor="White"
                 Command="{Binding SavePersonCommand}"/>
 
             </StackLayout>
