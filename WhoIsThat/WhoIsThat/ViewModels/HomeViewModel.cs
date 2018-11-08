@@ -46,6 +46,8 @@ namespace WhoIsThat.ViewModels
 
         private RestService _restService { get; set; }
 
+        public string TargetImageUri { get; set; }
+
         public HomeViewModel(ImageObject user)
         {
             _restService = new RestService();
@@ -171,6 +173,9 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
+                TargetImageUri = fetchedTarget.ImageContentUri;
+
+                OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 return;
@@ -182,6 +187,9 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
+                TargetImageUri = fetchedTarget.ImageContentUri;
+
+                OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 return;
