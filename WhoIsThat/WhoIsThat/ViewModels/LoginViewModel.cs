@@ -1,4 +1,5 @@
-﻿using Plugin.Media.Abstractions;
+﻿using Acr.UserDialogs;
+using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
@@ -89,6 +90,8 @@ namespace WhoIsThat.ViewModels
 
             try
             {
+                UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
+
                 PersonObject = await _restService.CreateImageObject(PersonObject);
             }
 
@@ -96,6 +99,8 @@ namespace WhoIsThat.ViewModels
             {
                 ErrorMessage = creationException.ErrorCode;
                 OnPropertyChanged("ErrorMessage");
+
+                UserDialogs.Instance.HideLoading();
 
                 return;
             }
@@ -110,10 +115,15 @@ namespace WhoIsThat.ViewModels
                 ErrorMessage = recognitionException.ErrorCode;
                 OnPropertyChanged("ErrorMessage");
 
+                UserDialogs.Instance.HideLoading();
+
                 return;
             }
 
             SaveProperties();
+
+            UserDialogs.Instance.HideLoading();
+
             NavigateToHomePage();
         }
 

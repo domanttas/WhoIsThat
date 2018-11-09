@@ -1,4 +1,5 @@
-﻿using Plugin.Media.Abstractions;
+﻿using Acr.UserDialogs;
+using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
@@ -46,8 +47,12 @@ namespace WhoIsThat.ViewModels
 
         private RestService _restService { get; set; }
 
+        public string TargetImageUri { get; set; }
+
         public HomeViewModel(ImageObject user)
         {
+            UserDialogs.Instance.HideLoading();
+
             _restService = new RestService();
 
             TakePhotoCommand = new Command(TakePhoto);
@@ -59,7 +64,7 @@ namespace WhoIsThat.ViewModels
 
             User = user;
 
-            Name = "Welcome, " + User.PersonFirstName + ". Score: " + User.Score.ToString();
+            Name = "Welcome, " + User.PersonFirstName + ". Your score: " + User.Score.ToString();
             OnPropertyChanged("Name");
         }
 
@@ -116,7 +121,7 @@ namespace WhoIsThat.ViewModels
 
                     User = await _restService.UpdateUserScore(User.Id);
 
-                    Name = "Welcome, " + User.PersonFirstName + ". Score: " + User.Score.ToString();
+                    Name = "Welcome, " + User.PersonFirstName + ". Your score: " + User.Score.ToString();
                     OnPropertyChanged("Name");
                 }
             }
@@ -171,6 +176,9 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
+                TargetImageUri = fetchedTarget.ImageContentUri;
+
+                OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 return;
@@ -182,6 +190,9 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
+                TargetImageUri = fetchedTarget.ImageContentUri;
+
+                OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 return;
