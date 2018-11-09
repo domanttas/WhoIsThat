@@ -4,69 +4,56 @@
              xmlns:local="clr-namespace:WhoIsThat"
              x:Class="WhoIsThat.MainPage"
              BackgroundColor="#6200ee">
-    <StackLayout 
-        Orientation="Vertical"
-        VerticalOptions="FillAndExpand">
-        <ScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+    
+        <StackLayout 
             Orientation="Vertical"
-            VerticalOptions="FillAndExpand">
-            <StackLayout 
-                Orientation="Vertical"
-                VerticalOptions="FillAndExpand"
-                Padding="10,5,10,30">
-            
-                <Label Text="Who is that?" 
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="EndAndExpand"
-                HeightRequest="200"
-                FontSize="40"
+            VerticalOptions="FillAndExpand"
+            Padding="10,5,10,30">
+
+            <Label Text="Who's Up?" 
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="EndAndExpand"
+            HeightRequest="150"
+            FontSize="40"
+            TextColor="Black"/>
+
+            <Label Text="Your first name:"
+                TextColor="Black"
+                FontSize="16"/>
+            <Entry Placeholder="Enter your first name:"
+                FontSize="14"
+                Text="{Binding PersonObject.PersonFirstName}"/>
+            <Label Text="Enter your last name:"
+                TextColor="Black"
+                FontSize="16"/>
+            <Entry Placeholder="Last name"
+                FontSize="14"
+                Text="{Binding PersonObject.PersonLastName}"/>
+            <Label Text="Say something about yourself:"
+                FontSize="16"
                 TextColor="Black"/>
-
-                <Image Source="baseline_directions_run_black_18dp.png"
-                    IsVisible="True"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    HeightRequest="200"/>
-                <Label Text="Your first name:"
-                    TextColor="Black"
-                    FontSize="16"/>
-                <Entry Placeholder="Enter your first name:"
-                    FontSize="14"
-                    Text="{Binding PersonObject.PersonFirstName}"/>
-                <Label Text="Enter your last name:"
-                    TextColor="Black"
-                    FontSize="16"/>
-                <Entry Placeholder="Last name"
-                    FontSize="14"
-                    Text="{Binding PersonObject.PersonLastName}"/>
-                <Label Text="Say something about yourself:"
-                    FontSize="16"
-                    TextColor="Black"/>
-                <Editor Placeholder="Description"
-                    FontSize="12"
-                    Text="{Binding PersonObject.DescriptiveSentence}"/>
-                <Label  Text="Take a photo:"
-                    FontSize="16"
-                    TextColor="Black"/>
-                <Button Text="Take a photo"
-                    Command="{Binding TakePhotoCommand}"
-                    BackgroundColor="Black"
-                    TextColor="White"/>
-                
-                <Label Text="All fields must be filled"
-                       IsVisible="{Binding ErrorLabel}"
-                       TextColor="Red"></Label>
-                
-                <Label Text="{Binding ErrorMessage}"
-                       TextColor="Red"></Label>
-                <Button
-                Text="Sign Up!"
+            <Editor Placeholder="Description"
+                FontSize="12"
+                Text="{Binding PersonObject.DescriptiveSentence}"/>
+            <Label  Text="Take a photo:"
+                FontSize="16"
+                TextColor="Black"/>
+            <Button Text="Take a photo"
+                Command="{Binding TakePhotoCommand}"
                 BackgroundColor="Black"
-                TextColor="White"
-                Command="{Binding SavePersonCommand}"/>
+                TextColor="White"/>
 
-            </StackLayout>
-        </ScrollView>
-    </StackLayout>
+            <Label Text="All fields must be filled"
+                    IsVisible="{Binding ErrorLabel}"
+                    TextColor="Red"></Label>
+
+            <Label Text="{Binding ErrorMessage}"
+                    TextColor="Red"></Label>
+            <Button
+            Text="Sign Up!"
+            BackgroundColor="Black"
+            TextColor="White"
+            Command="{Binding SavePersonCommand}"/>
+
+        </StackLayout>
 </ContentPage>
