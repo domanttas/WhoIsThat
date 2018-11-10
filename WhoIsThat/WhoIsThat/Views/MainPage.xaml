@@ -41,7 +41,8 @@
             <Button Text="Take a photo"
                 Command="{Binding TakePhotoCommand}"
                 BackgroundColor="Black"
-                TextColor="White"/>
+                TextColor="White"
+                CornerRadius="8"/>
 
             <Label Text="All fields must be filled"
                     IsVisible="{Binding ErrorLabel}"
@@ -53,7 +54,8 @@
             Text="Sign Up!"
             BackgroundColor="Black"
             TextColor="White"
-            Command="{Binding SavePersonCommand}"/>
+            Command="{Binding SavePersonCommand}"
+            CornerRadius="8"/>
 
         </StackLayout>
 </ContentPage>
