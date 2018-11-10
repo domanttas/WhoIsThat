@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.HomePage"
              Padding="60, 5, 60, 30"
-             BackgroundColor="#6200ee">
+             BackgroundColor="White">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical"
                      VerticalOptions="FillAndExpand">
