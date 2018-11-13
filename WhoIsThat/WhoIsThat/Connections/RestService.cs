@@ -226,5 +226,33 @@ namespace WhoIsThat.Connections
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<FaceFeaturesModel>(responseContent);
         }
+
+        /// <inheritdoc/>
+        public async Task<FaceFeaturesModel> InsertFaceFeatures(FaceFeaturesModel faceFeaturesModel)
+        {
+            const string restUrl = "https://teststorageserver.azurewebsites.net/api/features";
+            var uri = new Uri(restUrl);
+
+            var jsonContent = JsonConvert.SerializeObject(faceFeaturesModel, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            var request = new HttpRequestMessage(HttpMethod.Post, uri)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+
+            var response = await HttpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<FaceFeaturesModel>(responseContent);
+        }
     }
 }

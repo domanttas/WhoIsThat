@@ -74,5 +74,12 @@ namespace WhoIsThat.Connections
         /// <param name="user">User object</param>
         /// <returns>Face features model</returns>
         Task<FaceFeaturesModel> GetFaceFeatures(ImageObject user);
+
+        /// <summary>
+        /// Inserts features from recognition into DB
+        /// </summary>
+        /// <param name="faceFeaturesModel">Features from recognition</param>
+        /// <returns>Inserted object</returns>
+        Task<FaceFeaturesModel> InsertFaceFeatures(FaceFeaturesModel faceFeaturesModel);
     }
 }
