@@ -6,6 +6,8 @@ namespace WhoIsThat.Models
 {
     public class FaceFeaturesModel
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Id of user
         /// </summary>

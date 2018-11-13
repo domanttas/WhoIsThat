@@ -108,6 +108,10 @@ namespace WhoIsThat.ViewModels
             try
             {
                 var status = await _restService.InsertUserIntoRecognition(PersonObject);
+
+                var features = await _restService.GetFaceFeatures(PersonObject);
+
+                var insertedFeatures = await _restService.InsertFaceFeatures(features);
             }
 
             catch (ManagerException recognitionException)
