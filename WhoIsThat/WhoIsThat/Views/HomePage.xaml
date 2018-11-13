@@ -56,7 +56,19 @@
                 HorizontalOptions="Start"
                 FontSize="15">
             </Label>
-                
+
+            <Label Text="{Binding DisplayAge}"
+                TextColor="Black"
+                HorizontalOptions="Start"
+                FontSize="15">
+            </Label>
+
+            <Label Text="{Binding DisplayGender}"
+                TextColor="Black"
+                HorizontalOptions="Start"
+                FontSize="15">
+            </Label>
+
             <Label Text="{Binding DisplayMessage}"
                 HorizontalOptions="Center"
                 TextColor="Black"

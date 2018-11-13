@@ -32,6 +32,9 @@ namespace WhoIsThat.ViewModels
         public string DisplayStatus { get; set; }
         public string DisplayMessage { get; set; }
 
+        public string DisplayAge { get; set; }
+        public string DisplayGender { get; set; }
+
         public string TargetDescriptionSentence { get; set; }
 
         public string Name { get; set; }
@@ -181,6 +184,14 @@ namespace WhoIsThat.ViewModels
                 OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
+                var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
+
+                DisplayAge = "Age: " + fetchedFeatures.Age.ToString();
+                DisplayGender = "Gender: " + fetchedFeatures.Gender;
+
+                OnPropertyChanged("DisplayAge");
+                OnPropertyChanged("DisplayGender");
+
                 return;
             }
 
@@ -194,6 +205,14 @@ namespace WhoIsThat.ViewModels
 
                 OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
+
+                var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
+
+                DisplayAge = "Age: " + fetchedFeatures.Age.ToString();
+                DisplayGender = "Gender: " + fetchedFeatures.Gender;
+
+                OnPropertyChanged("DisplayAge");
+                OnPropertyChanged("DisplayGender");
 
                 return;
             }
