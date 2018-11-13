@@ -81,5 +81,12 @@ namespace WhoIsThat.Connections
         /// <param name="faceFeaturesModel">Features from recognition</param>
         /// <returns>Inserted object</returns>
         Task<FaceFeaturesModel> InsertFaceFeatures(FaceFeaturesModel faceFeaturesModel);
+
+        /// <summary>
+        /// Gets features of target
+        /// </summary>
+        /// <param name="id">ID of target</param>
+        /// <returns>Face features object</returns>
+        Task<FaceFeaturesModel> GetFeaturesById(int id);
     }
 }
