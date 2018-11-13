@@ -67,5 +67,12 @@ namespace WhoIsThat.Connections
         /// <param name="id">ID of user</param>
         /// <returns>Updated object</returns>
         Task<ImageObject> UpdateUserScore(int id);
+
+        /// <summary>
+        /// Gets face features of person
+        /// </summary>
+        /// <param name="user">User object</param>
+        /// <returns>Face features model</returns>
+        Task<FaceFeaturesModel> GetFaceFeatures(ImageObject user);
     }
 }

@@ -208,5 +208,23 @@ namespace WhoIsThat.Connections
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ImageObject>(responseContent);
         }
+
+        /// <inheritdoc/>
+        public async Task<FaceFeaturesModel> GetFaceFeatures(ImageObject user)
+        {
+            var restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/detect";
+            var uri = new Uri(restUrl);
+
+            var response = await HttpClient.PostAsJsonAsync(
+                uri, user);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ManagerException(await response.Content.ReadAsStringAsync());
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<FaceFeaturesModel>(responseContent);
+        }
     }
 }
