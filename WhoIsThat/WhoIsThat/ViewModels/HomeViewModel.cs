@@ -249,7 +249,6 @@ namespace WhoIsThat.ViewModels
         public async void NavigateToListPage()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new ListPage(new ListPageViewModel(await ImageHandler.GetImageObjects())));
-            //await Application.Current.MainPage.Navigation.PushAsync(new HomeNavigationPage(new HomeViewModel(User)));
         }
 
         /// <summary>
