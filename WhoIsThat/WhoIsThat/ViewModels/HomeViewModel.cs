@@ -67,7 +67,7 @@ namespace WhoIsThat.ViewModels
 
             User = user;
 
-            Name = "Welcome, " + User.PersonFirstName + ". Your score: " + User.Score.ToString();
+            Name = "Your score is: " + User.Score.ToString();
             OnPropertyChanged("Name");
         }
 
@@ -124,7 +124,7 @@ namespace WhoIsThat.ViewModels
 
                     User = await _restService.UpdateUserScore(User.Id);
 
-                    Name = "Welcome, " + User.PersonFirstName + ". Your score: " + User.Score.ToString();
+                    Name = "Your score is: " + User.Score.ToString();
                     OnPropertyChanged("Name");
                 }
             }
