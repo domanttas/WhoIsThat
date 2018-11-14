@@ -27,7 +27,7 @@ namespace WhoIsThat
             BindingContext = homeViewModel;
 
             InitializeComponent();
-		}
+        }
 
         public HomePage()
         {

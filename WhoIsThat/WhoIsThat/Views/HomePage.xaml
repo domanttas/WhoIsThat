@@ -4,31 +4,17 @@
              x:Class="WhoIsThat.HomePage"
              Padding="60, 5, 60, 30"
              BackgroundColor="White"
-             Title="Detail">
+             Title="Welcome back!">
     
         <StackLayout Orientation="Vertical"
                      VerticalOptions="FillAndExpand">
 
-            <Label Text="{Binding Name}"
+        <Label Text="{Binding Name}"
                    HorizontalOptions="Start"
                    TextColor="Black"
                    FontSize="15"></Label>
 
-            <Button Text="Participants"
-                TextColor="White"
-                BackgroundColor="Black"
-                FontSize="10"
-                CornerRadius="8"
-                Command="{Binding NavigateToListPageCommand}"></Button>
-
-            <Button Text="Best of the best"
-                TextColor="White"
-                BackgroundColor="Black"
-                FontSize="10"
-                CornerRadius="8"
-                Command="{Binding NavigateToLeadersPageCommand}"></Button>
-
-            <Button Text="Get Target"
+        <Button Text="Get Target"
                 TextColor="White"
                 BackgroundColor="Black"
                 FontSize="10"
