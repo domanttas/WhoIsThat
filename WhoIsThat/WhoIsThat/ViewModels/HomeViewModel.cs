@@ -197,6 +197,12 @@ namespace WhoIsThat.ViewModels
 
             try
             {
+                DisplayMessage = "";
+                OnPropertyChanged("DisplayMessage");
+
+                DisplayStatus = "";
+                OnPropertyChanged("DisplayStatus");
+
                 var targetId = await _restService.GetRandomTarget(User.Id);
 
                 var fetchedTarget = await _restService.GetUserById(targetId);
