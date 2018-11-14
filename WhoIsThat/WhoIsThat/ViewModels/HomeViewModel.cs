@@ -76,9 +76,6 @@ namespace WhoIsThat.ViewModels
         /// </summary>
         public async void TakePhoto()
         {
-            DisplayStatus = "Please wait...";
-            OnPropertyChanged("DisplayStatus");
-
             var cameraPermission = await PermissionHandler.CheckForCameraPermission();
             if (!cameraPermission)
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
@@ -90,6 +87,8 @@ namespace WhoIsThat.ViewModels
             {
                 var takenPhoto = await TakingPhotoHandler.TakePhoto();
 
+                UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
+
                 await CloudStorageService.SaveBlockBlob(takenPhoto, "temp.jpg");
             }
             
@@ -97,6 +96,8 @@ namespace WhoIsThat.ViewModels
             {
                 DisplayStatus = photoNotTakenException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
 
                 return;
             }
@@ -111,10 +112,9 @@ namespace WhoIsThat.ViewModels
                     DisplayMessage = "It's a direct hit!";
                     OnPropertyChanged("DisplayMessage");
 
-                    DisplayStatus = "Please wait...";
-                    OnPropertyChanged("DisplayStatus");
-
                     var hitResult = await _restService.GetUserById(Convert.ToInt32(recognitionMessage));
+
+                    UserDialogs.Instance.HideLoading();
 
                     DisplayMessage = "Get to know each other!";
                     OnPropertyChanged("DisplayMessage");
@@ -136,6 +136,8 @@ namespace WhoIsThat.ViewModels
 
                 DisplayStatus = noFacesFoundException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
             }
 
             catch (ManagerException noOneIdentifiedException) when (noOneIdentifiedException.ErrorCode == Constants.NoMatchFoundError)
@@ -145,6 +147,8 @@ namespace WhoIsThat.ViewModels
 
                 DisplayStatus = noOneIdentifiedException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
             }
 
             catch (ManagerException targetNotFoundException) when (targetNotFoundException.ErrorCode == Constants.TargetNotFoundError)
@@ -154,6 +158,8 @@ namespace WhoIsThat.ViewModels
 
                 DisplayStatus = targetNotFoundException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
             }
 
             catch (ManagerException userNotFoundException) when (userNotFoundException.ErrorCode == Constants.UserDoesNotExistError)
@@ -163,6 +169,20 @@ namespace WhoIsThat.ViewModels
 
                 DisplayStatus = "Please try again!";
                 OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
+            }
+
+            //This catch is just for testing purposes
+            catch (ManagerException testingException)
+            {
+                DisplayMessage = "Something went wrong...";
+                OnPropertyChanged("DisplayMessage");
+
+                DisplayStatus = "Please try again!";
+                OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -171,6 +191,11 @@ namespace WhoIsThat.ViewModels
         /// </summary>
         public async void GetTarget()
         {
+            DisplayMessage = "";
+            OnPropertyChanged("DisplayMessage");
+
+            UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
+
             var checkTargetStatus = await CheckForTarget();
             if (checkTargetStatus)
             {
@@ -191,6 +216,8 @@ namespace WhoIsThat.ViewModels
 
                 OnPropertyChanged("DisplayAge");
                 OnPropertyChanged("DisplayGender");
+
+                UserDialogs.Instance.HideLoading();
 
                 return;
             }
@@ -220,6 +247,8 @@ namespace WhoIsThat.ViewModels
                 OnPropertyChanged("DisplayAge");
                 OnPropertyChanged("DisplayGender");
 
+                UserDialogs.Instance.HideLoading();
+
                 return;
             }
 
@@ -227,12 +256,16 @@ namespace WhoIsThat.ViewModels
             {
                 DisplayStatus = getTargetException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
             }
 
             catch (ManagerException noPlayersException) when (noPlayersException.ErrorCode == Constants.ThereAreNoPlayersError)
             {
                 DisplayStatus = noPlayersException.ErrorCode;
                 OnPropertyChanged("DisplayStatus");
+
+                UserDialogs.Instance.HideLoading();
             }
         }
 
