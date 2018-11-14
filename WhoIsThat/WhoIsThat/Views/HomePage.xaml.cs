@@ -28,5 +28,10 @@ namespace WhoIsThat
 
             InitializeComponent();
 		}
+
+        public HomePage()
+        {
+            InitializeComponent();
+        }
     }
 }

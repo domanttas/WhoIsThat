@@ -12,11 +12,6 @@ namespace WhoIsThat
         public App()
         {
             InitializeComponent();
-            //This is for testing purposes only
-            /*if (Application.Current.Properties.ContainsKey("UserRegistered"))
-            {
-                Application.Current.Properties.Remove("UserRegistered");
-            }*/
 
             MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));
         }
@@ -33,9 +28,10 @@ namespace WhoIsThat
 
                     var user = await restService.GetUserById(Convert.ToInt32(Application.Current.Properties["UserId"].ToString()));
 
-                    MainPage = new NavigationPage(new HomePage(new ViewModels.HomeViewModel(user)));
+                    MainPage = new NavigationPage(new HomeNavigationPage(new ViewModels.HomeViewModel(user)));
                 }
             }
+
             else MainPage = new NavigationPage(new MainPage(new ViewModels.LoginViewModel()));
         }
 
