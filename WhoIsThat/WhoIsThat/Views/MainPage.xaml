@@ -45,19 +45,12 @@
                 CornerRadius="8"
                 Image="camera.png"/>
 
-            <Label Text="All fields must be filled"
-                    IsVisible="{Binding ErrorLabel}"
-                    TextColor="Red"></Label>
-
-            <Label Text="{Binding ErrorMessage}"
-                    TextColor="Red"></Label>
             <Button
-            Text="Sign Up!"
-            BackgroundColor="Black"
-            TextColor="White"
-            Command="{Binding SavePersonCommand}"
-            CornerRadius="8"
-            Image="create.png"/>
-
-        </StackLayout>
+                Text="Sign Up!"
+                BackgroundColor="Black"
+                TextColor="White"
+                Command="{Binding SavePersonCommand}"
+                CornerRadius="8"
+                Image="create.png"/>
+    </StackLayout>
 </ContentPage>

@@ -14,6 +14,7 @@ using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
+using WhoIsThat.LogicUtil;
 using WhoIsThat.Models;
 using Xamarin.Forms;
 
@@ -29,14 +30,9 @@ namespace WhoIsThat.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         
         private RestService _restService;
-        
-        public bool ErrorLabel { get; set; }
 
         private MediaFile takenPhoto { get; set; }
         private ImageObject _personObject;
-        
-        //Later on will map to display on frontend
-        public string ErrorMessage { get; set; } = "Please fill in all the fields!";
 
         public ImageObject PersonObject
         {
@@ -47,7 +43,6 @@ namespace WhoIsThat.ViewModels
             set
             {
                 _personObject = value;
-                //OnPropertyChanged();
             }
         }
         
@@ -72,13 +67,23 @@ namespace WhoIsThat.ViewModels
                 await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
 
             //Taking photo and storing it in MediaFile variable 'takenPhoto'
-            takenPhoto = await TakingPhotoHandler.TakePhoto();
+            try
+            {
+                takenPhoto = await TakingPhotoHandler.TakePhoto();
+            }
+
+            catch (ManagerException photoNotTakenException)
+            {
+                ToastUtil.ShowToast(photoNotTakenException.ErrorCode);
+            }
         }
 
         public async void SavePerson()
         {
             if (!FieldsAreFilled())
             {
+                ToastUtil.ShowToast("All fields must be filled!");
+
                 return;
             }
 
@@ -97,10 +102,9 @@ namespace WhoIsThat.ViewModels
 
             catch (ManagerException creationException)
             {
-                ErrorMessage = creationException.ErrorCode;
-                OnPropertyChanged("ErrorMessage");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(creationException.ErrorCode);
 
                 return;
             }
@@ -116,10 +120,9 @@ namespace WhoIsThat.ViewModels
 
             catch (ManagerException recognitionException)
             {
-                ErrorMessage = recognitionException.ErrorCode;
-                OnPropertyChanged("ErrorMessage");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(recognitionException.ErrorCode);
 
                 return;
             }
@@ -135,8 +138,7 @@ namespace WhoIsThat.ViewModels
         {
             if (PersonObject.PersonFirstName != null && PersonObject.PersonLastName != null &&
                 PersonObject.DescriptiveSentence != null && takenPhoto != null) return true;
-            ErrorLabel = true;
-            OnPropertyChanged("ErrorLabel");
+
             return false;
         }
 
