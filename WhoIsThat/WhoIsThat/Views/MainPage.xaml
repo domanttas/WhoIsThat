@@ -56,7 +56,8 @@
             BackgroundColor="Black"
             TextColor="White"
             Command="{Binding SavePersonCommand}"
-            CornerRadius="8"/>
+            CornerRadius="8"
+            Image="create.png"/>
 
         </StackLayout>
 </ContentPage>
