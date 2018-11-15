@@ -19,6 +19,7 @@
                 BackgroundColor="Black"
                 FontSize="10"
                 CornerRadius="8"
+                Image="target.png"
                 Command="{Binding GetTargetCommand}"></Button>
 
             <Button Text="Shoot!"
