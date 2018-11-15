@@ -18,12 +18,18 @@
                 </Label>
             </StackLayout>
 
+            <BoxView 
+                HeightRequest="1" 
+                BackgroundColor="Black" 
+                HorizontalOptions="FillAndExpand" />
+
             <Button Text="Participants"
                 TextColor="White"
                 BackgroundColor="Black"
                 FontSize="10"
                 CornerRadius="8"
                 Image="group.png"
+                Margin="0, 20, 0, 0"
                 Command="{Binding NavigateToListPageCommand}"></Button>
 
             <Button Text="Best of the best"
