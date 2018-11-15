@@ -178,7 +178,7 @@ namespace WhoIsThat.ViewModels
             }
 
             //This catch is just for testing purposes
-            catch (ManagerException testingException)
+            catch (ManagerException)
             {
                 DisplayMessage = "Something went wrong...";
                 OnPropertyChanged("DisplayMessage");
