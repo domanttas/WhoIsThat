@@ -11,14 +11,14 @@
                 BackgroundColor="Black"
                 FontSize="10"
                 CornerRadius="8"
-                
+                Image="group.png"
                 Command="{Binding NavigateToListPageCommand}"></Button>
 
             <Button Text="Best of the best"
                 TextColor="White"
                 BackgroundColor="Black"
                 FontSize="10"
-                
+                Image="chart.png"
                 CornerRadius="8"
                 Command="{Binding NavigateToLeadersPageCommand}"></Button>
         </StackLayout>
