@@ -7,7 +7,7 @@
     <pages:HomePageDrawer x:Name="MasterPage" />
   </MasterDetailPage.Master>
   <MasterDetailPage.Detail>
-    <NavigationPage BarBackgroundColor="Black">
+    <NavigationPage BarBackgroundColor="{StaticResource CustomSecondary}">
       <x:Arguments>
         <pages:HomePage />
       </x:Arguments>

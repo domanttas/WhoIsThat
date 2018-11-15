@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:WhoIsThat"
              x:Class="WhoIsThat.MainPage"
-             BackgroundColor="White">
+             BackgroundColor="{StaticResource CustomPrimary}">
     
         <StackLayout 
             Orientation="Vertical"
@@ -40,22 +40,17 @@
                 TextColor="Black"/>
             <Button Text="Take a photo"
                 Command="{Binding TakePhotoCommand}"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource CustomSecondary}"
                 TextColor="White"
-                CornerRadius="8"/>
+                CornerRadius="8"
+                Image="camera.png"/>
 
-            <Label Text="All fields must be filled"
-                    IsVisible="{Binding ErrorLabel}"
-                    TextColor="Red"></Label>
-
-            <Label Text="{Binding ErrorMessage}"
-                    TextColor="Red"></Label>
             <Button
-            Text="Sign Up!"
-            BackgroundColor="Black"
-            TextColor="White"
-            Command="{Binding SavePersonCommand}"
-            CornerRadius="8"/>
-
-        </StackLayout>
+                Text="Sign Up!"
+                BackgroundColor="{StaticResource CustomSecondary}"
+                TextColor="White"
+                Command="{Binding SavePersonCommand}"
+                CornerRadius="8"
+                Image="create.png"/>
+    </StackLayout>
 </ContentPage>

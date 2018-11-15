@@ -3,22 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.HomePageDrawer"
              Padding="20, 20, 20, 20"
+             BackgroundColor="{StaticResource CustomPrimary}"
              Title="Master">
     <ContentPage.Content>
         <StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Image Source="person.png">
+                </Image>
+                
+                <Label Text="{Binding UserName}"
+                   HorizontalOptions="Start"
+                   TextColor="Black"
+                   FontSize="15">
+                </Label>
+            </StackLayout>
+
+            <BoxView 
+                HeightRequest="1" 
+                BackgroundColor="Black" 
+                HorizontalOptions="FillAndExpand" />
+
             <Button Text="Participants"
                 TextColor="White"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
                 CornerRadius="8"
-                
+                Image="group.png"
+                Margin="0, 20, 0, 0"
                 Command="{Binding NavigateToListPageCommand}"></Button>
 
             <Button Text="Best of the best"
                 TextColor="White"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
-                
+                Image="chart.png"
                 CornerRadius="8"
                 Command="{Binding NavigateToLeadersPageCommand}"></Button>
         </StackLayout>
