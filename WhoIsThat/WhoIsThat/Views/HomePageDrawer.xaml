@@ -6,6 +6,18 @@
              Title="Master">
     <ContentPage.Content>
         <StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Image Source="person.png">
+                </Image>
+                
+                <Label Text="{Binding UserName}"
+                   HorizontalOptions="Start"
+                   TextColor="Black"
+                   FontSize="15">
+                </Label>
+            </StackLayout>
+
             <Button Text="Participants"
                 TextColor="White"
                 BackgroundColor="Black"

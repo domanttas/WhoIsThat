@@ -38,6 +38,7 @@ namespace WhoIsThat.ViewModels
         public string TargetDescriptionSentence { get; set; }
 
         public string Name { get; set; }
+        public string UserName { get; set; }
 
         public INavigation Navigation { get; set; }
 
@@ -69,6 +70,9 @@ namespace WhoIsThat.ViewModels
 
             Name = "Your score is: " + User.Score.ToString();
             OnPropertyChanged("Name");
+
+            UserName = User.PersonFirstName;
+            OnPropertyChanged("UserName");
         }
 
         /// <summary>
