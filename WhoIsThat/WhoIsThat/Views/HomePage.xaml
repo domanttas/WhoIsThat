@@ -26,6 +26,7 @@
                 BackgroundColor="Black"
                 FontSize="10"
                 CornerRadius="8"
+                Image="camera.png"
                 Command="{Binding TakePhotoCommand}"></Button>
 
             <Image Source="{Binding TargetImageUri}"

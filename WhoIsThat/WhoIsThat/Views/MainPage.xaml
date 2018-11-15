@@ -42,7 +42,8 @@
                 Command="{Binding TakePhotoCommand}"
                 BackgroundColor="Black"
                 TextColor="White"
-                CornerRadius="8"/>
+                CornerRadius="8"
+                Image="camera.png"/>
 
             <Label Text="All fields must be filled"
                     IsVisible="{Binding ErrorLabel}"
