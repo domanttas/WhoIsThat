@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.Views.ListPage"
-             BackgroundColor="White">
+             BackgroundColor="{StaticResource CustomPrimary}">
     <ContentPage.Content>
         <ListView ItemsSource="{Binding People}">
             <ListView.ItemTemplate>

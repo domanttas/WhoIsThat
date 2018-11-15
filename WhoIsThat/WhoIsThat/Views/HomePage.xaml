@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhoIsThat.HomePage"
              Padding="60, 5, 60, 30"
-             BackgroundColor="White"
+             BackgroundColor="{StaticResource CustomPrimary}"
              Title="Welcome back!">
     
         <StackLayout Orientation="Vertical"
@@ -16,7 +16,7 @@
 
         <Button Text="Get Target"
                 TextColor="White"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
                 CornerRadius="8"
                 Image="target.png"
@@ -24,7 +24,7 @@
 
             <Button Text="Shoot!"
                 TextColor="White"
-                BackgroundColor="Black"
+                BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
                 CornerRadius="8"
                 Image="camera.png"
