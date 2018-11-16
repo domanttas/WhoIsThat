@@ -10,34 +10,51 @@
             VerticalOptions="FillAndExpand"
             Padding="10,5,10,30">
 
-            <Label Text="Who's Up?" 
-            HorizontalOptions="CenterAndExpand"
-            VerticalOptions="EndAndExpand"
-            HeightRequest="150"
-            FontSize="40"
-            TextColor="Black"/>
+        <StackLayout Orientation="Horizontal"
+                     Margin="0, 20, 0, 80"
+                     HorizontalOptions="Center">
+            <Image Source="logo.png">
+            </Image>
 
-            <Label Text="Your first name:"
+            <BoxView WidthRequest="1"
+                     BackgroundColor="Black"
+                     VerticalOptions="FillAndExpand">
+            </BoxView>
+            
+            <Label Text="Who's Up?" 
+                    VerticalOptions="CenterAndExpand"
+                    FontSize="40"
+                    TextColor="Black"/>
+        </StackLayout>
+            
+        <Label Text="Your first name:"
                 TextColor="Black"
                 FontSize="16"/>
+            
             <Entry Placeholder="Enter your first name:"
                 FontSize="14"
                 Text="{Binding PersonObject.PersonFirstName}"/>
+            
             <Label Text="Enter your last name:"
                 TextColor="Black"
                 FontSize="16"/>
+            
             <Entry Placeholder="Last name"
                 FontSize="14"
                 Text="{Binding PersonObject.PersonLastName}"/>
+            
             <Label Text="Say something about yourself:"
                 FontSize="16"
                 TextColor="Black"/>
+            
             <Editor Placeholder="Description"
                 FontSize="12"
                 Text="{Binding PersonObject.DescriptiveSentence}"/>
+            
             <Label  Text="Take a photo:"
                 FontSize="16"
                 TextColor="Black"/>
+            
             <Button Text="Take a photo"
                 Command="{Binding TakePhotoCommand}"
                 BackgroundColor="{StaticResource CustomSecondary}"
