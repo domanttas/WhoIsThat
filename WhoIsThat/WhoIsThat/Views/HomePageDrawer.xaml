@@ -7,6 +7,17 @@
              Title="Master">
     <ContentPage.Content>
         <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <BoxView WidthRequest="1"
+                         BackgroundColor="Black"
+                         VerticalOptions="FillAndExpand">
+                </BoxView>
+                
+                <Label Text="Who's Up"
+                   TextColor="Black"
+                   FontSize="Large">
+                </Label>
+            </StackLayout>
 
             <StackLayout Orientation="Horizontal">
                 <Image Source="person.png">
