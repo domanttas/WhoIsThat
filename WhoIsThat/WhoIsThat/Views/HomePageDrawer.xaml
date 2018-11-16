@@ -7,7 +7,8 @@
              Title="Master">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal"
+                         Margin="0, 0, 0, 20">
                 <Image Source="logo.png">
                 </Image>
                 <BoxView WidthRequest="1"
@@ -15,19 +16,29 @@
                          VerticalOptions="FillAndExpand">
                 </BoxView>
                 
-                <Label Text="Who's Up"
+                <Label Text="Who's Up?"
                    TextColor="Black"
                    FontSize="Large"
                    VerticalOptions="Center">
                 </Label>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal"
-                         Margin="0, 20, 0, 0">
+            <StackLayout Orientation="Horizontal">
                 <Image Source="person.png">
                 </Image>
-                
+
                 <Label Text="{Binding UserName}"
+                   HorizontalOptions="Start"
+                   TextColor="Black"
+                   FontSize="15">
+                </Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Image Source="black_chart.png">
+                </Image>
+
+                <Label Text="{Binding Name}"
                    HorizontalOptions="Start"
                    TextColor="Black"
                    FontSize="15">
@@ -37,7 +48,7 @@
             <BoxView 
                 HeightRequest="1" 
                 BackgroundColor="Black" 
-                HorizontalOptions="FillAndExpand" />
+                HorizontalOptions="FillAndExpand"/>
 
             <Button Text="Participants"
                 TextColor="White"
