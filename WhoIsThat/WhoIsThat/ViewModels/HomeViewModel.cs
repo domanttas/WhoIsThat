@@ -14,6 +14,7 @@ using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
+using WhoIsThat.LogicUtil;
 using WhoIsThat.Models;
 using WhoIsThat.Views;
 using Xamarin.Forms;
@@ -98,10 +99,9 @@ namespace WhoIsThat.ViewModels
             
             catch (ManagerException photoNotTakenException)
             {
-                DisplayStatus = photoNotTakenException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(photoNotTakenException.ErrorCode);
 
                 return;
             }
@@ -135,58 +135,38 @@ namespace WhoIsThat.ViewModels
 
             catch (ManagerException noFacesFoundException) when (noFacesFoundException.ErrorCode == Constants.NoFacesIdentifiedError)
             {
-                DisplayMessage = "It's not your target...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = noFacesFoundException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(noFacesFoundException.ErrorCode);
             }
 
             catch (ManagerException noOneIdentifiedException) when (noOneIdentifiedException.ErrorCode == Constants.NoMatchFoundError)
             {
-                DisplayMessage = "Person is not a player...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = noOneIdentifiedException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(noOneIdentifiedException.ErrorCode);
             }
 
             catch (ManagerException targetNotFoundException) when (targetNotFoundException.ErrorCode == Constants.TargetNotFoundError)
             {
-                DisplayMessage = "It's not your target...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = targetNotFoundException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(targetNotFoundException.ErrorCode);
             }
 
             catch (ManagerException userNotFoundException) when (userNotFoundException.ErrorCode == Constants.UserDoesNotExistError)
             {
-                DisplayMessage = "Something went wrong...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = "Please try again!";
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast("Something went wrong");
             }
 
             //This catch is just for testing purposes
             catch (ManagerException)
             {
-                DisplayMessage = "Something went wrong...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = "Please try again!";
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast("Something went wrong");
             }
         }
 
@@ -198,14 +178,14 @@ namespace WhoIsThat.ViewModels
             DisplayMessage = "";
             OnPropertyChanged("DisplayMessage");
 
+            DisplayStatus = "";
+            OnPropertyChanged("DisplayStatus");
+
             UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
 
             var checkTargetStatus = await CheckForTarget();
             if (checkTargetStatus)
             {
-                DisplayStatus = Constants.TargetAlreadyAssignedError;
-                OnPropertyChanged("DisplayStatus");
-
                 var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
                 TargetImageUri = fetchedTarget.ImageContentUri;
@@ -222,6 +202,8 @@ namespace WhoIsThat.ViewModels
                 OnPropertyChanged("DisplayGender");
 
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(Constants.TargetAlreadyAssignedError);
 
                 return;
             }
@@ -258,18 +240,16 @@ namespace WhoIsThat.ViewModels
 
             catch (ManagerException getTargetException) when (getTargetException.ErrorCode == Constants.TargetAlreadyAssignedError)
             {
-                DisplayStatus = getTargetException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(getTargetException.ErrorCode);
             }
 
             catch (ManagerException noPlayersException) when (noPlayersException.ErrorCode == Constants.ThereAreNoPlayersError)
             {
-                DisplayStatus = noPlayersException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(noPlayersException.ErrorCode);
             }
         }
 
