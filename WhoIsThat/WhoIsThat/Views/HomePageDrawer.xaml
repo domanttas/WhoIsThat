@@ -8,6 +8,8 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Orientation="Horizontal">
+                <Image Source="logo.png">
+                </Image>
                 <BoxView WidthRequest="1"
                          BackgroundColor="Black"
                          VerticalOptions="FillAndExpand">
@@ -15,11 +17,13 @@
                 
                 <Label Text="Who's Up"
                    TextColor="Black"
-                   FontSize="Large">
+                   FontSize="Large"
+                   VerticalOptions="Center">
                 </Label>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal"
+                         Margin="0, 20, 0, 0">
                 <Image Source="person.png">
                 </Image>
                 
