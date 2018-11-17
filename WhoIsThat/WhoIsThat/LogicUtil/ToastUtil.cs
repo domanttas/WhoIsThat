@@ -11,7 +11,7 @@ namespace WhoIsThat.LogicUtil
         public static void ShowToast(string message)
         {
             var toastConfig = new ToastConfig(message);
-            toastConfig.SetDuration(2000);
+            toastConfig.SetDuration(3000);
             toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(0, 0, 0));
             toastConfig.SetMessageTextColor(Color.Red);
 

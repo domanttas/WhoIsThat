@@ -4,7 +4,17 @@
              x:Class="WhoIsThat.Views.ListPage"
              BackgroundColor="{StaticResource CustomPrimary}">
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding People}">
+        <ListView ItemsSource="{Binding People}" Header="Test">
+            <ListView.HeaderTemplate >
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" Padding="5,5,5,5" HorizontalOptions="Center" Margin="0, 0, 0, 40">
+                        <Label Text="Participants:"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               FontSize="Large"/>
+                    </StackLayout>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

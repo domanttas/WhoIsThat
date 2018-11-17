@@ -14,6 +14,7 @@ using WhoIsThat.ConstantsUtil;
 using WhoIsThat.Exceptions;
 using WhoIsThat.Handlers;
 using WhoIsThat.Handlers.Utils;
+using WhoIsThat.LogicUtil;
 using WhoIsThat.Models;
 using WhoIsThat.Views;
 using Xamarin.Forms;
@@ -26,6 +27,7 @@ namespace WhoIsThat.ViewModels
         public ICommand NavigateToListPageCommand { get; private set; }
         public ICommand NavigateToLeadersPageCommand { get; private set; }
         public ICommand GetTargetCommand { get; private set; }
+        public ICommand GiveHintCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -53,6 +55,8 @@ namespace WhoIsThat.ViewModels
 
         public string TargetImageUri { get; set; }
 
+        public bool IsHintAvailable { get; set; }
+
         public HomeViewModel(ImageObject user)
         {
             UserDialogs.Instance.HideLoading();
@@ -63,6 +67,7 @@ namespace WhoIsThat.ViewModels
             NavigateToListPageCommand = new Command(NavigateToListPage);
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
             GetTargetCommand = new Command(GetTarget);
+            GiveHintCommand = new Command(GetHint);
 
             ImageHandler = new ImageHandler();
 
@@ -73,6 +78,8 @@ namespace WhoIsThat.ViewModels
 
             UserName = User.PersonFirstName;
             OnPropertyChanged("UserName");
+
+            IsHintAvailable = true;
         }
 
         /// <summary>
@@ -98,10 +105,9 @@ namespace WhoIsThat.ViewModels
             
             catch (ManagerException photoNotTakenException)
             {
-                DisplayStatus = photoNotTakenException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(photoNotTakenException.ErrorCode);
 
                 return;
             }
@@ -135,58 +141,38 @@ namespace WhoIsThat.ViewModels
 
             catch (ManagerException noFacesFoundException) when (noFacesFoundException.ErrorCode == Constants.NoFacesIdentifiedError)
             {
-                DisplayMessage = "It's not your target...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = noFacesFoundException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(noFacesFoundException.ErrorCode);
             }
 
             catch (ManagerException noOneIdentifiedException) when (noOneIdentifiedException.ErrorCode == Constants.NoMatchFoundError)
             {
-                DisplayMessage = "Person is not a player...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = noOneIdentifiedException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(noOneIdentifiedException.ErrorCode);
             }
 
             catch (ManagerException targetNotFoundException) when (targetNotFoundException.ErrorCode == Constants.TargetNotFoundError)
             {
-                DisplayMessage = "It's not your target...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = targetNotFoundException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(targetNotFoundException.ErrorCode);
             }
 
             catch (ManagerException userNotFoundException) when (userNotFoundException.ErrorCode == Constants.UserDoesNotExistError)
             {
-                DisplayMessage = "Something went wrong...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = "Please try again!";
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast("Something went wrong");
             }
 
             //This catch is just for testing purposes
             catch (ManagerException)
             {
-                DisplayMessage = "Something went wrong...";
-                OnPropertyChanged("DisplayMessage");
-
-                DisplayStatus = "Please try again!";
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast("Something went wrong");
             }
         }
 
@@ -198,19 +184,19 @@ namespace WhoIsThat.ViewModels
             DisplayMessage = "";
             OnPropertyChanged("DisplayMessage");
 
+            DisplayStatus = "";
+            OnPropertyChanged("DisplayStatus");
+
             UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
 
             var checkTargetStatus = await CheckForTarget();
             if (checkTargetStatus)
             {
-                DisplayStatus = Constants.TargetAlreadyAssignedError;
-                OnPropertyChanged("DisplayStatus");
-
                 var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
-                TargetImageUri = fetchedTarget.ImageContentUri;
+                //TargetImageUri = fetchedTarget.ImageContentUri;
 
-                OnPropertyChanged("TargetImageUri");
+                //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
@@ -222,6 +208,8 @@ namespace WhoIsThat.ViewModels
                 OnPropertyChanged("DisplayGender");
 
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(Constants.TargetAlreadyAssignedError);
 
                 return;
             }
@@ -238,9 +226,9 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
-                TargetImageUri = fetchedTarget.ImageContentUri;
+                //TargetImageUri = fetchedTarget.ImageContentUri;
 
-                OnPropertyChanged("TargetImageUri");
+                //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
@@ -251,6 +239,8 @@ namespace WhoIsThat.ViewModels
                 OnPropertyChanged("DisplayAge");
                 OnPropertyChanged("DisplayGender");
 
+                IsHintAvailable = true;
+
                 UserDialogs.Instance.HideLoading();
 
                 return;
@@ -258,19 +248,62 @@ namespace WhoIsThat.ViewModels
 
             catch (ManagerException getTargetException) when (getTargetException.ErrorCode == Constants.TargetAlreadyAssignedError)
             {
-                DisplayStatus = getTargetException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(getTargetException.ErrorCode);
             }
 
             catch (ManagerException noPlayersException) when (noPlayersException.ErrorCode == Constants.ThereAreNoPlayersError)
             {
-                DisplayStatus = noPlayersException.ErrorCode;
-                OnPropertyChanged("DisplayStatus");
-
                 UserDialogs.Instance.HideLoading();
+
+                ToastUtil.ShowToast(noPlayersException.ErrorCode);
             }
+        }
+
+        /// <summary>
+        /// Shows photo of target as a hint only one time for one target
+        /// </summary>
+        public async void GetHint()
+        {
+            if (!IsHintAvailable)
+            {
+                ToastUtil.ShowToast("You already used your hint!");
+
+                return;
+            }
+
+            var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
+            {
+                Message = "Do you want to use up your hint?",
+                OkText = "Yes please",
+                CancelText = "Nah"
+            });
+
+            if (!result)
+            {
+                return;
+            }
+
+            var checkTargetStatus = await CheckForTarget();
+            if (checkTargetStatus)
+            {
+                var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
+
+                TargetImageUri = fetchedTarget.ImageContentUri;
+                OnPropertyChanged("TargetImageUri");
+
+                IsHintAvailable = false;
+
+                await Task.Delay(3000);
+
+                TargetImageUri = "";
+                OnPropertyChanged("TargetImageUri");
+
+                return;
+            }
+
+            ToastUtil.ShowToast("You don't have a target!");
         }
 
         /// <summary>
