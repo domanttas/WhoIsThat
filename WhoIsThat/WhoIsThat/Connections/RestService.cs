@@ -301,7 +301,7 @@ namespace WhoIsThat.Connections
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryModel> GetHistoryById(int id)
+        public async Task<List<HistoryModel>> GetHistoryById(int id)
         {
             var restUrl = "https://teststorageserver.azurewebsites.net/api/history" + id;
             var uri = new Uri(restUrl);
@@ -314,7 +314,7 @@ namespace WhoIsThat.Connections
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<HistoryModel>(responseContent);
+            return JsonConvert.DeserializeObject<List<HistoryModel>>(responseContent);
         }
 
         /// <inheritdoc/>

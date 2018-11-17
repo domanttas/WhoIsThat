@@ -348,7 +348,15 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToHistoryPage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new HistoryPage());
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new HistoryPage(new HistoryPageViewModel(await _restService.GetHistoryById(User.Id))));
+            }
+            
+            catch (ManagerException managerException) when (managerException.ErrorCode == Constants.HistoryElementNotFoundError)
+            {
+                ToastUtil.ShowToast(Constants.HistoryElementNotFoundError);
+            }
         }
         
         /// <summary>
