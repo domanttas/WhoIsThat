@@ -14,7 +14,7 @@
                    TextColor="Black"
                    FontSize="15"></Label>
 
-        <Button Text="Get Target"
+        <Button Text="Get Target!"
                 TextColor="White"
                 BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
@@ -35,6 +35,7 @@
                 BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
                 CornerRadius="8"
+                Image="hint.png"
                 Command="{Binding GiveHintCommand}"></Button>
 
             <Image Source="{Binding TargetImageUri}"
