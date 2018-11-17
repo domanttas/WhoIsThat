@@ -273,6 +273,18 @@ namespace WhoIsThat.ViewModels
                 return;
             }
 
+            var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
+            {
+                Message = "Do you want to use up your hint?",
+                OkText = "Yes please",
+                CancelText = "Nah"
+            });
+
+            if (!result)
+            {
+                return;
+            }
+
             var checkTargetStatus = await CheckForTarget();
             if (checkTargetStatus)
             {
@@ -281,12 +293,12 @@ namespace WhoIsThat.ViewModels
                 TargetImageUri = fetchedTarget.ImageContentUri;
                 OnPropertyChanged("TargetImageUri");
 
-                await Task.Delay(5000);
+                IsHintAvailable = false;
+
+                await Task.Delay(3000);
 
                 TargetImageUri = "";
                 OnPropertyChanged("TargetImageUri");
-
-                IsHintAvailable = false;
 
                 return;
             }
