@@ -101,6 +101,6 @@ namespace WhoIsThat.Connections
         /// </summary>
         /// <param name="id">User ID</param>
         /// <returns>History model</returns>
-        Task<HistoryModel> GetHistoryById(int id);
+        Task<List<HistoryModel>> GetHistoryById(int id);
     }
 }
