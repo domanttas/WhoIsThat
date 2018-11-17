@@ -231,6 +231,13 @@ namespace WhoIsThat.ViewModels
                 //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
+                var result = _restService.InsertHistoryModel(new HistoryModel()
+                {
+                    UserId = User.Id,
+                    TargetId = targetId,
+                    Status = Constants.TargetNotHuntedHistory
+                });
+
                 var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
 
                 DisplayAge = "Age: " + fetchedFeatures.Age.ToString();
