@@ -55,6 +55,8 @@ namespace WhoIsThat.ViewModels
 
         public string TargetImageUri { get; set; }
 
+        public bool IsHintAvailable { get; set; }
+
         public HomeViewModel(ImageObject user)
         {
             UserDialogs.Instance.HideLoading();
@@ -76,6 +78,8 @@ namespace WhoIsThat.ViewModels
 
             UserName = User.PersonFirstName;
             OnPropertyChanged("UserName");
+
+            IsHintAvailable = true;
         }
 
         /// <summary>
@@ -190,9 +194,9 @@ namespace WhoIsThat.ViewModels
             {
                 var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
-                TargetImageUri = fetchedTarget.ImageContentUri;
+                //TargetImageUri = fetchedTarget.ImageContentUri;
 
-                OnPropertyChanged("TargetImageUri");
+                //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
@@ -222,9 +226,9 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
-                TargetImageUri = fetchedTarget.ImageContentUri;
+                //TargetImageUri = fetchedTarget.ImageContentUri;
 
-                OnPropertyChanged("TargetImageUri");
+                //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
@@ -234,6 +238,8 @@ namespace WhoIsThat.ViewModels
 
                 OnPropertyChanged("DisplayAge");
                 OnPropertyChanged("DisplayGender");
+
+                IsHintAvailable = true;
 
                 UserDialogs.Instance.HideLoading();
 
@@ -255,9 +261,37 @@ namespace WhoIsThat.ViewModels
             }
         }
 
-        public void GetHint()
+        /// <summary>
+        /// Shows photo of target as a hint only one time for one target
+        /// </summary>
+        public async void GetHint()
         {
+            if (!IsHintAvailable)
+            {
+                ToastUtil.ShowToast("You already used your hint!");
 
+                return;
+            }
+
+            var checkTargetStatus = await CheckForTarget();
+            if (checkTargetStatus)
+            {
+                var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
+
+                TargetImageUri = fetchedTarget.ImageContentUri;
+                OnPropertyChanged("TargetImageUri");
+
+                await Task.Delay(5000);
+
+                TargetImageUri = "";
+                OnPropertyChanged("TargetImageUri");
+
+                IsHintAvailable = false;
+
+                return;
+            }
+
+            ToastUtil.ShowToast("You don't have a target!");
         }
 
         /// <summary>

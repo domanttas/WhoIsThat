@@ -37,7 +37,7 @@
                 CornerRadius="8"
                 Command="{Binding GiveHintCommand}"></Button>
 
-        <Image Source="{Binding TargetImageUri}"
+            <Image Source="{Binding TargetImageUri}"
                    HeightRequest="70">
             </Image>
 
