@@ -316,5 +316,33 @@ namespace WhoIsThat.Connections
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<HistoryModel>(responseContent);
         }
+
+        /// <inheritdoc/>
+        public async Task<HistoryModel> UpdateHistoryModel(int id, HistoryModel historyModel)
+        {
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/history" + id;
+            var uri = new Uri(restUrl);
+
+            var jsonContent = JsonConvert.SerializeObject(historyModel, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            var request = new HttpRequestMessage(HttpMethod.Put, uri)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+
+            var response = await HttpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new ManagerException((JsonConvert.DeserializeObject<BadRequestModel>(errorContent)).Message);
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<HistoryModel>(responseContent);
+        }
     }
 }
