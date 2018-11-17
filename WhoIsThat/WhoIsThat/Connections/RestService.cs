@@ -318,22 +318,12 @@ namespace WhoIsThat.Connections
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryModel> UpdateHistoryModel(int id, HistoryModel historyModel)
+        public async Task<HistoryModel> UpdateHistoryModel(int id)
         {
             var restUrl = "https://teststorageserver.azurewebsites.net/api/history" + id;
             var uri = new Uri(restUrl);
 
-            var jsonContent = JsonConvert.SerializeObject(historyModel, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-
-            var request = new HttpRequestMessage(HttpMethod.Put, uri)
-            {
-                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
-            };
-
-            var response = await HttpClient.SendAsync(request);
+            var response = await HttpClient.GetAsync(uri);
 
             if (!response.IsSuccessStatusCode)
             {

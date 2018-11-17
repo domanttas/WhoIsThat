@@ -124,6 +124,8 @@ namespace WhoIsThat.ViewModels
 
                     var hitResult = await _restService.GetUserById(Convert.ToInt32(recognitionMessage));
 
+                    var historyResult = await _restService.UpdateHistoryModel(User.Id);
+
                     UserDialogs.Instance.HideLoading();
 
                     DisplayMessage = "Get to know each other!";
