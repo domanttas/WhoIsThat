@@ -28,6 +28,7 @@ namespace WhoIsThat.ViewModels
         public ICommand NavigateToLeadersPageCommand { get; private set; }
         public ICommand GetTargetCommand { get; private set; }
         public ICommand GiveHintCommand { get; private set; }
+        public ICommand NavigateToHistoryPageCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -68,6 +69,7 @@ namespace WhoIsThat.ViewModels
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
             GetTargetCommand = new Command(GetTarget);
             GiveHintCommand = new Command(GetHint);
+            NavigateToHistoryPageCommand = new Command(NavigateToHistoryPage);
 
             ImageHandler = new ImageHandler();
 
@@ -342,6 +344,11 @@ namespace WhoIsThat.ViewModels
         public async void NavigateToLeadersPage()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await ImageHandler.GetImageObjects())));
+        }
+
+        public async void NavigateToHistoryPage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new HistoryPage());
         }
         
         /// <summary>
