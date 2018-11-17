@@ -88,5 +88,19 @@ namespace WhoIsThat.Connections
         /// <param name="id">ID of target</param>
         /// <returns>Face features object</returns>
         Task<FaceFeaturesModel> GetFeaturesById(int id);
+
+        /// <summary>
+        /// Creates history model and inserts into DB
+        /// </summary>
+        /// <param name="historyModel">Model to insert</param>
+        /// <returns>Inserted model</returns>
+        Task<HistoryModel> InsertHistoryModel(HistoryModel historyModel);
+
+        /// <summary>
+        /// Get history model by ID
+        /// </summary>
+        /// <param name="id">User ID</param>
+        /// <returns>History model</returns>
+        Task<HistoryModel> GetHistoryById(int id);
     }
 }
