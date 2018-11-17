@@ -27,6 +27,7 @@ namespace WhoIsThat.ViewModels
         public ICommand NavigateToListPageCommand { get; private set; }
         public ICommand NavigateToLeadersPageCommand { get; private set; }
         public ICommand GetTargetCommand { get; private set; }
+        public ICommand GiveHintCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -64,6 +65,7 @@ namespace WhoIsThat.ViewModels
             NavigateToListPageCommand = new Command(NavigateToListPage);
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
             GetTargetCommand = new Command(GetTarget);
+            GiveHintCommand = new Command(GetHint);
 
             ImageHandler = new ImageHandler();
 
@@ -251,6 +253,11 @@ namespace WhoIsThat.ViewModels
 
                 ToastUtil.ShowToast(noPlayersException.ErrorCode);
             }
+        }
+
+        public void GetHint()
+        {
+
         }
 
         /// <summary>

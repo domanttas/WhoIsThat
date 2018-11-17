@@ -30,7 +30,14 @@
                 Image="camera.png"
                 Command="{Binding TakePhotoCommand}"></Button>
 
-            <Image Source="{Binding TargetImageUri}"
+            <Button Text="Hint!"
+                TextColor="White"
+                BackgroundColor="{StaticResource CustomSecondary}"
+                FontSize="10"
+                CornerRadius="8"
+                Command="{Binding GiveHintCommand}"></Button>
+
+        <Image Source="{Binding TargetImageUri}"
                    HeightRequest="70">
             </Image>
 
