@@ -20,6 +20,7 @@
                         <StackLayout Padding="5,0,5,0" HorizontalOptions="StartAndExpand" Orientation="Horizontal">
                             <Label Text="{Binding UserId}" VerticalTextAlignment="Center" FontSize="Small" />
                             <Label Text="{Binding TargetId}" VerticalTextAlignment="Center" FontSize="Small" />
+                            <Label Text="{Binding Status}" VerticalTextAlignment="Center" FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

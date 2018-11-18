@@ -303,7 +303,7 @@ namespace WhoIsThat.Connections
         /// <inheritdoc/>
         public async Task<List<HistoryModel>> GetHistoryById(int id)
         {
-            var restUrl = "https://teststorageserver.azurewebsites.net/api/history" + id;
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/history/" + id;
             var uri = new Uri(restUrl);
 
             var response = await HttpClient.GetAsync(uri);
@@ -318,9 +318,9 @@ namespace WhoIsThat.Connections
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryModel> UpdateHistoryModel(int id)
+        public async Task<HistoryModel> UpdateHistoryModel(int id, int targetId)
         {
-            var restUrl = "https://teststorageserver.azurewebsites.net/api/history" + id;
+            var restUrl = "https://teststorageserver.azurewebsites.net/api/history/update/" + id + "/" + targetId;
             var uri = new Uri(restUrl);
 
             var response = await HttpClient.GetAsync(uri);

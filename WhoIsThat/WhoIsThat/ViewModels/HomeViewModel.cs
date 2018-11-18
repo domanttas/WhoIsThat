@@ -126,7 +126,7 @@ namespace WhoIsThat.ViewModels
 
                     var hitResult = await _restService.GetUserById(Convert.ToInt32(recognitionMessage));
 
-                    var historyResult = await _restService.UpdateHistoryModel(User.Id);
+                    var historyResult = await _restService.UpdateHistoryModel(User.Id, hitResult.Id);
 
                     UserDialogs.Instance.HideLoading();
 
