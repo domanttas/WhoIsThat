@@ -66,6 +66,14 @@
                 Image="chart.png"
                 CornerRadius="8"
                 Command="{Binding NavigateToLeadersPageCommand}"></Button>
+
+            <Button Text="History"
+                TextColor="White"
+                BackgroundColor="{StaticResource CustomSecondary}"
+                FontSize="10"
+                Image="history.png"
+                CornerRadius="8"
+                Command="{Binding NavigateToHistoryPageCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

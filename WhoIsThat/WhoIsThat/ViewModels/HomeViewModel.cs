@@ -28,6 +28,7 @@ namespace WhoIsThat.ViewModels
         public ICommand NavigateToLeadersPageCommand { get; private set; }
         public ICommand GetTargetCommand { get; private set; }
         public ICommand GiveHintCommand { get; private set; }
+        public ICommand NavigateToHistoryPageCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -68,6 +69,7 @@ namespace WhoIsThat.ViewModels
             NavigateToLeadersPageCommand = new Command(NavigateToLeadersPage);
             GetTargetCommand = new Command(GetTarget);
             GiveHintCommand = new Command(GetHint);
+            NavigateToHistoryPageCommand = new Command(NavigateToHistoryPage);
 
             ImageHandler = new ImageHandler();
 
@@ -123,6 +125,8 @@ namespace WhoIsThat.ViewModels
                     OnPropertyChanged("DisplayMessage");
 
                     var hitResult = await _restService.GetUserById(Convert.ToInt32(recognitionMessage));
+
+                    var historyResult = await _restService.UpdateHistoryModel(User.Id, hitResult.Id);
 
                     UserDialogs.Instance.HideLoading();
 
@@ -231,6 +235,13 @@ namespace WhoIsThat.ViewModels
                 //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
+                var result = _restService.InsertHistoryModel(new HistoryModel()
+                {
+                    UserId = User.Id,
+                    TargetId = targetId,
+                    Status = Constants.TargetNotHuntedHistory
+                });
+
                 var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
 
                 DisplayAge = "Age: " + fetchedFeatures.Age.ToString();
@@ -333,6 +344,39 @@ namespace WhoIsThat.ViewModels
         public async void NavigateToLeadersPage()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new LeadersPage(new LeadersPageViewModel(await ImageHandler.GetImageObjects())));
+        }
+
+        public async void NavigateToHistoryPage()
+        {
+            UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
+
+            try
+            {
+                var historyList = await _restService.GetHistoryById(User.Id);
+
+                var displayHistoryList = new List<DisplayHistoryModel>();
+
+                foreach (var element in historyList)
+                {
+                    var target = await _restService.GetUserById(element.TargetId);
+
+                    displayHistoryList.Add(new DisplayHistoryModel()
+                    {
+                        Status = element.Status,
+                        ImageUri = target.ImageContentUri,
+                        FirstName = target.PersonFirstName,
+                    });
+                }
+
+                UserDialogs.Instance.HideLoading();
+
+                await Application.Current.MainPage.Navigation.PushAsync(new HistoryPage(new HistoryPageViewModel(displayHistoryList)));
+            }
+            
+            catch (ManagerException managerException) when (managerException.ErrorCode == Constants.HistoryElementNotFoundError)
+            {
+                ToastUtil.ShowToast(Constants.HistoryElementNotFoundError);
+            }
         }
         
         /// <summary>

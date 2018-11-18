@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhoIsThat.Views.HistoryPage">
+    <ContentPage.Content>
+        <ListView ItemsSource="{Binding History}" Header="Test">
+            <ListView.HeaderTemplate >
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" Padding="5,5,5,5" HorizontalOptions="Center" Margin="0, 0, 0, 40">
+                        <Label Text="Your history:"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               FontSize="Large"/>
+                    </StackLayout>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="5,0,5,0" Orientation="Horizontal">
+                            <Image Source="{Binding ImageUri}" WidthRequest="50" HeightRequest="50" HorizontalOptions="Start"></Image>
+                            <Label Text="{Binding FirstName}" VerticalTextAlignment="Center" FontSize="Small" HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+                            <Label Text="{Binding Status}" VerticalTextAlignment="Center" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>
