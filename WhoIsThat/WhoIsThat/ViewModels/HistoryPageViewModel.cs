@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using WhoIsThat.Connections;
 using WhoIsThat.Models;
 
 namespace WhoIsThat.ViewModels
@@ -11,15 +12,15 @@ namespace WhoIsThat.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<HistoryModel> History { get; set; }
+        public ObservableCollection<DisplayHistoryModel> History { get; set; }
 
-        public HistoryPageViewModel(List<HistoryModel> historyList)
+        public HistoryPageViewModel(List<DisplayHistoryModel> historyList)
         {
-            History = new ObservableCollection<HistoryModel>();
+            History = new ObservableCollection<DisplayHistoryModel>();
 
-            foreach (var history in historyList)
+            foreach (var element in historyList)
             {
-                History.Add(history);
+                History.Add(element);
             }
         }
 

@@ -348,9 +348,29 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToHistoryPage()
         {
+            UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
+
             try
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new HistoryPage(new HistoryPageViewModel(await _restService.GetHistoryById(User.Id))));
+                var historyList = await _restService.GetHistoryById(User.Id);
+
+                var displayHistoryList = new List<DisplayHistoryModel>();
+
+                foreach (var element in historyList)
+                {
+                    var target = await _restService.GetUserById(element.TargetId);
+
+                    displayHistoryList.Add(new DisplayHistoryModel()
+                    {
+                        Status = element.Status,
+                        ImageUri = target.ImageContentUri,
+                        FirstName = target.PersonFirstName,
+                    });
+                }
+
+                UserDialogs.Instance.HideLoading();
+
+                await Application.Current.MainPage.Navigation.PushAsync(new HistoryPage(new HistoryPageViewModel(displayHistoryList)));
             }
             
             catch (ManagerException managerException) when (managerException.ErrorCode == Constants.HistoryElementNotFoundError)
