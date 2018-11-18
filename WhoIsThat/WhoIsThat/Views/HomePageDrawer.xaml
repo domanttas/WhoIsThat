@@ -71,7 +71,7 @@
                 TextColor="White"
                 BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
-                Image="chart.png"
+                Image="history.png"
                 CornerRadius="8"
                 Command="{Binding NavigateToHistoryPageCommand}"></Button>
         </StackLayout>
