@@ -44,6 +44,7 @@
 
             <Label Text="Target's description:"
                    FontSize="20"
+                   IsVisible="{Binding IsDescriptionAvailable}"
                    HorizontalOptions="Start"
                    TextColor="Black">
             </Label>

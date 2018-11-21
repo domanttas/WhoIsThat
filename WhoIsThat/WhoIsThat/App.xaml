@@ -4,8 +4,8 @@
              x:Class="WhoIsThat.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="CustomPrimary">#FFFFFF</Color>
-            <Color x:Key="CustomSecondary">#000000</Color>
+            <Color x:Key="CustomPrimary">#e0e0e0</Color>
+            <Color x:Key="CustomSecondary">#212121</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

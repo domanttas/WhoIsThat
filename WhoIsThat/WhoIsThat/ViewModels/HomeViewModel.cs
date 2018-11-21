@@ -58,6 +58,8 @@ namespace WhoIsThat.ViewModels
 
         public bool IsHintAvailable { get; set; }
 
+        public bool IsDescriptionAvailable { get; set; }
+
         public HomeViewModel(ImageObject user)
         {
             UserDialogs.Instance.HideLoading();
@@ -82,6 +84,9 @@ namespace WhoIsThat.ViewModels
             OnPropertyChanged("UserName");
 
             IsHintAvailable = true;
+
+            IsDescriptionAvailable = false;
+            OnPropertyChanged("IsDescriptionAvailable");
         }
 
         /// <summary>
@@ -132,10 +137,7 @@ namespace WhoIsThat.ViewModels
 
                     UserDialogs.Instance.HideLoading();
 
-                    DisplayMessage = "Get to know each other!";
-                    OnPropertyChanged("DisplayMessage");
-
-                    DisplayStatus = hitResult.PersonFirstName;
+                    DisplayStatus = "Name: " + hitResult.PersonFirstName;
                     OnPropertyChanged("DisplayStatus");
 
                     User = await _restService.UpdateUserScore(User.Id);
@@ -187,6 +189,9 @@ namespace WhoIsThat.ViewModels
         /// </summary>
         public async void GetTarget()
         {
+            IsDescriptionAvailable = true;
+            OnPropertyChanged("IsDescriptionAvailable");
+
             DisplayMessage = "";
             OnPropertyChanged("DisplayMessage");
 
@@ -200,9 +205,7 @@ namespace WhoIsThat.ViewModels
             {
                 var fetchedTarget = await _restService.GetUserById(Target.PreyPersonId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
-                //TargetImageUri = fetchedTarget.ImageContentUri;
 
-                //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 var fetchedFeatures = await _restService.GetFaceFeatures(fetchedTarget);
