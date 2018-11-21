@@ -132,10 +132,10 @@ namespace WhoIsThat.ViewModels
 
                     UserDialogs.Instance.HideLoading();
 
-                    DisplayMessage = "Get to know each other!";
-                    OnPropertyChanged("DisplayMessage");
+                    //DisplayMessage = "Connect!";
+                    //OnPropertyChanged("DisplayMessage");
 
-                    DisplayStatus = hitResult.PersonFirstName;
+                    DisplayStatus = "Name: " + hitResult.PersonFirstName;
                     OnPropertyChanged("DisplayStatus");
 
                     User = await _restService.UpdateUserScore(User.Id);
