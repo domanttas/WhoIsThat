@@ -102,7 +102,8 @@ namespace WhoIsThat.ViewModels
 
                 UserDialogs.Instance.ShowLoading("Loading", MaskType.Black);
 
-                await CloudStorageService.SaveBlockBlob(takenPhoto, "temp.jpg");
+                var saveImage = User.Id + ".jpg";
+                await CloudStorageService.SaveBlockBlob(takenPhoto, saveImage);
             }
             
             catch (ManagerException photoNotTakenException)
@@ -116,7 +117,8 @@ namespace WhoIsThat.ViewModels
 
             try
             {
-                var recognitionMessage = await _restService.Identify();
+                var imageName = User.Id + ".jpg";
+                var recognitionMessage = await _restService.Identify(imageName);
                 var isTargetDead = await _restService.IsPreyHunted(User.Id, Convert.ToInt32(recognitionMessage));
 
                 if (isTargetDead)

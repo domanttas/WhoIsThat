@@ -23,7 +23,7 @@ namespace WhoIsThat.Connections
         /// Identifies person by photo
         /// </summary>
         /// <returns>ID or error message which is handled when calling this method</returns>
-        Task<string> Identify();
+        Task<string> Identify(string name);
 
         /// <summary>
         /// Gets user by ID

@@ -73,9 +73,9 @@ namespace WhoIsThat.Connections
         }
 
         /// <inheritdoc/>
-        public async Task<string> Identify()
+        public async Task<string> Identify(string name)
         {
-            const string restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify";
+            var restUrl = "https://testrecognition.azurewebsites.net/api/recognitionservices/identify/" + name;
             var uri = new Uri(restUrl);
 
             var response = await HttpClient.GetAsync(uri);
