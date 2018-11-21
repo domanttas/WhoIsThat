@@ -132,9 +132,6 @@ namespace WhoIsThat.ViewModels
 
                     UserDialogs.Instance.HideLoading();
 
-                    //DisplayMessage = "Connect!";
-                    //OnPropertyChanged("DisplayMessage");
-
                     DisplayStatus = "Name: " + hitResult.PersonFirstName;
                     OnPropertyChanged("DisplayStatus");
 
