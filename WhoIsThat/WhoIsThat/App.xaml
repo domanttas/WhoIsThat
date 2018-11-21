@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="CustomPrimary">#FFFFFF</Color>
-            <Color x:Key="CustomSecondary">#000000</Color>
+            <Color x:Key="CustomSecondary">#1976d2</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
