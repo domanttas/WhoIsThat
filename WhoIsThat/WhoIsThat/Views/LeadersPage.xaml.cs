@@ -16,7 +16,7 @@ namespace WhoIsThat.Views
 		{
             NavigationPage.SetHasNavigationBar(this, false);
             BindingContext = leadersPageViewModel;
-
+            
             InitializeComponent ();
 		}
 	}
