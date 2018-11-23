@@ -8,10 +8,14 @@
             <ListView.HeaderTemplate >
                 <DataTemplate>
                     <StackLayout Orientation="Horizontal" Padding="5,5,5,5" HorizontalOptions="Center" Margin="0, 0, 0, 40">
+                        <Image Source="people.png"  WidthRequest="100" HeightRequest="100">
+                        </Image>
                         <Label Text="Participants"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"
                                FontSize="Large"/>
+                        <Image Source="people.png"  WidthRequest="100" HeightRequest="100">
+                        </Image>
                     </StackLayout>
                 </DataTemplate>
             </ListView.HeaderTemplate>
