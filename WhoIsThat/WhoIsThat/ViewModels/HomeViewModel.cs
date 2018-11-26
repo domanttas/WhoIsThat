@@ -2,6 +2,8 @@
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -309,9 +311,13 @@ namespace WhoIsThat.ViewModels
                 TargetImageUri = fetchedTarget.ImageContentUri;
                 OnPropertyChanged("TargetImageUri");
 
+                await PopupNavigation.Instance.PushAsync(new HintPopUp(this));
+
                 IsHintAvailable = false;
 
-                await Task.Delay(3000);
+                await Task.Delay(7000);
+
+                await PopupNavigation.Instance.PopAsync();
 
                 TargetImageUri = "";
                 OnPropertyChanged("TargetImageUri");
