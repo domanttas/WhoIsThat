@@ -31,6 +31,7 @@ namespace WhoIsThat.ViewModels
         public ICommand GetTargetCommand { get; private set; }
         public ICommand GiveHintCommand { get; private set; }
         public ICommand NavigateToHistoryPageCommand { get; private set; }
+        public ICommand TargetBackPopUpCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -74,6 +75,7 @@ namespace WhoIsThat.ViewModels
             GetTargetCommand = new Command(GetTarget);
             GiveHintCommand = new Command(GetHint);
             NavigateToHistoryPageCommand = new Command(NavigateToHistoryPage);
+            TargetBackPopUpCommand = new Command(TargetBackPopUp);
 
             ImageHandler = new ImageHandler();
 
@@ -259,6 +261,9 @@ namespace WhoIsThat.ViewModels
 
                 UserDialogs.Instance.HideLoading();
 
+                //Initiate popup
+                await PopupNavigation.Instance.PushAsync(new TargetPopUp(this));
+
                 return;
             }
 
@@ -314,8 +319,6 @@ namespace WhoIsThat.ViewModels
                 IsHintAvailable = false;
 
                 await Task.Delay(7000);
-
-                //List<Page> pagesLikeMe = Navigation.NavigationStack.Where(p => p is HintPopUp).ToList();
 
                 if (PopupNavigation.Instance.PopupStack.Any(p => p is HintPopUp))
                 {
@@ -408,6 +411,14 @@ namespace WhoIsThat.ViewModels
             catch (ManagerException)
             {
                 return false;
+            }
+        }
+
+        public async void TargetBackPopUp()
+        {
+            if (PopupNavigation.Instance.PopupStack.Any(p => p is TargetPopUp))
+            {
+                await PopupNavigation.Instance.PopAsync();
             }
         }
     }

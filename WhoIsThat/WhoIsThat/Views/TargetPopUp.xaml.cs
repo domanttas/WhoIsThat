@@ -10,14 +10,14 @@ using Xamarin.Forms.Xaml;
 
 namespace WhoIsThat.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HintPopUp : PopupPage
-	{
-		public HintPopUp (HomeViewModel homeViewModel)
-		{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class TargetPopUp : PopupPage
+    {
+        public TargetPopUp(HomeViewModel homeViewModel)
+        {
             BindingContext = homeViewModel;
 
-			InitializeComponent();
-		}
-	}
+            InitializeComponent();
+        }
+    }
 }
