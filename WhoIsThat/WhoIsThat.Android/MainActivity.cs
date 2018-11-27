@@ -9,6 +9,7 @@ using Android.OS;
 using Plugin.Permissions;
 using Plugin.CurrentActivity;
 using Acr.UserDialogs;
+using Rg.Plugins.Popup.Services;
 
 namespace WhoIsThat.Droid
 {
@@ -36,11 +37,12 @@ namespace WhoIsThat.Droid
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        public override void OnBackPressed()
+        public override async void OnBackPressed()
         {
             if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
             {
                 // Do something if there are some pages in the `PopupStack`
+                await PopupNavigation.Instance.PopAsync();
             }
             else
             {

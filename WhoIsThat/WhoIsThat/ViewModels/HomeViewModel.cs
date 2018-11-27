@@ -7,7 +7,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -237,9 +237,7 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
-                //TargetImageUri = fetchedTarget.ImageContentUri;
 
-                //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 var result = _restService.InsertHistoryModel(new HistoryModel()
@@ -317,7 +315,12 @@ namespace WhoIsThat.ViewModels
 
                 await Task.Delay(7000);
 
-                await PopupNavigation.Instance.PopAsync();
+                //List<Page> pagesLikeMe = Navigation.NavigationStack.Where(p => p is HintPopUp).ToList();
+
+                if (PopupNavigation.Instance.PopupStack.Any(p => p is HintPopUp))
+                {
+                    await PopupNavigation.Instance.PopAsync();
+                }
 
                 TargetImageUri = "";
                 OnPropertyChanged("TargetImageUri");
