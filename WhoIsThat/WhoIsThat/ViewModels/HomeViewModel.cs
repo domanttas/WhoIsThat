@@ -32,6 +32,7 @@ namespace WhoIsThat.ViewModels
         public ICommand GiveHintCommand { get; private set; }
         public ICommand NavigateToHistoryPageCommand { get; private set; }
         public ICommand TargetBackPopUpCommand { get; private set; }
+        public ICommand ShootBackPopUpCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -76,6 +77,7 @@ namespace WhoIsThat.ViewModels
             GiveHintCommand = new Command(GetHint);
             NavigateToHistoryPageCommand = new Command(NavigateToHistoryPage);
             TargetBackPopUpCommand = new Command(TargetBackPopUp);
+            ShootBackPopUpCommand = new Command(ShootBackPopUp);
 
             ImageHandler = new ImageHandler();
 
@@ -140,6 +142,9 @@ namespace WhoIsThat.ViewModels
                     var historyResult = await _restService.UpdateHistoryModel(User.Id, hitResult.Id);
 
                     UserDialogs.Instance.HideLoading();
+
+                    //Initiate popup
+                    await PopupNavigation.Instance.PushAsync(new ShootPopUp(this));
 
                     DisplayStatus = "Name: " + hitResult.PersonFirstName;
                     OnPropertyChanged("DisplayStatus");
@@ -417,6 +422,14 @@ namespace WhoIsThat.ViewModels
         public async void TargetBackPopUp()
         {
             if (PopupNavigation.Instance.PopupStack.Any(p => p is TargetPopUp))
+            {
+                await PopupNavigation.Instance.PopAsync();
+            }
+        }
+
+        public async void ShootBackPopUp()
+        {
+            if (PopupNavigation.Instance.PopupStack.Any(p => p is ShootPopUp))
             {
                 await PopupNavigation.Instance.PopAsync();
             }
