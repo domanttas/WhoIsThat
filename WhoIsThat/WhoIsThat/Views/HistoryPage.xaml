@@ -4,7 +4,7 @@
              x:Class="WhoIsThat.Views.HistoryPage"
              BackgroundColor="{StaticResource CustomPrimary}">
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding History}" Header="Test" ItemTapped="ItemTapped">
+        <ListView CachingStrategy="RecycleElementAndDataTemplate" ItemsSource="{Binding History}" Header="Test" ItemTapped="ItemTapped">
             <ListView.HeaderTemplate >
                 <DataTemplate>
                     <StackLayout Orientation="Horizontal" Padding="5,5,5,5" HorizontalOptions="Center" Margin="0, 0, 0, 40">
