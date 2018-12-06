@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhoIsThat.Views.ShootPopUp"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+
+    <StackLayout HorizontalOptions="Center"
+                 VerticalOptions="Center"
+                 WidthRequest="300"
+                 BackgroundColor="{StaticResource CustomPrimary}"
+                 Padding="20, 20, 20, 20">
+
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="Center"
+                     Margin="0, 0, 0, 20">
+            <Image Source="face.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+                   HorizontalOptions="Center">
+            </Image>
+
+            <Label Text="It's a direct hit!"
+               FontSize="Large"
+               TextColor="Black"
+               VerticalOptions="Start"
+               HorizontalOptions="Center"
+               Margin="20, 0, 20, 0">
+            </Label>
+
+            <Image Source="face.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+                   HorizontalOptions="Center">
+            </Image>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{Binding DisplayStatus}"
+               FontSize="Small"
+               HorizontalOptions="Start"
+               Margin="0, 0, 20, 5"></Label>
+        </StackLayout>
+
+        <Button Text="Got it"
+                TextColor="White"
+                BackgroundColor="{StaticResource CustomSecondary}"
+                FontSize="10"
+                CornerRadius="8"
+                Command="{Binding ShootBackPopUpCommand}"></Button>
+
+    </StackLayout>
+</pages:PopupPage>

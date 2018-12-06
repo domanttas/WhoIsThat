@@ -2,10 +2,12 @@
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -29,6 +31,8 @@ namespace WhoIsThat.ViewModels
         public ICommand GetTargetCommand { get; private set; }
         public ICommand GiveHintCommand { get; private set; }
         public ICommand NavigateToHistoryPageCommand { get; private set; }
+        public ICommand TargetBackPopUpCommand { get; private set; }
+        public ICommand ShootBackPopUpCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -72,6 +76,8 @@ namespace WhoIsThat.ViewModels
             GetTargetCommand = new Command(GetTarget);
             GiveHintCommand = new Command(GetHint);
             NavigateToHistoryPageCommand = new Command(NavigateToHistoryPage);
+            TargetBackPopUpCommand = new Command(TargetBackPopUp);
+            ShootBackPopUpCommand = new Command(ShootBackPopUp);
 
             ImageHandler = new ImageHandler();
 
@@ -136,6 +142,9 @@ namespace WhoIsThat.ViewModels
                     var historyResult = await _restService.UpdateHistoryModel(User.Id, hitResult.Id);
 
                     UserDialogs.Instance.HideLoading();
+
+                    //Initiate popup
+                    await PopupNavigation.Instance.PushAsync(new ShootPopUp(this));
 
                     DisplayStatus = "Name: " + hitResult.PersonFirstName;
                     OnPropertyChanged("DisplayStatus");
@@ -235,9 +244,7 @@ namespace WhoIsThat.ViewModels
 
                 var fetchedTarget = await _restService.GetUserById(targetId);
                 TargetDescriptionSentence = fetchedTarget.DescriptiveSentence;
-                //TargetImageUri = fetchedTarget.ImageContentUri;
 
-                //OnPropertyChanged("TargetImageUri");
                 OnPropertyChanged("TargetDescriptionSentence");
 
                 var result = _restService.InsertHistoryModel(new HistoryModel()
@@ -258,6 +265,9 @@ namespace WhoIsThat.ViewModels
                 IsHintAvailable = true;
 
                 UserDialogs.Instance.HideLoading();
+
+                //Initiate popup
+                await PopupNavigation.Instance.PushAsync(new TargetPopUp(this));
 
                 return;
             }
@@ -309,9 +319,16 @@ namespace WhoIsThat.ViewModels
                 TargetImageUri = fetchedTarget.ImageContentUri;
                 OnPropertyChanged("TargetImageUri");
 
+                await PopupNavigation.Instance.PushAsync(new HintPopUp(this));
+
                 IsHintAvailable = false;
 
-                await Task.Delay(3000);
+                await Task.Delay(7000);
+
+                if (PopupNavigation.Instance.PopupStack.Any(p => p is HintPopUp))
+                {
+                    await PopupNavigation.Instance.PopAsync();
+                }
 
                 TargetImageUri = "";
                 OnPropertyChanged("TargetImageUri");
@@ -399,6 +416,22 @@ namespace WhoIsThat.ViewModels
             catch (ManagerException)
             {
                 return false;
+            }
+        }
+
+        public async void TargetBackPopUp()
+        {
+            if (PopupNavigation.Instance.PopupStack.Any(p => p is TargetPopUp))
+            {
+                await PopupNavigation.Instance.PopAsync();
+            }
+        }
+
+        public async void ShootBackPopUp()
+        {
+            if (PopupNavigation.Instance.PopupStack.Any(p => p is ShootPopUp))
+            {
+                await PopupNavigation.Instance.PopAsync();
             }
         }
     }

@@ -30,7 +30,7 @@
                 Image="camera.png"
                 Command="{Binding TakePhotoCommand}"></Button>
 
-            <Button Text="Hint!"
+        <Button Text="Hint!"
                 TextColor="White"
                 BackgroundColor="{StaticResource CustomSecondary}"
                 FontSize="10"
@@ -38,11 +38,7 @@
                 Image="hint.png"
                 Command="{Binding GiveHintCommand}"></Button>
 
-            <Image Source="{Binding TargetImageUri}"
-                   HeightRequest="70">
-            </Image>
-
-            <Label Text="Target's description:"
+        <Label Text="Target's description:"
                    FontSize="20"
                    IsVisible="{Binding IsDescriptionAvailable}"
                    HorizontalOptions="Start"

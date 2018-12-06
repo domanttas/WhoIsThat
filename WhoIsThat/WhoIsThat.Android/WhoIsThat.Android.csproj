@@ -63,6 +63,9 @@
     <PackageReference Include="Plugin.Permissions">
       <Version>3.0.0.12</Version>
     </PackageReference>
+    <PackageReference Include="Rg.Plugins.Popup">
+      <Version>1.1.5.180</Version>
+    </PackageReference>
     <PackageReference Include="Shouldly">
       <Version>3.0.1</Version>
     </PackageReference>

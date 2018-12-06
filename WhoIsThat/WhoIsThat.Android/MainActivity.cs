@@ -9,6 +9,7 @@ using Android.OS;
 using Plugin.Permissions;
 using Plugin.CurrentActivity;
 using Acr.UserDialogs;
+using Rg.Plugins.Popup.Services;
 
 namespace WhoIsThat.Droid
 {
@@ -23,6 +24,8 @@ namespace WhoIsThat.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
@@ -32,6 +35,19 @@ namespace WhoIsThat.Droid
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override async void OnBackPressed()
+        {
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+                // Do something if there are some pages in the `PopupStack`
+                await PopupNavigation.Instance.PopAsync();
+            }
+            else
+            {
+                // Do something if there are not any pages in the `PopupStack`
+            }
         }
     }
 }
