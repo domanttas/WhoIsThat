@@ -144,7 +144,7 @@ namespace WhoIsThat.ViewModels
 
         public async void NavigateToHomePage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new HomePage(new HomeViewModel(PersonObject)));
+            await Application.Current.MainPage.Navigation.PushAsync(new HomeNavigationPage(new HomeViewModel(PersonObject)));
         }
 
         private async void SaveProperties()
